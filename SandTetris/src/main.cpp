@@ -2,6 +2,7 @@
 
 int main()
 {
+
 	InitWindow(1600, 900, "Sand Tetris BB/SzK");
 	while (!WindowShouldClose())
 	{
