@@ -8,7 +8,7 @@ public enum CellType{
 }
 public class CellScript : MonoBehaviour
 {
-    public bool isEmpty { private set; get; }
+    public bool isEmpty { private set; get; } = true;
     public CellType type { private set; get; }
 
     public Color color;
@@ -17,26 +17,30 @@ public class CellScript : MonoBehaviour
 
     void Start()
     {
-        isEmpty = true;
         sprite = GetComponent<SpriteRenderer>();
         sprite.color = color;
+        sprite.enabled = !isEmpty; 
     }
 
     public void disactivateCell() {
 
-        isEmpty = false;
+        isEmpty = true;
+        if(!sprite)
+            sprite = GetComponent<SpriteRenderer>();
         sprite.enabled = false;
+
     }
 
     public void setCellValue(CellType type,Color c)
     {
         if (!isEmpty)
             return;
-
         color = c;
         this.type = type;
+        if (!sprite)
+            sprite = GetComponent<SpriteRenderer>();
         sprite.enabled = true;
-
         sprite.color = c;
+        isEmpty = false;
     }
 }
