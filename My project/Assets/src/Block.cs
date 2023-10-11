@@ -150,18 +150,8 @@ public class Block
             {
                 if(blockGred[j, i]==1)
                 {
-                    if ((i + 1) % 10 < 2 || (j + 1) % 10 < 2)
-                    {
-                        blockGred[j, i] = 4;
-                    }
-                    else if (((i + 2) % 10 == (j + 2) % 10) || ((i + 2) % 10 == (91 - j) % 10)) 
-                    {
-                        blockGred[j, i] = 3;
-                    }
-                    else if ((i + 2) % 10 < 4 || (j + 2) % 10 < 4)
-                    {
-                        blockGred[j, i] = 2;
-                    }
+                    blockGred[j, i] = Random.Range(1, 4);
+
                 }
 
             }
@@ -181,26 +171,14 @@ public class Block
     void rotateBlock()
     {
         int[,] blockGred = new int[w, h];
-        if (true)
+        for (int i = 0; i < h; i++)
         {
-            for (int i = 0; i < h; i++)
+            for (int j = 0; j < w; j++)
             {
-                for (int j = 0; j < w; j++)
-                {
-                    blockGred[j, i] = this.blockGred[i, j];
-                }
+                blockGred[j, i] = this.blockGred[h - 1 - i, j];
             }
         }
-        else
-        {
-            for (int i = 0; i < h; i++)
-            {
-                for (int j = 0; j < w; j++)
-                {
-                    blockGred[j, i] = this.blockGred[h - 1 - i, w - 1 - j];
-                }
-            }
-        }
+
         this.blockGred= blockGred;
         int t = h;
         h = w;
