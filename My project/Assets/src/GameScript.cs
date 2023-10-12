@@ -18,7 +18,10 @@ public class GameScript : MonoBehaviour
         generateGrid();
         setColor();
     }
-
+    void newBlock()
+    {
+        b = new Block((CellType)Random.Range(0, (int)CellType.size), (BlockType)Random.Range(0, (int)BlockType.size));
+    }
     // Update is called once per frame
     void Update()
     {
@@ -30,9 +33,8 @@ public class GameScript : MonoBehaviour
                 updateCells();
             timer -= ((int)(timer * sandSpeed))/(float) sandSpeed;
         }
-
         if (b == null)
-            b = new Block(CellType.sand,(BlockType)Random.Range(0,(int)BlockType.size));
+            newBlock();
         else
         {
             Block tmp = b;
@@ -42,7 +44,7 @@ public class GameScript : MonoBehaviour
                 b.moveLeft();
             if (Input.GetKeyDown(KeyCode.D))
                 b.moveRight();
-            if(Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W))
                 b.rotateLeft();
             if (Input.GetKey(KeyCode.S))
                 b.speedFalling();
@@ -52,12 +54,17 @@ public class GameScript : MonoBehaviour
                 b = tmp;
                 spawnBlockAtMap();
                 return;
-            }   
-            
+            }
+
             activateBlockCells();
         }
     }
-
+    bool isFreeSpaceIn(Vector2Int p1)
+    {
+        if (p1.y < 0 || p1.y >= gridH || p1.x < 0 || p1.x >= gridW)
+            return false;
+        return cells[p1.y, p1.x].isEmpty;
+    }
     bool moveCellBlock(Vector2Int active, Vector2Int nonactive)
     {
         if (cells[active.y, active.x].isEmpty)
@@ -69,28 +76,68 @@ public class GameScript : MonoBehaviour
         a.disactivateCell();
         return true;
     }
-    void addBlocksToUpdate(Vector2Int pos, List<Vector2Int> list)
+    void addBlocksToUpdate(Vector2Int pos)
     {
-        if (pos.y - 1 >= 0 && pos.y - 1 < gridH) 
+        if (pos.y - 1 >= 0 && pos.y - 1 < gridH && pos.x>=0 && pos.x<gridH) 
         {
             if (pos.x - 1 >= 0)
             {
                 if (!cells[pos.y - 1, pos.x - 1].isEmpty)
-                    list.Add(new Vector2Int(pos.x - 1, pos.y - 1));
+                    cellsToUpdate.Add(new Vector2Int(pos.x - 1, pos.y - 1));
             }
             if (pos.x + 1 < gridW)
             {
                 if (!cells[pos.y - 1, pos.x + 1].isEmpty)
-                    list.Add(new Vector2Int(pos.x + 1, pos.y - 1));
+                    cellsToUpdate.Add(new Vector2Int(pos.x + 1, pos.y - 1));
             }
             if (!cells[pos.y - 1, pos.x].isEmpty)
-                list.Add(new Vector2Int(pos.x, pos.y - 1));
+                cellsToUpdate.Add(new Vector2Int(pos.x, pos.y - 1));
         }
 
     }
+    void sandUpdate(Vector2Int c)
+    {
+        if (moveCellBlock(c, new Vector2Int(c.x, c.y + 1)))
+        {
+            addBlocksToUpdate(c);
+            this.cellsToUpdate.Add(new Vector2Int(c.x, c.y + 1));
+
+        }
+        else if (isFreeSpaceIn(new Vector2Int(c.x - 1, c.y + 1)) &&
+            isFreeSpaceIn(new Vector2Int(c.x + 1, c.y + 1)))
+        {
+            int right = Random.Range(0, 1);
+            if (right == 0)
+            {
+                moveCellBlock(c, new Vector2Int(c.x + 1, c.y + 1));
+                this.cellsToUpdate.Add(new Vector2Int(c.x + 1, c.y + 1));
+            }
+            else
+            {
+                moveCellBlock(c, new Vector2Int(c.x - 1, c.y + 1));
+                this.cellsToUpdate.Add(new Vector2Int(c.x - 1, c.y + 1));
+            }
+            addBlocksToUpdate(c);
+        }
+        else if (isFreeSpaceIn(new Vector2Int(c.x - 1, c.y + 1)))
+        {
+            moveCellBlock(c, new Vector2Int(c.x - 1, c.y + 1));
+            this.cellsToUpdate.Add(new Vector2Int(c.x - 1, c.y + 1));
+            addBlocksToUpdate(c);
+
+        }
+        else if (isFreeSpaceIn(new Vector2Int(c.x + 1, c.y + 1)))
+        {
+            moveCellBlock(c, new Vector2Int(c.x + 1, c.y + 1));
+            this.cellsToUpdate.Add(new Vector2Int(c.x + 1, c.y + 1));
+            addBlocksToUpdate(c);
+
+        }
+    }
     void updateCells()
     {
-        List<Vector2Int> cellsToUpdateLater = new List<Vector2Int>();
+        List<Vector2Int> cellsToUpdate = this.cellsToUpdate;
+        this.cellsToUpdate = new List<Vector2Int>();
         foreach (var c in cellsToUpdate)
         {
             CellScript cell = cells[c.y, c.x];
@@ -99,28 +146,14 @@ public class GameScript : MonoBehaviour
             switch (cell.type)
             {
                 case CellType.sand:
-                    if(moveCellBlock(c, new Vector2Int(c.x, c.y + 1)))
-                    {
-                        addBlocksToUpdate(c, cellsToUpdateLater);
-                        cellsToUpdateLater.Add(new Vector2Int(c.x, c.y + 1));
-
-                    }
-                    else if (c.x +1<gridW && moveCellBlock(c, new Vector2Int(c.x + 1, c.y + 1)))
-                    {
-                        addBlocksToUpdate(c, cellsToUpdateLater);
-                        cellsToUpdateLater.Add(new Vector2Int(c.x + 1, c.y + 1));
-                    }
-                    else if (c.x - 1>=0 && moveCellBlock(c, new Vector2Int(c.x - 1, c.y + 1)))
-                    {
-                        addBlocksToUpdate(c, cellsToUpdateLater);
-                        cellsToUpdateLater.Add(new Vector2Int(c.x - 1, c.y + 1));
-                    }
+                case CellType.sand2:
+                case CellType.sand3:
+                case CellType.sand4:
+                    sandUpdate(c);
                     break;
             }
         }
         cellsToUpdate.Clear();
-        cellsToUpdate = null;
-        cellsToUpdate = cellsToUpdateLater;
     }
     void spawnBlockAtMap()
     {

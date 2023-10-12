@@ -178,7 +178,17 @@ public class Block
         x = 50 - w / 2;
         switch(cellType)
         {
-            case CellType.sand: color=Color.yellow;
+            case CellType.sand: 
+                color=Color.yellow;
+                break;
+            case CellType.sand2:
+                color=Color.red;
+                break;
+            case CellType.sand3:
+                color = Color.blue;
+                break;
+            case CellType.sand4:
+                color=Color.green;
                 break;
             default: color=Color.white;
                 break;

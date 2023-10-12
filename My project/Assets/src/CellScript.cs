@@ -4,7 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public enum CellType{
-    sand,fire,wood,
+    sand,sand2,sand3,sand4,//,fire,wood,
+    size
 }
 public class CellScript : MonoBehaviour
 {
