@@ -82,16 +82,24 @@ public class GameScript : MonoBehaviour
         {
             if (pos.x - 1 >= 0)
             {
-                if (!cells[pos.y - 1, pos.x - 1].isEmpty)
-                    cellsToUpdate.Add(new Vector2Int(pos.x - 1, pos.y - 1));
+                Vector2Int p = new Vector2Int(pos.x - 1, pos.y - 1);
+                if (!cells[p.y, p.x].isEmpty && !cellsToUpdate.Contains(p))
+                    cellsToUpdate.Add(p);
             }
             if (pos.x + 1 < gridW)
             {
-                if (!cells[pos.y - 1, pos.x + 1].isEmpty)
-                    cellsToUpdate.Add(new Vector2Int(pos.x + 1, pos.y - 1));
+                Vector2Int p = new Vector2Int(pos.x + 1, pos.y - 1);
+                if (!cells[p.y, p.x].isEmpty && !cellsToUpdate.Contains(p))
+                    cellsToUpdate.Add(p);
+
             }
             if (!cells[pos.y - 1, pos.x].isEmpty)
-                cellsToUpdate.Add(new Vector2Int(pos.x, pos.y - 1));
+            {
+                Vector2Int p = new Vector2Int(pos.x, pos.y - 1);
+                if (!cellsToUpdate.Contains(p))
+                    cellsToUpdate.Add(p);
+            }
+
         }
 
     }
@@ -100,38 +108,38 @@ public class GameScript : MonoBehaviour
         if (moveCellBlock(c, new Vector2Int(c.x, c.y + 1)))
         {
             addBlocksToUpdate(c);
-            this.cellsToUpdate.Add(new Vector2Int(c.x, c.y + 1));
-
+            cellsToUpdate.Add(new Vector2Int(c.x, c.y + 1));
+            return;
         }
-        else if (isFreeSpaceIn(new Vector2Int(c.x - 1, c.y + 1)) &&
+        if (isFreeSpaceIn(new Vector2Int(c.x - 1, c.y + 1)) &&
             isFreeSpaceIn(new Vector2Int(c.x + 1, c.y + 1)))
         {
-            int right = Random.Range(0, 1);
-            if (right == 0)
+            if (Random.Range(0, 1) == 0)
             {
                 moveCellBlock(c, new Vector2Int(c.x + 1, c.y + 1));
-                this.cellsToUpdate.Add(new Vector2Int(c.x + 1, c.y + 1));
+                cellsToUpdate.Add(new Vector2Int(c.x + 1, c.y + 1));
             }
             else
             {
                 moveCellBlock(c, new Vector2Int(c.x - 1, c.y + 1));
-                this.cellsToUpdate.Add(new Vector2Int(c.x - 1, c.y + 1));
+                cellsToUpdate.Add(new Vector2Int(c.x - 1, c.y + 1));
             }
             addBlocksToUpdate(c);
+            return;
         }
-        else if (isFreeSpaceIn(new Vector2Int(c.x - 1, c.y + 1)))
+        if (isFreeSpaceIn(new Vector2Int(c.x - 1, c.y + 1)))
         {
             moveCellBlock(c, new Vector2Int(c.x - 1, c.y + 1));
-            this.cellsToUpdate.Add(new Vector2Int(c.x - 1, c.y + 1));
+            cellsToUpdate.Add(new Vector2Int(c.x - 1, c.y + 1));
             addBlocksToUpdate(c);
-
+            return;
         }
-        else if (isFreeSpaceIn(new Vector2Int(c.x + 1, c.y + 1)))
+        if (isFreeSpaceIn(new Vector2Int(c.x + 1, c.y + 1)))
         {
             moveCellBlock(c, new Vector2Int(c.x + 1, c.y + 1));
-            this.cellsToUpdate.Add(new Vector2Int(c.x + 1, c.y + 1));
+            cellsToUpdate.Add(new Vector2Int(c.x + 1, c.y + 1));
             addBlocksToUpdate(c);
-
+            return;
         }
     }
     void updateCells()
