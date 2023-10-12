@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class GameScript : MonoBehaviour
 {
@@ -26,8 +27,8 @@ public class GameScript : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        int sandSpeed = 21;
-        if((int)(timer* sandSpeed) >0)
+        int sandSpeed = 36;
+        if ((int)(timer * sandSpeed) > 0) 
         {
             for (int i = 0; i < (int)(timer * sandSpeed); i++)
                 updateCells();
@@ -76,39 +77,39 @@ public class GameScript : MonoBehaviour
         a.disactivateCell();
         return true;
     }
+
+    void addToUpdate(Vector2Int p)
+    {
+        if (!cellsToUpdate.Contains(p))
+            cellsToUpdate.Add(p);
+    }
     void addBlocksToUpdate(Vector2Int pos)
     {
         if (pos.y - 1 >= 0 && pos.y - 1 < gridH && pos.x>=0 && pos.x<gridH) 
         {
-            if (pos.x - 1 >= 0)
+            if (pos.x - 1 >= 0 && !cells[pos.y - 1, pos.x - 1].isEmpty)
             {
-                Vector2Int p = new Vector2Int(pos.x - 1, pos.y - 1);
-                if (!cells[p.y, p.x].isEmpty && !cellsToUpdate.Contains(p))
-                    cellsToUpdate.Add(p);
+                addToUpdate(new Vector2Int(pos.x - 1, pos.y - 1));
             }
-            if (pos.x + 1 < gridW)
+            if (pos.x + 1 < gridW && !cells[pos.y - 1, pos.x + 1].isEmpty)
             {
-                Vector2Int p = new Vector2Int(pos.x + 1, pos.y - 1);
-                if (!cells[p.y, p.x].isEmpty && !cellsToUpdate.Contains(p))
-                    cellsToUpdate.Add(p);
-
+                addToUpdate(new Vector2Int(pos.x + 1, pos.y - 1));
             }
             if (!cells[pos.y - 1, pos.x].isEmpty)
             {
-                Vector2Int p = new Vector2Int(pos.x, pos.y - 1);
-                if (!cellsToUpdate.Contains(p))
-                    cellsToUpdate.Add(p);
+                addToUpdate(new Vector2Int(pos.x, pos.y - 1));
             }
 
         }
 
     }
+
     void sandUpdate(Vector2Int c)
     {
         if (moveCellBlock(c, new Vector2Int(c.x, c.y + 1)))
         {
             addBlocksToUpdate(c);
-            cellsToUpdate.Add(new Vector2Int(c.x, c.y + 1));
+            addToUpdate(new Vector2Int(c.x, c.y + 1));
             return;
         }
         if (isFreeSpaceIn(new Vector2Int(c.x - 1, c.y + 1)) &&
@@ -117,12 +118,12 @@ public class GameScript : MonoBehaviour
             if (Random.Range(0, 1) == 0)
             {
                 moveCellBlock(c, new Vector2Int(c.x + 1, c.y + 1));
-                cellsToUpdate.Add(new Vector2Int(c.x + 1, c.y + 1));
+                addToUpdate(new Vector2Int(c.x + 1, c.y + 1));
             }
             else
             {
                 moveCellBlock(c, new Vector2Int(c.x - 1, c.y + 1));
-                cellsToUpdate.Add(new Vector2Int(c.x - 1, c.y + 1));
+                addToUpdate(new Vector2Int(c.x - 1, c.y + 1));
             }
             addBlocksToUpdate(c);
             return;
@@ -130,14 +131,14 @@ public class GameScript : MonoBehaviour
         if (isFreeSpaceIn(new Vector2Int(c.x - 1, c.y + 1)))
         {
             moveCellBlock(c, new Vector2Int(c.x - 1, c.y + 1));
-            cellsToUpdate.Add(new Vector2Int(c.x - 1, c.y + 1));
+            addToUpdate(new Vector2Int(c.x - 1, c.y + 1));
             addBlocksToUpdate(c);
             return;
         }
         if (isFreeSpaceIn(new Vector2Int(c.x + 1, c.y + 1)))
         {
             moveCellBlock(c, new Vector2Int(c.x + 1, c.y + 1));
-            cellsToUpdate.Add(new Vector2Int(c.x + 1, c.y + 1));
+            addToUpdate(new Vector2Int(c.x + 1, c.y + 1));
             addBlocksToUpdate(c);
             return;
         }
