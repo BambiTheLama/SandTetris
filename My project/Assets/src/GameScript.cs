@@ -6,12 +6,12 @@ using UnityEngine;
 public class GameScript : MonoBehaviour
 {
     private static int gridW = 100, gridH = 200;
-    public GameObject backGround;
     public CellScript cellScript;
     public float ratio = 0.9f;
     CellScript[,] cells = new CellScript[gridH, gridW];
     Block b = null;
     List<Vector2Int> cellsToUpdate= new List<Vector2Int>();
+    float timer=0.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +22,15 @@ public class GameScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        updateCells();
+        timer += Time.deltaTime;
+        int sandSpeed = 21;
+        if((int)(timer* sandSpeed) >0)
+        {
+            for (int i = 0; i < (int)(timer * sandSpeed); i++)
+                updateCells();
+            timer -= ((int)(timer * sandSpeed))/(float) sandSpeed;
+        }
+
         if (b == null)
             b = new Block(CellType.sand,(BlockType)Random.Range(0,(int)BlockType.size));
         else
@@ -183,13 +191,6 @@ public class GameScript : MonoBehaviour
 
     void generateGrid()
     {
-        for (int y = 0; y < gridH; y++)
-            for (int x = 0; x < gridW; x++)
-                Instantiate(backGround,
-                    new Vector2(transform.position.x + (x) * ratio, transform.position.y - (y) * ratio),
-                    Quaternion.identity,
-                    transform);
-
 
         for (int y = 0; y < gridH; y++)
         {

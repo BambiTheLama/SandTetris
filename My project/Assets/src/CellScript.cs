@@ -19,7 +19,6 @@ public class CellScript : MonoBehaviour
     {
         sprite = GetComponent<SpriteRenderer>();
         sprite.color = color;
-        sprite.enabled = !isEmpty; 
     }
 
     public void disactivateCell() {
@@ -27,7 +26,9 @@ public class CellScript : MonoBehaviour
         isEmpty = true;
         if(!sprite)
             sprite = GetComponent<SpriteRenderer>();
-        sprite.enabled = false;
+        //sprite.enabled = false;
+        color=Color.white;
+        sprite.color = color;
 
     }
 
@@ -37,9 +38,9 @@ public class CellScript : MonoBehaviour
             return;
         color = c;
         this.type = type;
-        if (!sprite)
-            sprite = GetComponent<SpriteRenderer>();
-        sprite.enabled = true;
+        //if (!sprite)
+        //    sprite = GetComponent<SpriteRenderer>();
+        //sprite.enabled = true;
         sprite.color = c;
         isEmpty = false;
     }
