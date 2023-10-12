@@ -13,6 +13,7 @@ public class GameScript : MonoBehaviour
     Block b = null;
     List<Vector2Int> cellsToUpdate= new List<Vector2Int>();
     float timer=0.0f;
+    List<Vector2Int> cellsToCheck = new List<Vector2Int>();
     // Start is called before the first frame update
     void Start()
     {
@@ -56,9 +57,97 @@ public class GameScript : MonoBehaviour
                 spawnBlockAtMap();
                 return;
             }
-
+            while(cellsToCheck.Count>0)
+                checkBlockToRemove();
             activateBlockCells();
         }
+    }
+    CellType getTypeAt(int x, int y)
+    {
+        return cells[y, x].type;
+    }
+
+    bool checkBlockTypeIfNotAtList(Vector2Int p,CellType type,List<Vector2Int> l)
+    {
+        return !cells[p.y, p.x].isEmpty && getTypeAt(p.x, p.y) == type && !l.Contains(p);
+    }
+
+    void checkBlockToRemove()
+    {
+        Vector2Int first = this.cellsToCheck.First();
+        this.cellsToCheck.Remove(first);
+        if (cells[first.y, first.x].isEmpty)
+        {
+            return;
+        }
+
+        CellType type = cells[first.y, first.x].type;
+        List<Vector2Int> cellsToRemove = new List<Vector2Int>();
+        List<Vector2Int> cellsToCheck = new List<Vector2Int> { first };
+        int minX = first.x;
+        int maxX = first.x;
+        while(cellsToCheck.Count>0)
+        {
+            Vector2Int p=cellsToCheck.First();
+            Vector2Int tmp;
+            cellsToCheck.RemoveAt(0);
+            if (p.x - 1 >= 0) 
+            {
+                tmp = new Vector2Int(p.x - 1, p.y);
+                if (checkBlockTypeIfNotAtList(tmp, type, cellsToRemove)) 
+                {
+                    cellsToRemove.Add(tmp);
+                    cellsToCheck.Add(tmp);
+                    this.cellsToCheck.Remove(tmp);
+                    if (minX > tmp.x) 
+                        minX = tmp.x;
+                }
+            }
+            if (p.y - 1 >= 0)
+            {
+                tmp = new Vector2Int(p.x, p.y - 1);
+                if (checkBlockTypeIfNotAtList(tmp, type, cellsToRemove))
+                {
+                    cellsToRemove.Add(tmp);
+                    cellsToCheck.Add(tmp);
+                    this.cellsToCheck.Remove(tmp);
+                }
+            }
+            if (p.x + 1 < gridW)
+            {
+                tmp = new Vector2Int(p.x + 1, p.y);
+                if (checkBlockTypeIfNotAtList(tmp, type, cellsToRemove))
+                {
+                    cellsToRemove.Add(tmp);
+                    cellsToCheck.Add(tmp);
+                    this.cellsToCheck.Remove(tmp);
+                    if (maxX < tmp.x)
+                        maxX = tmp.x;
+                }
+            }
+            if (p.y + 1 < gridH)
+            {
+                tmp = new Vector2Int(p.x, p.y + 1);
+                if (checkBlockTypeIfNotAtList(tmp, type, cellsToRemove))
+                {
+                    cellsToRemove.Add(tmp);
+                    cellsToCheck.Add(tmp);
+                    this.cellsToCheck.Remove(tmp);
+                }
+            }
+
+        }
+
+        if (minX<=0 && maxX>=gridW-1)
+        {
+            foreach (var cell in cellsToRemove)
+            {
+                cells[cell.y, cell.x].disactivateCell();
+                addBlocksToUpdate(cell);
+            }
+
+        }
+
     }
     bool isFreeSpaceIn(Vector2Int p1)
     {
@@ -109,7 +198,9 @@ public class GameScript : MonoBehaviour
         if (moveCellBlock(c, new Vector2Int(c.x, c.y + 1)))
         {
             addBlocksToUpdate(c);
-            addToUpdate(new Vector2Int(c.x, c.y + 1));
+            Vector2Int p = new Vector2Int(c.x, c.y + 1);
+            addToUpdate(p);
+            cellsToCheck.Add(p);
             return;
         }
         if (isFreeSpaceIn(new Vector2Int(c.x - 1, c.y + 1)) &&
@@ -117,28 +208,37 @@ public class GameScript : MonoBehaviour
         {
             if (Random.Range(0, 1) == 0)
             {
-                moveCellBlock(c, new Vector2Int(c.x + 1, c.y + 1));
-                addToUpdate(new Vector2Int(c.x + 1, c.y + 1));
+                Vector2Int p = new Vector2Int(c.x + 1, c.y + 1);
+                addToUpdate(p);
+                moveCellBlock(c, p);
+                cellsToCheck.Add(p);
+
             }
             else
             {
-                moveCellBlock(c, new Vector2Int(c.x - 1, c.y + 1));
-                addToUpdate(new Vector2Int(c.x - 1, c.y + 1));
+                Vector2Int p = new Vector2Int(c.x - 1, c.y + 1);
+                addToUpdate(p);
+                moveCellBlock(c, p);
+                cellsToCheck.Add(p);
             }
             addBlocksToUpdate(c);
             return;
         }
         if (isFreeSpaceIn(new Vector2Int(c.x - 1, c.y + 1)))
         {
-            moveCellBlock(c, new Vector2Int(c.x - 1, c.y + 1));
-            addToUpdate(new Vector2Int(c.x - 1, c.y + 1));
+            Vector2Int p = new Vector2Int(c.x - 1, c.y + 1);
+            addToUpdate(p);
+            moveCellBlock(c, p);
+            cellsToCheck.Add(p);
             addBlocksToUpdate(c);
             return;
         }
         if (isFreeSpaceIn(new Vector2Int(c.x + 1, c.y + 1)))
         {
-            moveCellBlock(c, new Vector2Int(c.x + 1, c.y + 1));
-            addToUpdate(new Vector2Int(c.x + 1, c.y + 1));
+            Vector2Int p = new Vector2Int(c.x + 1, c.y + 1);
+            addToUpdate(p);
+            moveCellBlock(c, p);
+            cellsToCheck.Add(p);
             addBlocksToUpdate(c);
             return;
         }
@@ -159,6 +259,7 @@ public class GameScript : MonoBehaviour
                 case CellType.sand3:
                 case CellType.sand4:
                     sandUpdate(c);
+
                     break;
             }
         }
@@ -175,7 +276,7 @@ public class GameScript : MonoBehaviour
 
         int x = b.x;
         int y = b.y;
-        if (y+b.h>=199)
+        if (y+b.h>=200)
         {
             return true;
         }

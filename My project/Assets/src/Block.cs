@@ -54,8 +54,8 @@ public class Block
                 h = 30;
                 break;
             case BlockType.IBlock:
-                w= 10;
-                h = 40;
+                w = 40;
+                h = 10;
                 break;
 
 
