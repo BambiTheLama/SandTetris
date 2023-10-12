@@ -44,8 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76152df83c9eafa40add3724a7e2b91f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backGround: {fileID: 9108390331699173338, guid: 461aac37a4a89ac4582efe97494559fe, type: 3}
   cellScript: {fileID: 5867372765934829378, guid: edc2aed2181246c48907649cfc5ac108, type: 3}
-  startX: 0
-  startY: 0
-  ratioX: 0
-  ratioY: 0
+  ratio: 0.9

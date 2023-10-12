@@ -13,11 +13,29 @@ public class Block
 {
     public CellType cellType { get; private set; }
     public int y { get; private set; }
+    float yPos = 0;
+    float speed = 1.0f;
     public int x { get;private set; }
     public int h { get;private set; }
     public int w { get;private set; }
     int[,] blockGred;
     Color color;
+
+    public Block(Block b)
+    {
+        cellType = b.cellType;  
+        y=b.y;
+        x=b.x; 
+        color=b.color;
+        h=b.h;
+        w=b.w;
+        speed=b.speed;
+        yPos = b.yPos;
+        blockGred = new int[h, w];
+        for(int i = 0; i < h; i++)
+            for(int j = 0; j < w; j++)
+                blockGred[i, j] = b.blockGred[i,j];
+    }
     public Block(CellType type, BlockType b)
     {
         y = 0;
@@ -214,9 +232,17 @@ public class Block
 
     }
 
-    public void goDown()
+    public void speedFalling() {
+        speed = 6.9f;
+    }
+
+    public void goDown(float deltaTime)
     {
-        y += 1;
+        yPos += deltaTime * speed * 21.37f;
+        y = (int)yPos;
+        if (y + h >= 200)
+            y = 200 - h;
+        speed = 1;
     }
     public bool hasBlock(int x,int y)
     {
