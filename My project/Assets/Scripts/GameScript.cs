@@ -303,7 +303,7 @@ public class GameScript : MonoBehaviour
     }
     void activateBlockCells()
     {
-        for (int i = 0; i < b.h; i++)
+        for (int i = b.h - 1; i >= 0; i--) 
             for (int j = 0; j < b.w; j++) 
             {
                 if (!b.hasBlock(j, i))
@@ -316,7 +316,7 @@ public class GameScript : MonoBehaviour
 
     void addCellStoUpdateFromBlock()
     {
-        for (int i = 0; i < b.h; i++)
+        for (int i = b.h - 1; i >= 0; i--)
             for (int j = 0; j < b.w; j++)
             {
                 if (!b.hasBlock(j, i))
