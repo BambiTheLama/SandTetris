@@ -28,7 +28,7 @@ public class CellScript : MonoBehaviour
         if(!sprite)
             sprite = GetComponent<SpriteRenderer>();
         //sprite.enabled = false;
-        color=Color.white;
+        color = new Color(0.1f, 0.1f, 0.1f, 1f);
         sprite.color = color;
 
     }
