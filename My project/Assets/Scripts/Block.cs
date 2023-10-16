@@ -2,279 +2,277 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum BlockType
 {
-    Box,LBlock,ReversLBlock,TBlock,IBlock,SBlock,ZBlock,
-    size
+    Box, LBlock, JBlock, TBlock, IBlock, SBlock, ZBlock
 }
-
 public class Block
 {
-    public CellType cellType { get; private set; }
-    public int y { get; private set; }
-    float yPos = 0;
-    float speed = 1.0f;
-    public int x { get;private set; }
-    public int h { get;private set; }
-    public int w { get;private set; }
-    int[,] blockGred;
-    Color color;
+    public CellType CellType { get; private set; }
+    public int X { get; private set; }
+    public int Y { get; private set; }
+    public int Width { get; private set; }
+    public int Height { get; private set; }
 
-    public Block(Block b)
+    private float yPos = 0;
+    private float speed = 1.0f;
+    private int[,] blockGrid;
+    private Color blockColor;
+
+    public Block(Block block)
     {
-        cellType = b.cellType;  
-        y=b.y;
-        x=b.x; 
-        color=b.color;
-        h=b.h;
-        w=b.w;
-        speed=b.speed;
-        yPos = b.yPos;
-        blockGred = new int[h, w];
-        for(int i = 0; i < h; i++)
-            for(int j = 0; j < w; j++)
-                blockGred[i, j] = b.blockGred[i,j];
+        CellType = block.CellType;
+        Y = block.Y;
+        X = block.X;
+        blockColor = block.blockColor;
+        Height = block.Height;
+        Width = block.Width;
+        speed = block.speed;
+        yPos = block.yPos;
+        blockGrid = new int[Height, Width];
+        for (int i = 0; i < Height; i++)
+        {
+            for (int j = 0; j < Width; j++)
+            {
+                blockGrid[i, j] = block.blockGrid[i, j];
+            }
+        }
     }
-    public Block(CellType type, BlockType b)
+    public Block(CellType type, BlockType blockType)
     {
-        y = 0;
-        switch(b)
+        Y = 0;
+        switch (blockType)
         {
             case BlockType.Box:
-                w = 20;
-                h = 20;
+                Width = 20;
+                Height = 20;
                 break;
-            case BlockType.ReversLBlock:
+            case BlockType.JBlock:
             case BlockType.LBlock:
             case BlockType.TBlock:
             case BlockType.SBlock:
             case BlockType.ZBlock:
-                w = 20;
-                h = 30;
+                Width = 20;
+                Height = 30;
                 break;
             case BlockType.IBlock:
-                w = 40;
-                h = 10;
+                Width = 40;
+                Height = 10;
                 break;
-
-
-                
         }
-        blockGred = new int[h, w];
-        for (int i = 0; i < w; i++) {
-            for(int j = 0; j < h; j++)
+
+        blockGrid = new int[Height, Width];
+        for (int i = 0; i < Width; i++)
+        {
+            for (int j = 0; j < Height; j++)
             {
-                blockGred[j, i] = 0;
+                blockGrid[j, i] = 0;
             }
         }
-        switch (b)
+        switch (blockType)
         {
             case BlockType.IBlock:
             case BlockType.Box:
-                for (int i = 0; i < w; i++)
+                for (int i = 0; i < Width; i++)
                 {
-                    for (int j = 0; j < h; j++)
+                    for (int j = 0; j < Height; j++)
                     {
-                        blockGred[j, i] = 1;
+                        blockGrid[j, i] = 1;
                     }
                 }
                 break;
-            case BlockType.ReversLBlock:
-                for (int i = w/2; i < w; i++)
+            case BlockType.JBlock:
+                for (int i = Width /2; i < Width; i++)
                 {
-                    for (int j = 0; j < h; j++)
+                    for (int j = 0; j < Height; j++)
                     {
-                        blockGred[j, i] = 1;
+                        blockGrid[j, i] = 1;
                     }
                 }
-                for (int i = 0; i < w / 2; i++) 
+                for (int i = 0; i < Width / 2; i++) 
                 {
-                    for (int j = (2 * h) / 3; j < h; j++)
+                    for (int j = (2 * Height) / 3; j < Height; j++)
                     {
-                        blockGred[j, i] = 1;
+                        blockGrid[j, i] = 1;
                     }
                 }
                 break;
             case BlockType.LBlock:
-                for (int i = 0; i < w/2; i++)
+                for (int i = 0; i < Width /2; i++)
                 {
-                    for (int j = 0; j < h; j++)
+                    for (int j = 0; j < Height; j++)
                     {
-                        blockGred[j, i] = 1;
+                        blockGrid[j, i] = 1;
                     }
                 }
-                for (int i = w/2; i < w; i++)
+                for (int i = Width /2; i < Width; i++)
                 {
-                    for (int j = (2*h)/3; j < h; j++)
+                    for (int j = (2*Height)/3; j < Height; j++)
                     {
-                        blockGred[j, i] = 1;
+                        blockGrid[j, i] = 1;
                     }
                 }
                 break;
             case BlockType.TBlock:
-                for (int i = 0; i < w / 2; i++)
+                for (int i = 0; i < Width / 2; i++)
                 {
-                    for (int j = 0; j < h; j++)
+                    for (int j = 0; j < Height; j++)
                     {
-                        blockGred[j, i] = 1;
+                        blockGrid[j, i] = 1;
                     }
                 }
-                for (int i = w / 2; i < w; i++)
+                for (int i = Width / 2; i < Width; i++)
                 {
-                    for (int j = (h) / 3; j < (2*h)/3; j++)
+                    for (int j = (Height) / 3; j < (2*Height)/3; j++)
                     {
-                        blockGred[j, i] = 1;
+                        blockGrid[j, i] = 1;
                     }
                 }
                 break;
             case BlockType.SBlock:
-                for (int i = 0; i < w / 2; i++)
+                for (int i = 0; i < Width / 2; i++)
                 {
-                    for (int j = 0; j < (h * 2) / 3; j++)
+                    for (int j = 0; j < (Height * 2) / 3; j++)
                     {
-                        blockGred[j, i] = 1;
+                        blockGrid[j, i] = 1;
                     }
                 }
-                for (int i = w / 2; i < w; i++)
+                for (int i = Width / 2; i < Width; i++)
                 {
-                    for (int j = h / 3; j < h; j++)
+                    for (int j = Height / 3; j < Height; j++)
                     {
-                        blockGred[j, i] = 1;
+                        blockGrid[j, i] = 1;
                     }
                 }
                 break;
             case BlockType.ZBlock:
-                for (int i = w / 2; i < w; i++)
+                for (int i = Width / 2; i < Width; i++)
                 {
-                    for (int j = 0; j < (h * 2) / 3; j++)
+                    for (int j = 0; j < (Height * 2) / 3; j++)
                     {
-                        blockGred[j, i] = 1;
+                        blockGrid[j, i] = 1;
                     }
                 }
-                for (int i = 0; i < w / 2; i++)
+                for (int i = 0; i < Width / 2; i++)
                 {
-                    for (int j = h / 3; j < h; j++)
+                    for (int j = Height / 3; j < Height; j++)
                     {
-                        blockGred[j, i] = 1;
+                        blockGrid[j, i] = 1;
                     }
                 }
                 break;
 
 
         }
-        for (int i = 0; i < w; i++)
-            for (int j = 0; j < h; j++) 
+        for (int i = 0; i < Width; i++)
+        {
+            for (int j = 0; j < Height; j++)
             {
-                if(blockGred[j, i]==1)
+                if (blockGrid[j, i] == 1)
                 {
-                    blockGred[j, i] = Random.Range(1, 4);
-
+                    blockGrid[j, i] = Random.Range(1, 4);
                 }
-
-            }
-
-        cellType = type;
-        x = 50 - w / 2;
-        switch(cellType)
-        {
-            case CellType.sand: 
-                color=Color.yellow;
-                break;
-            case CellType.sand2:
-                color=Color.red;
-                break;
-            case CellType.sand3:
-                color = Color.blue;
-                break;
-            case CellType.sand4:
-                color=Color.green;
-                break;
-            default: color=Color.white;
-                break;
-        }
-
-    }
-
-    void rotateBlock()
-    {
-        int[,] blockGred = new int[w, h];
-        for (int i = 0; i < h; i++)
-        {
-            for (int j = 0; j < w; j++)
-            {
-                blockGred[j, i] = this.blockGred[h - 1 - i, j];
             }
         }
 
-        this.blockGred= blockGred;
-        int t = h;
-        h = w;
-        w = t;
-        if (x + w >= 100)
-            x = 99 - w;
-
-    }
-    public void rotateLeft()
-    {
-        rotateBlock();
-    }
-
-    public void moveLeft()
-    {
-        if (x > 0)
+        CellType = type;
+        X = 50 - Width / 2;
+        switch (CellType)
         {
-            x -= 10;
-            if(x<0)
-                x = 0;
+            case CellType.SandYellow:
+                blockColor = Color.yellow;
+                break;
+            case CellType.SandRed:
+                blockColor = Color.red;
+                break;
+            case CellType.SandBlue:
+                blockColor = Color.blue;
+                break;
+            case CellType.SandGreen:
+                blockColor = Color.green;
+                break;
+            default:
+                blockColor = Color.white;
+                break;
+        }
+    }
+
+
+    public void RotateBlock()
+    {
+        int[,] blockGrid = new int[Width, Height];
+        for (int i = 0; i < Height; i++)
+        {
+            for (int j = 0; j < Width; j++)
+            {
+                blockGrid[j, i] = this.blockGrid[Height - 1 - i, j];
+            }
         }
 
-
+        this.blockGrid = blockGrid;
+        int t = Height;
+        Height = Width;
+        Width = t;
+        if (X + Width >= 100)
+            X = 99 - Width;
     }
-    public void moveRight()
+
+
+    public void MoveLeft()
     {
-        if(x+w<100)
+        if (X > 0)
         {
-            x+=10;
-            if (x + w >= 100)
-                x = 100-w;
+            X -= 10;
+            if (X < 0)
+                X = 0;
         }
-
     }
 
-    public void speedFalling() {
+    public void MoveRight()
+    {
+        if (X + Width < 100)
+        {
+            X += 10;
+            if (X + Width >= 100)
+                X = 100 - Width;
+        }
+    }
+
+    public void MoveDown()
+    {
         speed = 6.9f;
     }
 
-    public void goDown(float deltaTime)
+    public void GoDown(float deltaTime)
     {
         yPos += deltaTime * speed * 21.37f;
-        y = (int)yPos;
-        if (y + h >= 200)
-            y = 200 - h;
+        Y = (int)yPos;
+        if (Y + Height >= 200)
+            Y = 200 - Height;
         speed = 1;
     }
-    public bool hasBlock(int x,int y)
+
+    public bool HasBlock(int x, int y)
     {
         if (x < 0 || y < 0)
             return false;
-        if (x >= w || y >= h)
+        if (x >= Width || y >= Height)
             return false;
-        return blockGred[y, x] > 0;
+        return blockGrid[y, x] > 0;
     }
-    public Color GetColor(int x,int y)
+    public Color GetColor(int x, int y)
     {
-        Color c = color;
-        if (blockGred[y, x] == 0)
+        Color color = blockColor;
+        if (blockGrid[y, x] == 0)
             return new Color(0, 0, 0, 0);
-        else if (blockGred[y, x] == 1)
-            return c;
-        else if (blockGred[y, x] == 2)
-            return new Color(c.r * 0.9f, c.g * 0.9f, c.b * 0.9f, 1);
-        else if (blockGred[y, x] == 3)
-            return new Color(c.r * 0.7f, c.g * 0.7f, c.b * 0.7f, 1);
-        else if (blockGred[y, x] == 4)
-            return new Color(c.r * 0.5f, c.g * 0.5f, c.b * 0.5f, 1);
+        else if (blockGrid[y, x] == 1)
+            return color;
+        else if (blockGrid[y, x] == 2)
+            return new Color(color.r * 0.9f, color.g * 0.9f, color.b * 0.9f, 1);
+        else if (blockGrid[y, x] == 3)
+            return new Color(color.r * 0.7f, color.g * 0.7f, color.b * 0.7f, 1);
+        else if (blockGrid[y, x] == 4)
+            return new Color(color.r * 0.5f, color.g * 0.5f, color.b * 0.5f, 1);
         return new Color(1, 1, 1, 1);
     }
 }

@@ -1,48 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public enum CellType{
-    sand,sand2,sand3,sand4,//,fire,wood,
-    size
+public enum CellType
+{
+    SandYellow, SandRed, SandBlue, SandGreen //, Fire, Wood
 }
+
 public class CellScript : MonoBehaviour
 {
-    public bool isEmpty { private set; get; } = true;
-    public CellType type { private set; get; }
+    public bool IsEmpty { get; private set; } = true;
+    public CellType Type { get; private set; }
 
-    public Color color;
+    public Color Color;
 
-    SpriteRenderer sprite;
+    private SpriteRenderer _sprite;
 
-    void Start()
+    private void Start()
     {
-        sprite = GetComponent<SpriteRenderer>();
-        sprite.color = color;
+        _sprite = GetComponent<SpriteRenderer>();
+        _sprite.color = Color;
     }
 
-    public void disactivateCell() {
-
-        isEmpty = true;
-        if(!sprite)
-            sprite = GetComponent<SpriteRenderer>();
-        //sprite.enabled = false;
-        color = new Color(0.1f, 0.1f, 0.1f, 1f);
-        sprite.color = color;
-
+    public void DeactivateCell()
+    {
+        IsEmpty = true;
+        if (!_sprite)
+            _sprite = GetComponent<SpriteRenderer>();
+        Color = new Color(0.1f, 0.1f, 0.1f, 1f);
+        _sprite.color = Color;
     }
 
-    public void setCellValue(CellType type,Color c)
+    public void SetCellValue(CellType cellType, Color cellColor)
     {
-        if (!isEmpty)
+        if (!IsEmpty)
             return;
-        color = c;
-        this.type = type;
-        //if (!sprite)
-        //    sprite = GetComponent<SpriteRenderer>();
-        //sprite.enabled = true;
-        sprite.color = c;
-        isEmpty = false;
+
+        Color = cellColor;
+        Type = cellType;
+        _sprite.color = cellColor;
+        IsEmpty = false;
     }
 }

@@ -8,7 +8,7 @@ public class PauseController : MonoBehaviour
 
     [Header("Ekrany")]
     public GameObject PauseScreen;
-    bool paused;
+    public bool paused;
 
     private void Update()
     {
