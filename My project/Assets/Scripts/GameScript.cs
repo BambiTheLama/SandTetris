@@ -14,7 +14,7 @@ public class GameScript : MonoBehaviour
     List<Vector2Int> cellsToUpdate = new List<Vector2Int>();
     float timer = 0.0f;
     List<Vector2Int> cellsToCheck = new List<Vector2Int>();
-
+    List<Vector2Int> cellsToRemove = new List<Vector2Int>();
     public StatsController statsController;
     public PauseController pauseController;
 
@@ -69,7 +69,8 @@ public class GameScript : MonoBehaviour
             while(cellsToCheck.Count>0)
                 checkBlockToRemove();
             ActivateBlockCells();
-
+            if (cellsToRemove.Count > 0)
+                removeCells();
         }
     }
     CellType getTypeAt(int x, int y)
@@ -79,9 +80,39 @@ public class GameScript : MonoBehaviour
 
     bool checkBlockTypeIfNotAtList(Vector2Int p,CellType type,List<Vector2Int> l)
     {
-        return !cells[p.y, p.x].IsEmpty && getTypeAt(p.x, p.y) == type && !l.Contains(p);
+        return !cells[p.y, p.x].IsEmpty && getTypeAt(p.x, p.y) == type && !l.Contains(p) && !cellsToRemove.Contains(p);
     }
 
+    void removeCells()
+    {
+        List<Vector2Int> removeFromList= new List<Vector2Int>();
+        int n = 16;
+        foreach (var cell in cellsToRemove) 
+        {
+            cells[cell.y, cell.x].DeactivateCell();
+            AddBlocksToUpdate(cell);
+            removeFromList.Add(cell);
+
+            if (n-- <= 0)
+                break;
+        }
+        foreach (var cell in removeFromList)
+            cellsToRemove.Remove(cell); 
+
+    }
+    void sortRemoveList()
+    {
+        for(int j=0; j< cellsToRemove.Count; j++)
+            for(int i = 0; i < cellsToRemove.Count-1; i++)
+            {
+                if (cellsToRemove[i].y > cellsToRemove[i + 1].y)
+                {
+                    Vector2Int tmp = cellsToRemove[i];
+                    cellsToRemove[i] = cellsToRemove[i + 1];
+                    cellsToRemove[i+1]= tmp;
+                }
+            }
+    }
     void checkBlockToRemove()
     {
         
@@ -152,12 +183,15 @@ public class GameScript : MonoBehaviour
 
         if (minX<=0 && maxX>=gridWidth -1)
         {
+            statsController.AddPoints(200);
+
             foreach (var cell in cellsToRemove)
             {
-                cells[cell.y, cell.x].DeactivateCell();
-                AddBlocksToUpdate(cell);
+                this.cellsToRemove.Add(cell);
+                cells[cell.y, cell.x].setWhite();
+                cellsToUpdate.Remove(cell);
             }
-            statsController.AddPoints(200);
+            sortRemoveList();
 
         }
 
@@ -182,7 +216,7 @@ public class GameScript : MonoBehaviour
 
     void AddToUpdate(Vector2Int p)
     {
-        if (!cellsToUpdate.Contains(p))
+        if (!cellsToUpdate.Contains(p) && !cellsToRemove.Contains(p))
             cellsToUpdate.Add(p);
     }
     void AddBlocksToUpdate(Vector2Int pos)

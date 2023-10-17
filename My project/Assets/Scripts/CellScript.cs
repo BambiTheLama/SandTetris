@@ -41,4 +41,8 @@ public class CellScript : MonoBehaviour
         _sprite.color = cellColor;
         IsEmpty = false;
     }
+    public void setWhite()
+    {
+        _sprite.color = Color.white;
+    }
 }
