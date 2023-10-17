@@ -30,6 +30,14 @@ public class CellScript : MonoBehaviour
         Color = new Color(0.1f, 0.1f, 0.1f, 1f);
         _sprite.color = Color;
     }
+    public void DeactivateCellClear()
+    {
+        IsEmpty = true;
+        if (!_sprite)
+            _sprite = GetComponent<SpriteRenderer>();
+        Color = new Color(0f, 0f, 0f, 0f);
+        _sprite.color = Color;
+    }
 
     public void SetCellValue(CellType cellType, Color cellColor)
     {
@@ -41,7 +49,7 @@ public class CellScript : MonoBehaviour
         _sprite.color = cellColor;
         IsEmpty = false;
     }
-    public void setWhite()
+    public void SetWhite()
     {
         _sprite.color = Color.white;
     }

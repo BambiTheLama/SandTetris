@@ -1392,7 +1392,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 994832241423834083, guid: 4138555833c611d489af4dce08c78f63, type: 3}
       propertyPath: m_Name
-      value: NextBlock (1)
+      value: NextBlock
       objectReference: {fileID: 0}
     - target: {fileID: 1280252402257203754, guid: 4138555833c611d489af4dce08c78f63, type: 3}
       propertyPath: ratio
@@ -1400,11 +1400,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2884332084635253894, guid: 4138555833c611d489af4dce08c78f63, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.68
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 2884332084635253894, guid: 4138555833c611d489af4dce08c78f63, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.63
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2884332084635253894, guid: 4138555833c611d489af4dce08c78f63, type: 3}
       propertyPath: m_LocalPosition.z

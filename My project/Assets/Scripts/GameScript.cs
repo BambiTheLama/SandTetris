@@ -46,7 +46,7 @@ public class GameScript : MonoBehaviour
 
         }
         if (nextBlock)
-            nextBlock.setBlockAtGrid(block2);
+            nextBlock.SetBlockAtGrid(block2);
         endGame = CheckCollisionBlock();
     }
 
@@ -85,23 +85,23 @@ public class GameScript : MonoBehaviour
                 return;
             }
             while(cellsToCheck.Count>0)
-                checkBlockToRemove();
+                CheckBlockToRemove();
             ActivateBlockCells();
             if (cellsToRemove.Count > 0)
-                removeCells();
+                RemoveCells();
         }
     }
-    CellType getTypeAt(int x, int y)
+    CellType GetTypeAt(int x, int y)
     {
         return cells[y, x].Type;
     }
 
-    bool checkBlockTypeIfNotAtList(Vector2Int p,CellType type,List<Vector2Int> l)
+    bool CheckBlockTypeIfNotAtList(Vector2Int p,CellType type,List<Vector2Int> l)
     {
-        return !cells[p.y, p.x].IsEmpty && getTypeAt(p.x, p.y) == type && !l.Contains(p) && !cellsToRemove.Contains(p);
+        return !cells[p.y, p.x].IsEmpty && GetTypeAt(p.x, p.y) == type && !l.Contains(p) && !cellsToRemove.Contains(p);
     }
 
-    void removeCells()
+    void RemoveCells()
     {
         List<Vector2Int> removeFromList= new List<Vector2Int>();
         int n = 16;
@@ -118,7 +118,7 @@ public class GameScript : MonoBehaviour
             cellsToRemove.Remove(cell); 
 
     }
-    void sortRemoveList()
+    void SortRemoveList()
     {
         for(int j=0; j< cellsToRemove.Count; j++)
             for(int i = 0; i < cellsToRemove.Count-1; i++)
@@ -131,7 +131,7 @@ public class GameScript : MonoBehaviour
                 }
             }
     }
-    void checkBlockToRemove()
+    void CheckBlockToRemove()
     {
         
         Vector2Int first = this.cellsToCheck.First();
@@ -154,7 +154,7 @@ public class GameScript : MonoBehaviour
             if (p.x - 1 >= 0) 
             {
                 tmp = new Vector2Int(p.x - 1, p.y);
-                if (checkBlockTypeIfNotAtList(tmp, type, cellsToRemove)) 
+                if (CheckBlockTypeIfNotAtList(tmp, type, cellsToRemove)) 
                 {
                     cellsToRemove.Add(tmp);
                     cellsToCheck.Add(tmp);
@@ -166,7 +166,7 @@ public class GameScript : MonoBehaviour
             if (p.y - 1 >= 0)
             {
                 tmp = new Vector2Int(p.x, p.y - 1);
-                if (checkBlockTypeIfNotAtList(tmp, type, cellsToRemove))
+                if (CheckBlockTypeIfNotAtList(tmp, type, cellsToRemove))
                 {
                     cellsToRemove.Add(tmp);
                     cellsToCheck.Add(tmp);
@@ -176,7 +176,7 @@ public class GameScript : MonoBehaviour
             if (p.x + 1 < gridWidth)
             {
                 tmp = new Vector2Int(p.x + 1, p.y);
-                if (checkBlockTypeIfNotAtList(tmp, type, cellsToRemove))
+                if (CheckBlockTypeIfNotAtList(tmp, type, cellsToRemove))
                 {
                     cellsToRemove.Add(tmp);
                     cellsToCheck.Add(tmp);
@@ -188,7 +188,7 @@ public class GameScript : MonoBehaviour
             if (p.y + 1 < gridHeight)
             {
                 tmp = new Vector2Int(p.x, p.y + 1);
-                if (checkBlockTypeIfNotAtList(tmp, type, cellsToRemove))
+                if (CheckBlockTypeIfNotAtList(tmp, type, cellsToRemove))
                 {
                     cellsToRemove.Add(tmp);
                     cellsToCheck.Add(tmp);
@@ -206,10 +206,10 @@ public class GameScript : MonoBehaviour
             foreach (var cell in cellsToRemove)
             {
                 this.cellsToRemove.Add(cell);
-                cells[cell.y, cell.x].setWhite();
+                cells[cell.y, cell.x].SetWhite();
                 cellsToUpdate.Remove(cell);
             }
-            sortRemoveList();
+            SortRemoveList();
 
         }
 
@@ -258,7 +258,7 @@ public class GameScript : MonoBehaviour
 
     }
 
-    void sandUpdate(Vector2Int c)
+    void SandUpdate(Vector2Int c)
     {
         if (MoveCellBlock(c, new Vector2Int(c.x, c.y + 1)))
         {
@@ -323,7 +323,7 @@ public class GameScript : MonoBehaviour
                 case CellType.SandRed:
                 case CellType.SandBlue:
                 case CellType.SandGreen:
-                    sandUpdate(c);
+                    SandUpdate(c);
 
                     break;
             }

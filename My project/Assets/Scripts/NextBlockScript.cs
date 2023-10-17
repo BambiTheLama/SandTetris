@@ -22,7 +22,7 @@ public class NextBlockScript : MonoBehaviour
     }
 
 
-    public void setBlockAtGrid(Block block)
+    public void SetBlockAtGrid(Block block)
     {
         ClearColor();
         for (int x = 0; x < block.Width; x++) 
@@ -60,7 +60,7 @@ public class NextBlockScript : MonoBehaviour
             for (int x = 0; x < gridWidth; x++)
             {
                 CellScript cell = cells[y, x];
-                cell.DeactivateCell();
+                cell.DeactivateCellClear();
             }
         }
 
