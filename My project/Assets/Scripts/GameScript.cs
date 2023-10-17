@@ -11,13 +11,15 @@ public class GameScript : MonoBehaviour
     public float ratio = 0.9f;
     CellScript[,] cells = new CellScript[gridHeight, gridWidth];
     Block block = null;
+    Block block2 = null;
     List<Vector2Int> cellsToUpdate = new List<Vector2Int>();
     float timer = 0.0f;
     List<Vector2Int> cellsToCheck = new List<Vector2Int>();
     List<Vector2Int> cellsToRemove = new List<Vector2Int>();
     public StatsController statsController;
     public PauseController pauseController;
-
+    bool endGame = false;
+    public NextBlockScript nextBlock;
     void Start()
     {
         Time.timeScale = 1;
@@ -31,11 +33,27 @@ public class GameScript : MonoBehaviour
     {
         int sizeofCellType = sizeof(CellType);
         int sizeofBlockType = sizeof(BlockType);
-        block = new Block((CellType)Random.Range(0, sizeofCellType), (BlockType)Random.Range(0, sizeofBlockType));
+        if (block2 == null) 
+        {
+            block = new Block((CellType)Random.Range(0, sizeofCellType), (BlockType)Random.Range(0, sizeofBlockType));
+            block2 = new Block((CellType)Random.Range(0, sizeofCellType), (BlockType)Random.Range(0, sizeofBlockType));
+
+        }
+        else
+        {
+            block = block2;
+            block2 = new Block((CellType)Random.Range(0, sizeofCellType), (BlockType)Random.Range(0, sizeofBlockType));
+
+        }
+        if (nextBlock)
+            nextBlock.setBlockAtGrid(block2);
+        endGame = CheckCollisionBlock();
     }
 
     void Update()
     {
+        if (endGame)
+            return;
         timer += Time.deltaTime;
         int sandSpeed = 36;
         if ((int)(timer * sandSpeed) > 0) 
@@ -46,7 +64,7 @@ public class GameScript : MonoBehaviour
         }
         if (block == null)
             NewBlock();
-        else
+        else 
         {
             Block tmp = block;
             block = new Block(tmp);
