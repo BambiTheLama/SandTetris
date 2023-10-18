@@ -8,7 +8,7 @@ public class GameScript : MonoBehaviour
 {
     private static int gridHeight = 200, gridWidth = 100;
     public CellScript cellScript;
-    public float ratio = 0.9f;
+    float ratio = 0.16f;
     CellScript[,] cells = new CellScript[gridHeight, gridWidth];
     Block block = null;
     Block block2 = null;
@@ -108,7 +108,7 @@ public class GameScript : MonoBehaviour
     void RemoveCells()
     {
         List<Vector2Int> removeFromList= new List<Vector2Int>();
-        int n = 16;
+        int n = 32;
         foreach (var cell in cellsToRemove) 
         {
             cells[cell.y, cell.x].DeactivateCell();

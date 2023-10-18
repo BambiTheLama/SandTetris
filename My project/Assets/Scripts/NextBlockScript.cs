@@ -7,7 +7,7 @@ public class NextBlockScript : MonoBehaviour
     private static int gridHeight = 40, gridWidth = 40;
     CellScript[,] cells = new CellScript[gridHeight, gridWidth];
     public CellScript cellScript;
-    public float ratio = 0.9f;
+    float ratio = 0.16f;
     // Start is called before the first frame update
     void Start()
     {
