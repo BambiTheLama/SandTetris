@@ -18,7 +18,7 @@ public class GameScript : MonoBehaviour
     List<Vector2Int> cellsToRemove = new List<Vector2Int>();
     public StatsController statsController;
     public PauseController pauseController;
-    bool endGame = false;
+    public bool endGame = false;
     public NextBlockScript nextBlock;
     void Start()
     {
@@ -53,7 +53,11 @@ public class GameScript : MonoBehaviour
     void Update()
     {
         if (endGame)
+        {
+            statsController.StopTimer();
             return;
+        }
+
         timer += Time.deltaTime;
         int sandSpeed = 36;
         if ((int)(timer * sandSpeed) > 0) 
@@ -123,7 +127,7 @@ public class GameScript : MonoBehaviour
         for(int j=0; j< cellsToRemove.Count; j++)
             for(int i = 0; i < cellsToRemove.Count-1; i++)
             {
-                if (cellsToRemove[i].y > cellsToRemove[i + 1].y)
+                if (cellsToRemove[i].x > cellsToRemove[i + 1].x)
                 {
                     Vector2Int tmp = cellsToRemove[i];
                     cellsToRemove[i] = cellsToRemove[i + 1];
@@ -425,4 +429,40 @@ public class GameScript : MonoBehaviour
         }
         
     }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1;
+        DestroyBlocksAndCells();
+        endGame = false;
+        timer = 0.0f;
+        statsController.ResetTimer();
+        statsController.StartTimer();
+
+        GenerateGrid();
+        SetColor();
+        NewBlock();
+    }
+
+    void DestroyBlocksAndCells()
+    {
+        for (int y = 0; y < gridHeight; y++)
+        {
+            for (int x = 0; x < gridWidth; x++)
+            {
+                if (cells[y, x] != null)
+                {
+                    Destroy(cells[y, x].gameObject);
+                    cells[y, x] = null;
+                }
+            }
+        }
+
+        block = null;
+        block2 = null;
+        cellsToUpdate.Clear();
+        cellsToCheck.Clear();
+        cellsToRemove.Clear();
+    }
+
 }

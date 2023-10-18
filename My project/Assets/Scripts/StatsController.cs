@@ -65,4 +65,8 @@ public class StatsController : MonoBehaviour
             pointsText.text = points.ToString();
         }
     }
+    public void ResetPoints()
+    {
+        points = 0; 
+    }
 }
