@@ -14,7 +14,7 @@ public class MenuSandAnimation : MonoBehaviour
     int nColor;
     float time = 0;
     float spawnSandTimer = 0;
-    // Start is called before the first frame update
+
     void Start()
     {
         GenerateGrid();
@@ -55,7 +55,6 @@ public class MenuSandAnimation : MonoBehaviour
                 break;
         }
     }
-    // Update is called once per frame
     void Update()
     {
         UpdateSand();
@@ -104,12 +103,7 @@ public class MenuSandAnimation : MonoBehaviour
             grid[0, x].SetCellValue(CellType.SandYellow, GetColor());
             toUpdate.Add(new Vector2Int(x, 0));
         }
-        x = gridWidth / 2;
-        if (IsFreeSpace(x, 0))
-        {
-            grid[0, x].SetCellValue(CellType.SandYellow, GetColor());
-            toUpdate.Add(new Vector2Int(x, 0));
-        }
+        
         x = gridWidth - 10;
         if (IsFreeSpace(x, 0))
         {
@@ -173,12 +167,10 @@ public class MenuSandAnimation : MonoBehaviour
                 if (Random.Range(0, 2) == 1) 
                 {
                     c2 = new Vector2Int(c.x - 1, c.y + 1);
-                    Debug.Log("KURWA");
                 }
                 else
                 {
                     c2 = new Vector2Int(c.x + 1, c.y + 1);
-                    Debug.Log("MAC");
                 }
                 moveSand(c, c2);
                 AddToUpdate(c2);
