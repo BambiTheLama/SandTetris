@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MenuSandAnimation : MonoBehaviour
 {
-    private static int gridHeight=175, gridWidth=320;
+    private static int gridHeight=173, gridWidth=320;
     public CellScript prefab;
     CellScript[,] grid=new CellScript[gridHeight,gridWidth];
     float ratio = 0.16f;
@@ -91,25 +91,39 @@ public class MenuSandAnimation : MonoBehaviour
         spawnSandTimer -= Time.deltaTime;
         if (spawnSandTimer <= 0)
         {
-            spawnSandTimer = 0.07f;
+            spawnSandTimer = Random.Range(0.21f, 0.37f);
         }
         else
         {
             return;
         }
-        int x = gridWidth/8;
-        if (IsFreeSpace(x, 0))
+        int n=Random.Range(1, 7);
+        int x;
+        for (int i = -n/2; i < n/2+1; i++)
         {
-            grid[0, x].SetCellValue(CellType.SandYellow, GetColor());
-            toUpdate.Add(new Vector2Int(x, 0));
+            if (Random.Range(0, 3) == 1)
+                continue;
+            x = gridWidth / 8 + (i*3);
+            if (IsFreeSpace(x, 0))
+            {
+                grid[0, x].SetCellValue(CellType.SandYellow, GetColor());
+                toUpdate.Add(new Vector2Int(x, 0));
+            }
         }
-        
-        x = 7*gridWidth / 8;
-        if (IsFreeSpace(x, 0))
+
+        n = Random.Range(1, 7);
+        for (int i = -n / 2; i < n / 2 + 1; i++)
         {
-            grid[0, x].SetCellValue(CellType.SandYellow, GetColor());
-            toUpdate.Add(new Vector2Int(x, 0));
+            if (Random.Range(0, 3) == 1)
+                continue;
+            x = 7*gridWidth / 8 + (i * 3);
+            if (IsFreeSpace(x, 0))
+            {
+                grid[0, x].SetCellValue(CellType.SandYellow, GetColor());
+                toUpdate.Add(new Vector2Int(x, 0));
+            }
         }
+
     }
     void moveSand(Vector2Int active, Vector2Int nonactive)
     {
