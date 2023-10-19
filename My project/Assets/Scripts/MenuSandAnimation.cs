@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MenuSandAnimation : MonoBehaviour
 {
-    private static int gridHeight=100, gridWidth=177;
+    private static int gridHeight=175, gridWidth=320;
     public CellScript prefab;
     CellScript[,] grid=new CellScript[gridHeight,gridWidth];
     float ratio = 0.16f;
@@ -97,14 +97,14 @@ public class MenuSandAnimation : MonoBehaviour
         {
             return;
         }
-        int x = 10;
+        int x = gridWidth/8;
         if (IsFreeSpace(x, 0))
         {
             grid[0, x].SetCellValue(CellType.SandYellow, GetColor());
             toUpdate.Add(new Vector2Int(x, 0));
         }
         
-        x = gridWidth - 10;
+        x = 7*gridWidth / 8;
         if (IsFreeSpace(x, 0))
         {
             grid[0, x].SetCellValue(CellType.SandYellow, GetColor());
@@ -158,7 +158,7 @@ public class MenuSandAnimation : MonoBehaviour
                 Vector2Int c2 = new Vector2Int(c.x, c.y + 1);
                 moveSand(c, c2);
                 AddToUpdate(c2);
-                AddBlocksOnTopToUpdate(c);
+                //AddBlocksOnTopToUpdate(c);
             }
             else if(c.x - 1 >= 0 && c.x + 1 < gridWidth 
                 && grid[c.y + 1, c.x - 1].IsEmpty && grid[c.y + 1, c.x + 1].IsEmpty)
@@ -174,21 +174,21 @@ public class MenuSandAnimation : MonoBehaviour
                 }
                 moveSand(c, c2);
                 AddToUpdate(c2);
-                AddBlocksOnTopToUpdate(c);
+                //AddBlocksOnTopToUpdate(c);
             }
             else if (c.x - 1 >= 0 && grid[c.y + 1, c.x - 1].IsEmpty) 
             {
                 Vector2Int c2 = new Vector2Int(c.x - 1, c.y + 1);
                 moveSand(c, c2);
                 AddToUpdate(c2);
-                AddBlocksOnTopToUpdate(c);
+                //AddBlocksOnTopToUpdate(c);
             }
             else if (c.x + 1 < gridWidth && grid[c.y + 1, c.x + 1].IsEmpty)
             {
                 Vector2Int c2 = new Vector2Int(c.x + 1, c.y + 1);
                 moveSand(c, c2);
                 AddToUpdate(c2);
-                AddBlocksOnTopToUpdate(c);
+                //AddBlocksOnTopToUpdate(c);
             }
         }
     }
