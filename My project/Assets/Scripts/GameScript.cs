@@ -23,6 +23,7 @@ public class GameScript : MonoBehaviour
 
     private AudioSource audioSource;
     public AudioClip moveAudio, loseAudio, pointsAudio;
+    bool lostGameMusic = false;
 
     void Start()
     {
@@ -61,7 +62,12 @@ public class GameScript : MonoBehaviour
         {
             //Fix it
             audioSource.clip = loseAudio;
-            audioSource.Play();
+            if(!lostGameMusic)
+            {
+                audioSource.Play();
+                lostGameMusic = true;
+            }
+
             statsController.StopTimer();
             return;
         }
