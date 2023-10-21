@@ -20,8 +20,13 @@ public class GameScript : MonoBehaviour
     public PauseController pauseController;
     public bool endGame = false;
     public NextBlockScript nextBlock;
+
+    private AudioSource audioSource;
+    public AudioClip moveAudio, loseAudio, pointsAudio;
+
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         Time.timeScale = 1;
         GenerateGrid();
         SetColor();
@@ -54,6 +59,9 @@ public class GameScript : MonoBehaviour
     {
         if (endGame)
         {
+            //Fix it
+            audioSource.clip = loseAudio;
+            audioSource.Play();
             statsController.StopTimer();
             return;
         }
@@ -74,9 +82,24 @@ public class GameScript : MonoBehaviour
             block = new Block(tmp);
             DeactivateBlockCells();
             if (Input.GetKeyDown(KeyCode.A) && !pauseController.paused)
+            {
                 block.MoveLeft();
+                if (block.X > 0) 
+                { 
+                    audioSource.clip = moveAudio;
+                    audioSource.Play();
+                }
+            }
+                
             if (Input.GetKeyDown(KeyCode.D) && !pauseController.paused)
+            {
                 block.MoveRight();
+                if(block.X + block.Width < 100){ 
+                    audioSource.clip = moveAudio;
+                    audioSource.Play();
+                }
+            }
+
             if (Input.GetKeyDown(KeyCode.W))
                 block.RotateBlock();
             if (Input.GetKey(KeyCode.S))
@@ -205,7 +228,9 @@ public class GameScript : MonoBehaviour
 
         if (minX<=0 && maxX>=gridWidth -1)
         {
-            statsController.AddPoints(200);
+            statsController.AddPoints(cellsToRemove.Count);
+            audioSource.clip = pointsAudio;
+            audioSource.Play();
 
             foreach (var cell in cellsToRemove)
             {
@@ -432,10 +457,8 @@ public class GameScript : MonoBehaviour
 
     public void RestartGame()
     {
-        Time.timeScale = 1;
         DestroyBlocksAndCells();
         endGame = false;
-        timer = 0.0f;
         statsController.ResetTimer();
         statsController.StartTimer();
 

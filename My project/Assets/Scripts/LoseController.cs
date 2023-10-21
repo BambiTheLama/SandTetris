@@ -13,11 +13,6 @@ public class LoseController : MonoBehaviour
     public GameScript gameScript;
     public StatsController statsController;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     private void Update()
     {
@@ -36,7 +31,6 @@ public class LoseController : MonoBehaviour
         statsController.ResetTimer();
         statsController.ResetPoints();
         LoseScreen.SetActive(false);
-        //gameScript.RestartGame();
     }
 
     public void ExitButton()
