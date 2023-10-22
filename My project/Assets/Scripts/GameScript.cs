@@ -309,30 +309,38 @@ public class GameScript : MonoBehaviour
     }
     void SandUpdate(Vector2Int c)
     {
-        if (MoveCellBlock(c, new Vector2Int(c.x, c.y + 1)))
+        Vector2Int p;
+
+        if (MoveCellBlock(c, p = new Vector2Int(c.x, c.y + 1)))
         {
             AddBlocksToUpdate(c);
-            Vector2Int p = new Vector2Int(c.x, c.y + 1);
             AddToUpdate(p);
             cellsToCheck.Add(p);
         }
-        else if (IsFreeSpaceIn(new Vector2Int(c.x - 1, c.y + 1)))
+        else
         {
-            Vector2Int p = new Vector2Int(c.x - 1, c.y + 1);
-            AddToUpdate(p);
-            MoveCellBlock(c, p);
-            cellsToCheck.Add(p);
-            AddBlocksToUpdateRight(c);
-        }
-        else if (IsFreeSpaceIn(new Vector2Int(c.x + 1, c.y + 1)))
-        {
-            Vector2Int p = new Vector2Int(c.x + 1, c.y + 1);
-            AddToUpdate(p);
-            MoveCellBlock(c, p);
-            cellsToCheck.Add(p);
-            AddBlocksToUpdateLeft(c);
+            p = new Vector2Int(c.x - 1, c.y + 1);
+            if (IsFreeSpaceIn(p))
+            {
+                AddToUpdate(p);
+                MoveCellBlock(c, p);
+                cellsToCheck.Add(p);
+                AddBlocksToUpdateRight(c);
+            }
+            else
+            {
+                p = new Vector2Int(c.x + 1, c.y + 1);
+                if (IsFreeSpaceIn(p))
+                {
+                    AddToUpdate(p);
+                    MoveCellBlock(c, p);
+                    cellsToCheck.Add(p);
+                    AddBlocksToUpdateLeft(c);
+                }
+            }
         }
     }
+
     void UpdateCells()
     {
         List<Vector2Int> cellsToUpdate = this.cellsToUpdate;
