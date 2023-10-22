@@ -34,20 +34,14 @@ public class MenuController : MonoBehaviour
         audioMixer.GetFloat("FX_Volume", out valueOfFX);
         audioMixer.GetFloat("Music_Volume", out valueOfMusic);
 
-        Debug.Log("kurwa");
-        Debug.Log(valueOfFX);
-        Debug.Log(valueOfMusic);
         if (Mathf.Approximately(valueOfFX, -80.0f))
         {
             FXToogle.isOn = false;
-
         }
         if (Mathf.Approximately(valueOfMusic, -80.0f))
         {
             MusicToogle.isOn = false;
-
         }
-
     }
 
 
