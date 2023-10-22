@@ -342,15 +342,9 @@ public class GameScript : MonoBehaviour
             CellScript cell = cells[c.y, c.x];
             if (c.y + 1 >= gridHeight)
                 continue;
-            switch (cell.Type)
+            if (cell.Type >= CellType.SandYellow && cell.Type <= CellType.SandGreen)
             {
-                case CellType.SandYellow:
-                case CellType.SandRed:
-                case CellType.SandBlue:
-                case CellType.SandGreen:
-                    SandUpdate(c);
-
-                    break;
+                SandUpdate(c);
             }
         }
         cellsToUpdate.Clear();
