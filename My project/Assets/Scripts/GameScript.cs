@@ -170,6 +170,10 @@ public class GameScript : MonoBehaviour
             if (p.x - 1 >= 0)
             {
                 CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x - 1, p.y), type);
+                if (p.y - 1 >= 0)
+                    CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x - 1, p.y - 1), type);
+                if (p.y + 1 < gridHeight)
+                    CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x - 1, p.y + 1), type);
             }
             if (p.y - 1 >= 0)
             {
@@ -178,6 +182,10 @@ public class GameScript : MonoBehaviour
             if (p.x + 1 < gridWidth)
             {
                 CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x + 1, p.y), type);
+                if (p.y - 1 >= 0)
+                    CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x + 1, p.y - 1), type);
+                if (p.y + 1 < gridHeight)
+                    CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x + 1, p.y + 1), type);
             }
             if (p.y + 1 < gridHeight)
             {
