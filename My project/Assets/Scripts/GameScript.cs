@@ -11,7 +11,6 @@ public class GameScript : MonoBehaviour
     Block block = null;
     Block block2 = null;
     List<Vector2Int> cellsToUpdate = new List<Vector2Int>();
-    float timer = 0.0f;
     List<Vector2Int> cellsToCheck = new List<Vector2Int>();
     List<Vector2Int> cellsToRemove = new List<Vector2Int>();
     public StatsController statsController;
@@ -130,7 +129,6 @@ public class GameScript : MonoBehaviour
         int n = 32;
         if(cellsToRemove.Count/20>n)
             n= cellsToRemove.Count/20;
-        Debug.Log(n);
         foreach (var cell in cellsToRemove) 
         {
             cells[cell.y, cell.x].DeactivateCell();
