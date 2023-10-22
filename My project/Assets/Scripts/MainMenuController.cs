@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
@@ -10,12 +13,41 @@ public class MenuController : MonoBehaviour
     public GameObject MainMenu;
     public GameObject PlayScreen;
     public GameObject SettingsScreen;
+
+    [Header("Audio")]
     AudioSource audioSource;
     public AudioClip StartGameAudio, ButtonAudio;
+
+    [Header("Ustawienia")]
+    public AudioMixer audioMixer;
+    public Toggle FXToogle, MusicToogle;
+    public Image FXImage, MusicImage;
+    public Sprite OnImage, OffImage;
+
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+
+        float valueOfFX;
+        float valueOfMusic;
+        audioMixer.GetFloat("FX_Volume", out valueOfFX);
+        audioMixer.GetFloat("Music_Volume", out valueOfMusic);
+
+        Debug.Log("kurwa");
+        Debug.Log(valueOfFX);
+        Debug.Log(valueOfMusic);
+        if (Mathf.Approximately(valueOfFX, -80.0f))
+        {
+            FXToogle.isOn = false;
+
+        }
+        if (Mathf.Approximately(valueOfMusic, -80.0f))
+        {
+            MusicToogle.isOn = false;
+
+        }
+
     }
 
 
@@ -68,4 +100,34 @@ public class MenuController : MonoBehaviour
         audioSource.Play();
         Application.Quit();
     }
+
+    public void MuteMusic()
+    {
+        if (MusicToogle.isOn)
+        {
+            MusicImage.sprite = OnImage;
+            audioMixer.SetFloat("Music_Volume", 0);
+        }
+
+        else
+        { 
+            MusicImage.sprite = OffImage;
+            audioMixer.SetFloat("Music_Volume",-80f);
+        }
+    }
+    public void MuteFX()
+    {
+        if (FXToogle.isOn)
+        {
+            FXImage.sprite = OnImage;
+            audioMixer.SetFloat("FX_Volume", 0);
+        }
+        else
+        {
+            FXImage.sprite = OffImage;
+            audioMixer.SetFloat("FX_Volume", -80f);
+        }
+    }
 }
+
+
