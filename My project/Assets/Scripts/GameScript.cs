@@ -69,14 +69,7 @@ public class GameScript : MonoBehaviour
             return;
         }
 
-        timer += Time.deltaTime;
-        int sandSpeed = 36;
-        if ((int)(timer * sandSpeed) > 0) 
-        {
-            for (int i = 0; i < (int)(timer * sandSpeed); i++)
-                UpdateCells();
-            timer -= ((int)(timer * sandSpeed))/(float) sandSpeed;
-        }
+        UpdateCells();
         if (block == null)
             NewBlock();
         else 
