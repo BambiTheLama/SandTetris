@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class GameScript : MonoBehaviour
 {
@@ -60,7 +58,6 @@ public class GameScript : MonoBehaviour
     {
         if (endGame)
         {
-            //Fix it
             audioSource.clip = loseAudio;
             if(!lostGameMusic)
             {
@@ -153,86 +150,48 @@ public class GameScript : MonoBehaviour
     }
     void SortRemoveList()
     {
-        for(int j=0; j< cellsToRemove.Count; j++)
-            for(int i = 0; i < cellsToRemove.Count-1; i++)
-            {
-                if (cellsToRemove[i].x > cellsToRemove[i + 1].x)
-                {
-                    Vector2Int tmp = cellsToRemove[i];
-                    cellsToRemove[i] = cellsToRemove[i + 1];
-                    cellsToRemove[i+1]= tmp;
-                }
-            }
+            cellsToRemove = cellsToRemove.OrderBy(cell => cell.x).ToList();
     }
     void CheckBlockToRemove()
     {
-        
         Vector2Int first = this.cellsToCheck.First();
         this.cellsToCheck.Remove(first);
+
         if (cells[first.y, first.x].IsEmpty)
         {
             return;
         }
 
         CellType type = cells[first.y, first.x].Type;
-        List<Vector2Int> cellsToRemove = new List<Vector2Int>();
+        List<Vector2Int> cellsToRemove = new List<Vector2Int> { first };
         List<Vector2Int> cellsToCheck = new List<Vector2Int> { first };
         int minX = first.x;
         int maxX = first.x;
-        while(cellsToCheck.Count>0)
+
+        while (cellsToCheck.Count > 0)
         {
-            Vector2Int p=cellsToCheck.First();
-            Vector2Int tmp;
+            Vector2Int p = cellsToCheck.First();
             cellsToCheck.RemoveAt(0);
-            if (p.x - 1 >= 0) 
+
+            if (p.x - 1 >= 0)
             {
-                tmp = new Vector2Int(p.x - 1, p.y);
-                if (CheckBlockTypeIfNotAtList(tmp, type, cellsToRemove)) 
-                {
-                    cellsToRemove.Add(tmp);
-                    cellsToCheck.Add(tmp);
-                    this.cellsToCheck.Remove(tmp);
-                    if (minX > tmp.x) 
-                        minX = tmp.x;
-                }
+                CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x - 1, p.y), type);
             }
             if (p.y - 1 >= 0)
             {
-                tmp = new Vector2Int(p.x, p.y - 1);
-                if (CheckBlockTypeIfNotAtList(tmp, type, cellsToRemove))
-                {
-                    cellsToRemove.Add(tmp);
-                    cellsToCheck.Add(tmp);
-                    this.cellsToCheck.Remove(tmp);
-                }
+                CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x, p.y - 1), type);
             }
             if (p.x + 1 < gridWidth)
             {
-                tmp = new Vector2Int(p.x + 1, p.y);
-                if (CheckBlockTypeIfNotAtList(tmp, type, cellsToRemove))
-                {
-                    cellsToRemove.Add(tmp);
-                    cellsToCheck.Add(tmp);
-                    this.cellsToCheck.Remove(tmp);
-                    if (maxX < tmp.x)
-                        maxX = tmp.x;
-                }
+                CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x + 1, p.y), type);
             }
             if (p.y + 1 < gridHeight)
             {
-                tmp = new Vector2Int(p.x, p.y + 1);
-                if (CheckBlockTypeIfNotAtList(tmp, type, cellsToRemove))
-                {
-                    cellsToRemove.Add(tmp);
-                    cellsToCheck.Add(tmp);
-                    this.cellsToCheck.Remove(tmp);
-                }
+                CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x, p.y + 1), type);
             }
-            
-
         }
 
-        if (minX<=0 && maxX>=gridWidth -1)
+        if (minX <= 0 && maxX >= gridWidth - 1)
         {
             statsController.AddPoints(cellsToRemove.Count);
             audioSource.clip = pointsAudio;
@@ -244,11 +203,25 @@ public class GameScript : MonoBehaviour
                 cells[cell.y, cell.x].SetWhite();
                 cellsToUpdate.Remove(cell);
             }
+
             SortRemoveList();
-
         }
-
     }
+
+    void CheckAndAddBlockType(List<Vector2Int> cellsToRemove, List<Vector2Int> cellsToCheck, ref int minX, ref int maxX, Vector2Int p, Vector2Int tmp, CellType type)
+    {
+        if (CheckBlockTypeIfNotAtList(tmp, type, cellsToRemove))
+        {
+            cellsToRemove.Add(tmp);
+            cellsToCheck.Add(tmp);
+            this.cellsToCheck.Remove(tmp);
+            if (minX > tmp.x)
+                minX = tmp.x;
+            if (maxX < tmp.x)
+                maxX = tmp.x;
+        }
+    }
+
     bool IsFreeSpaceIn(Vector2Int p1)
     {
         if (p1.y < 0 || p1.y >= gridHeight || p1.x < 0 || p1.x >= gridWidth)
