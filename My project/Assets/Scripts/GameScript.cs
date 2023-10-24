@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
+/// <summary>
+/// G³ówny skrypt zarz¹dzaj¹cy gr¹ i plansz¹.
+/// </summary>
 public class GameScript : MonoBehaviour
 {
     private static readonly int gridHeight = 200;
@@ -33,6 +37,10 @@ public class GameScript : MonoBehaviour
         statsController.StartTimer();
 
     }
+
+    /// <summary>
+    /// Tworzy nowy blok do gry.
+    /// </summary>
     void NewBlock()
     {
         int sizeofCellType = sizeof(CellType);
@@ -114,16 +122,33 @@ public class GameScript : MonoBehaviour
                 RemoveCells();
         }
     }
+
+    /// <summary>
+    /// Pobiera typ komórki na danej pozycji.
+    /// </summary>
+    /// <param name="x">Wspó³rzêdna X komórki.</param>
+    /// <param name="y">Wspó³rzêdna Y komórki.</param>
+    /// <returns>Typ komórki na danej pozycji.</returns>
     CellType GetTypeAt(int x, int y)
     {
         return cells[y, x].Type;
     }
 
+    /// <summary>
+    /// Sprawdza, czy komórka o okreœlonym po³o¿eniu i typie nie znajduje siê na liœcie komórek do usuniêcia.
+    /// </summary>
+    /// <param name="p">Po³o¿enie komórki do sprawdzenia.</param>
+    /// <param name="type">Typ komórki do sprawdzenia.</param>
+    /// <param name="toRemove">Lista komórek do usuniêcia.</param>
+    /// <returns>Zwraca true, jeœli komórka nie znajduje siê na liœcie do usuniêcia, w przeciwnym razie false.</returns>
     bool CheckBlockTypeIfNotAtList(Vector2Int p, CellType type, List<Vector2Int> toRemove)
     {
         return !cells[p.y, p.x].IsEmpty && GetTypeAt(p.x, p.y) == type && !toRemove.Contains(p);
     }
 
+    /// <summary>
+    /// Usuwa komórki z planszy z listy komórek do usuniêcia i przygotowuje je do aktualizacji.
+    /// </summary>
     void RemoveCells()
     {
         List<Vector2Int> removeFromList= new();
@@ -143,10 +168,18 @@ public class GameScript : MonoBehaviour
             cellsToRemove.Remove(cell); 
 
     }
+    
+    /// <summary>
+    /// Sortuje listê komórek do usuniêcia na podstawie wspó³rzêdnych x.
+    /// </summary>
     void SortRemoveList()
     {
             cellsToRemove = cellsToRemove.OrderBy(cell => cell.x).ToList();
     }
+
+    /// <summary>
+    /// Sprawdza, które komórki na planszy wymagaj¹ usuniêcia na podstawie punktu kontrolnego i ich s¹siedztwa.
+    /// </summary>
     void CheckBlockToRemove()
     {
         Vector2Int first = this.cellsToCheck.First();
@@ -211,6 +244,15 @@ public class GameScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sprawdza i dodaje komórkê do listy komórek do usuniêcia oraz aktualizacji, jeœli spe³nia okreœlone kryteria.
+    /// </summary>
+    /// <param name="cellsToRemove">Lista komórek do usuniêcia.</param>
+    /// <param name="cellsToCheck">Lista komórek do sprawdzenia.</param>
+    /// <param name="minX">Minimalna wspó³rzêdna x komórek do usuniêcia.</param>
+    /// <param name="maxX">Maksymalna wspó³rzêdna x komórek do usuniêcia.</param>
+    /// <param name="tmp">Po³o¿enie komórki do sprawdzenia.</param>
+    /// <param name="type">Oczekiwany typ komórki.</param>
     void CheckAndAddBlockType(List<Vector2Int> cellsToRemove, List<Vector2Int> cellsToCheck, ref int minX, ref int maxX, Vector2Int tmp, CellType type)
     {
         if (CheckBlockTypeIfNotAtList(tmp, type, cellsToRemove))
@@ -225,12 +267,24 @@ public class GameScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sprawdza, czy dana pozycja jest wolna na planszy.
+    /// </summary>
+    /// <param name="p1">Pozycja do sprawdzenia.</param>
+    /// <returns>Zwraca true, jeœli pozycja jest wolna, w przeciwnym razie false.</returns>
     bool IsFreeSpaceIn(Vector2Int p1)
     {
         if (p1.y < 0 || p1.y >= gridHeight || p1.x < 0 || p1.x >= gridWidth)
             return false;
         return cells[p1.y, p1.x].IsEmpty;
     }
+
+    /// <summary>
+    /// Przenosi komórkê z pozycji aktywnej na pozycjê nieaktywn¹, jeœli jest to mo¿liwe.
+    /// </summary>
+    /// <param name="active">Pozycja aktywnej komórki.</param>
+    /// <param name="nonactive">Pozycja nieaktywnej komórki.</param>
+    /// <returns>Zwraca true, jeœli przeniesienie by³o mo¿liwe, w przeciwnym razie false.</returns>
     bool MoveCellBlock(Vector2Int active, Vector2Int nonactive)
     {
         if (cells[active.y, active.x].IsEmpty)
@@ -242,12 +296,21 @@ public class GameScript : MonoBehaviour
         a.DeactivateCell();
         return true;
     }
-
+    
+    /// <summary>
+    /// Dodaje dan¹ pozycjê do listy komórek do aktualizacji.
+    /// </summary>
+    /// <param name="p">Pozycja komórki do aktualizacji.</param>
     void AddToUpdate(Vector2Int p)
     {
         if (!cellsToUpdate.Contains(p) && !cellsToRemove.Contains(p))
             cellsToUpdate.Add(p);
     }
+
+    /// <summary>
+    /// Dodaje komórki powy¿ej danej pozycji do listy komórek do aktualizacji.
+    /// </summary>
+    /// <param name="pos">Pozycja referencyjna.</param>
     void AddBlocksToUpdate(Vector2Int pos)
     {
         if (pos.y - 1 >= 0 && pos.y - 1 < gridHeight) 
@@ -267,6 +330,11 @@ public class GameScript : MonoBehaviour
 
         }
     }
+
+    /// <summary>
+    /// Dodaje komórki powy¿ej danej pozycji do listy komórek do aktualizacji (wersja uproszczona).
+    /// </summary>
+    /// <param name="pos">Pozycja referencyjna.</param>
     void AddBlocksToUpdateUp(Vector2Int pos)
     {
         if (pos.y - 1 >= 0 && pos.y - 1 < gridHeight)
@@ -278,6 +346,11 @@ public class GameScript : MonoBehaviour
 
         }
     }
+
+    /// <summary>
+    /// Dodaje komórki po lewej stronie danej pozycji do listy komórek do aktualizacji.
+    /// </summary>
+    /// <param name="pos">Pozycja referencyjna.</param>
     void AddBlocksToUpdateLeft(Vector2Int pos)
     {
         if (pos.y - 1 >= 0 && pos.y - 1 < gridHeight)
@@ -293,6 +366,11 @@ public class GameScript : MonoBehaviour
 
         }
     }
+
+    /// <summary>
+    /// Dodaje komórki po prawej stronie danej pozycji do listy komórek do aktualizacji.
+    /// </summary>
+    /// <param name="pos">Pozycja referencyjna.</param>
     void AddBlocksToUpdateRight(Vector2Int pos)
     {
         if (pos.y - 1 >= 0 && pos.y - 1 < gridHeight)
@@ -307,6 +385,11 @@ public class GameScript : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Aktualizuje komórki piasku (funkcja zwi¹zana z mechanik¹ piasku).
+    /// </summary>
+    /// <param name="c">Pozycja komórki piasku do aktualizacji.</param>
     void SandUpdate(Vector2Int c)
     {
         Vector2Int p;
@@ -341,6 +424,9 @@ public class GameScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Aktualizuje stan komórek na planszy, np. spadaj¹cy piasek.
+    /// </summary>
     void UpdateCells()
     {
         List<Vector2Int> cellsToUpdate = this.cellsToUpdate.OrderBy(cell=>cell.y).ToList();
@@ -357,12 +443,21 @@ public class GameScript : MonoBehaviour
         }
         cellsToUpdate.Clear();
     }
+
+    /// <summary>
+    /// Umieszcza aktywowany blok na planszy i przygotowuje do aktualizacji komórek.
+    /// </summary>
     void SpawnBlockAtMap()
     {
         ActivateBlockCells();
         AddCellStoUpdateFromBlock();
         block = null;
     }
+
+    /// <summary>
+    /// Sprawdza kolizje aktywowanego bloku z istniej¹cymi komórkami na planszy.
+    /// </summary>
+    /// <returns>Zwraca true, jeœli wyst¹pi³a kolizja, w przeciwnym razie false.</returns>
     bool CheckCollisionBlock()
     {
 
@@ -384,6 +479,10 @@ public class GameScript : MonoBehaviour
             }
         return false;
     }
+
+    /// <summary>
+    /// Umieszcza blok na planszy, aktywuj¹c komórki w jego obszarze.
+    /// </summary>
     void ActivateBlockCells()
     {
         for (int i = block.Height - 1; i >= 0; i--) 
@@ -397,6 +496,10 @@ public class GameScript : MonoBehaviour
             }
     }
 
+
+    /// <summary>
+    /// Dodaje komórki do aktualizacji na podstawie aktywowanego bloku.
+    /// </summary>
     void AddCellStoUpdateFromBlock()
     {
         for (int i = block.Height - 1; i >= 0; i--)
@@ -411,6 +514,9 @@ public class GameScript : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Deaktywuje komórki bloku na planszy.
+    /// </summary>
     void DeactivateBlockCells()
     {
         for (int i = 0; i < block.Height; i++)
@@ -424,6 +530,9 @@ public class GameScript : MonoBehaviour
             }
     }
 
+    /// <summary>
+    /// Generuje planszê gry w postaci komórek.
+    /// </summary>
     void GenerateGrid()
     {
 
@@ -440,6 +549,10 @@ public class GameScript : MonoBehaviour
         }
 
     }
+
+    /// <summary>
+    /// Ustawia kolor wszystkich komórek na planszy.
+    /// </summary>
     void SetColor()
     {
         for (int y = 0; y < gridHeight; y++)
@@ -453,6 +566,10 @@ public class GameScript : MonoBehaviour
         
     }
 
+
+    /// <summary>
+    /// Rozpoczyna grê od nowa.
+    /// </summary>
     public void RestartGame()
     {
         DestroyBlocksAndCells();
@@ -465,6 +582,10 @@ public class GameScript : MonoBehaviour
         NewBlock();
     }
 
+
+    /// <summary>
+    /// Usuwa bloki i komórki z planszy.
+    /// </summary>
     void DestroyBlocksAndCells()
     {
         for (int y = 0; y < gridHeight; y++)
