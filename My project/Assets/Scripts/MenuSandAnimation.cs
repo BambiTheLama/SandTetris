@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class MenuSandAnimation : MonoBehaviour
 {
-    private static int gridHeight=173, gridWidth=320;
+    private static readonly int gridHeight = 173;
+    private static readonly int gridWidth = 320;
     public CellScript prefab;
-    CellScript[,] grid=new CellScript[gridHeight,gridWidth];
-    float ratio = 0.16f;
-    List<Vector2Int> toUpdate = new List<Vector2Int>();
+    readonly CellScript[,] grid = new CellScript[gridHeight, gridWidth];
+    readonly float ratio = 0.16f;
+    List<Vector2Int> toUpdate = new();
     Color color;
     int nColor;
     float time = 0;
@@ -22,14 +23,14 @@ public class MenuSandAnimation : MonoBehaviour
         time = 1;
         spawnSandTimer = 0;
         color.a = 1;
-        nextColor();
+        NextColor();
         nColor=Random.Range(0,6);
         Time.timeScale = 1;
     }
-    void nextColor()
+    void NextColor()
     {
         nColor++;
-        nColor = nColor % 7;
+        nColor %= 7;
         switch(nColor)
         {
             case 0:
@@ -63,7 +64,7 @@ public class MenuSandAnimation : MonoBehaviour
         if(time <= 0) 
         {
             time = 5;
-            nextColor();
+            NextColor();
         }
     }
 
@@ -125,7 +126,7 @@ public class MenuSandAnimation : MonoBehaviour
         }
 
     }
-    void moveSand(Vector2Int active, Vector2Int nonactive)
+    void MoveSand(Vector2Int active, Vector2Int nonactive)
     {
         CellScript c = grid[active.y, active.x];
         CellScript c2 = grid[nonactive.y, nonactive.x];
@@ -138,26 +139,7 @@ public class MenuSandAnimation : MonoBehaviour
         if (!toUpdate.Contains(p))
             toUpdate.Add(p);
     }
-    void AddBlocksOnTopToUpdate(Vector2Int pos)
-    {
-        if (pos.y - 1 >= 0 && pos.y - 1 < gridHeight && pos.x >= 0 && pos.x < gridHeight)
-        {
-            if (pos.x - 1 >= 0 && !grid[pos.y - 1, pos.x - 1].IsEmpty)
-            {
-                AddToUpdate(new Vector2Int(pos.x - 1, pos.y - 1));
-            }
-            if (pos.x + 1 < gridWidth && !grid[pos.y - 1, pos.x + 1].IsEmpty)
-            {
-                AddToUpdate(new Vector2Int(pos.x + 1, pos.y - 1));
-            }
-            if (!grid[pos.y - 1, pos.x].IsEmpty)
-            {
-                AddToUpdate(new Vector2Int(pos.x, pos.y - 1));
-            }
 
-        }
-
-    }
     void UpdateSand()
     {
         List<Vector2Int> toUpdate = this.toUpdate;
@@ -169,10 +151,9 @@ public class MenuSandAnimation : MonoBehaviour
                 continue;
             if (grid[c.y + 1, c.x].IsEmpty)
             {
-                Vector2Int c2 = new Vector2Int(c.x, c.y + 1);
-                moveSand(c, c2);
+                Vector2Int c2 = new(c.x, c.y + 1);
+                MoveSand(c, c2);
                 AddToUpdate(c2);
-                //AddBlocksOnTopToUpdate(c);
             }
             else if(c.x - 1 >= 0 && c.x + 1 < gridWidth 
                 && grid[c.y + 1, c.x - 1].IsEmpty && grid[c.y + 1, c.x + 1].IsEmpty)
@@ -180,29 +161,26 @@ public class MenuSandAnimation : MonoBehaviour
                 Vector2Int c2;
                 if (Random.Range(0, 2) == 1) 
                 {
-                    c2 = new Vector2Int(c.x - 1, c.y + 1);
+                    c2 = new(c.x - 1, c.y + 1);
                 }
                 else
                 {
-                    c2 = new Vector2Int(c.x + 1, c.y + 1);
+                    c2 = new(c.x + 1, c.y + 1);
                 }
-                moveSand(c, c2);
+                MoveSand(c, c2);
                 AddToUpdate(c2);
-                //AddBlocksOnTopToUpdate(c);
             }
             else if (c.x - 1 >= 0 && grid[c.y + 1, c.x - 1].IsEmpty) 
             {
-                Vector2Int c2 = new Vector2Int(c.x - 1, c.y + 1);
-                moveSand(c, c2);
+                Vector2Int c2 = new(c.x - 1, c.y + 1);
+                MoveSand(c, c2);
                 AddToUpdate(c2);
-                //AddBlocksOnTopToUpdate(c);
             }
             else if (c.x + 1 < gridWidth && grid[c.y + 1, c.x + 1].IsEmpty)
             {
-                Vector2Int c2 = new Vector2Int(c.x + 1, c.y + 1);
-                moveSand(c, c2);
+                Vector2Int c2 = new(c.x + 1, c.y + 1);
+                MoveSand(c, c2);
                 AddToUpdate(c2);
-                //AddBlocksOnTopToUpdate(c);
             }
         }
     }

@@ -2,10 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Typy bloków.
+/// </summary>
 public enum BlockType
 {
     Box, LBlock, JBlock, TBlock, IBlock, SBlock, ZBlock
 }
+
+/// <summary>
+/// Klasa reprezentuj¹ca blok w grze.
+/// </summary>
 public class Block
 {
     public CellType CellType { get; private set; }
@@ -19,6 +26,11 @@ public class Block
     private int[,] blockGrid;
     private Color blockColor;
 
+
+    /// <summary>
+    /// Konstruktor kopiuj¹cy bloku.
+    /// </summary>
+    /// <param name="block">Blok do skopiowania.</param>
     public Block(Block block)
     {
         CellType = block.CellType;
@@ -38,6 +50,12 @@ public class Block
             }
         }
     }
+
+    /// <summary>
+    /// Konstruktor bloku.
+    /// </summary>
+    /// <param name="type">Typ komórki bloku.</param>
+    /// <param name="blockType">Typ bloku.</param>
     public Block(CellType type, BlockType blockType)
     {
         Y = 0;
@@ -177,27 +195,19 @@ public class Block
 
         CellType = type;
         X = 50 - Width / 2;
-        switch (CellType)
+        blockColor = CellType switch
         {
-            case CellType.SandYellow:
-                blockColor = Color.yellow;
-                break;
-            case CellType.SandRed:
-                blockColor = Color.red;
-                break;
-            case CellType.SandBlue:
-                blockColor = Color.blue;
-                break;
-            case CellType.SandGreen:
-                blockColor = Color.green;
-                break;
-            default:
-                blockColor = Color.white;
-                break;
-        }
+            CellType.SandYellow => Color.yellow,
+            CellType.SandRed => Color.red,
+            CellType.SandBlue => Color.blue,
+            CellType.SandGreen => Color.green,
+            _ => Color.white,
+        };
     }
 
-
+    /// <summary>
+    /// Obraca blok o 90 stopni w prawo.
+    /// </summary>
     public void RotateBlock()
     {
         int[,] blockGrid = new int[Width, Height];
@@ -210,14 +220,14 @@ public class Block
         }
 
         this.blockGrid = blockGrid;
-        int t = Height;
-        Height = Width;
-        Width = t;
+        (Width, Height) = (Height, Width);
         if (X + Width >= 100)
             X = 99 - Width;
     }
 
-
+    /// <summary>
+    /// Przesuwa blok w lewo.
+    /// </summary>
     public void MoveLeft()
     {
         if (X > 0)
@@ -228,6 +238,9 @@ public class Block
         }
     }
 
+    /// <summary>
+    /// Przesuwa blok w prawo.
+    /// </summary>
     public void MoveRight()
     {
         if (X + Width < 100)
@@ -238,11 +251,18 @@ public class Block
         }
     }
 
+    /// <summary>
+    /// Rozpoczyna ruch bloku w dó³.
+    /// </summary>
     public void MoveDown()
     {
         speed = 6.9f;
     }
 
+    /// <summary>
+    /// Realizuje ruch bloku w dó³ z uwzglêdnieniem prêdkoœci.
+    /// </summary>
+    /// <param name="deltaTime">Czas od ostatniej aktualizacji.</param>
     public void GoDown(float deltaTime)
     {
         yPos += deltaTime * speed * 21.37f;
@@ -252,6 +272,12 @@ public class Block
         speed = 1;
     }
 
+    /// <summary>
+    /// Sprawdza, czy blok ma komórkê na podanej pozycji.
+    /// </summary>
+    /// <param name="x">Wspó³rzêdna X komórki.</param>
+    /// <param name="y">Wspó³rzêdna Y komórki.</param>
+    /// <returns>Prawda, jeœli blok ma komórkê na danej pozycji, w przeciwnym razie fa³sz.</returns>
     public bool HasBlock(int x, int y)
     {
         if (x < 0 || y < 0)
@@ -260,19 +286,39 @@ public class Block
             return false;
         return blockGrid[y, x] > 0;
     }
+
+
+    /// <summary>
+    /// Zwraca kolor komórki bloku na podanej pozycji.
+    /// </summary>
+    /// <param name="x">Wspó³rzêdna X komórki.</param>
+    /// <param name="y">Wspó³rzêdna Y komórki.</param>
+    /// <returns>Kolor komórki bloku na danej pozycji.</returns>
     public Color GetColor(int x, int y)
     {
         Color color = blockColor;
-        if (blockGrid[y, x] == 0)
-            return new Color(0, 0, 0, 0);
-        else if (blockGrid[y, x] == 1)
-            return color;
-        else if (blockGrid[y, x] == 2)
-            return new Color(color.r * 0.9f, color.g * 0.9f, color.b * 0.9f, 1);
-        else if (blockGrid[y, x] == 3)
-            return new Color(color.r * 0.7f, color.g * 0.7f, color.b * 0.7f, 1);
-        else if (blockGrid[y, x] == 4)
-            return new Color(color.r * 0.5f, color.g * 0.5f, color.b * 0.5f, 1);
-        return new Color(1, 1, 1, 1);
+        float alpha = 1.0f;
+
+        switch (blockGrid[y, x])
+        {
+            case 0:
+                return new Color(0, 0, 0, 0);
+            case 1:
+                break;
+            case 2:
+                alpha = 0.9f;
+                break;
+            case 3:
+                alpha = 0.7f;
+                break;
+            case 4:
+                alpha = 0.5f;
+                break;
+            default:
+                return new Color(1, 1, 1, 1);
+        }
+
+        return new Color(color.r * alpha, color.g * alpha, color.b * alpha, 1);
     }
+
 }

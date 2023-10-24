@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class GameScript : MonoBehaviour
 {
-    private static int gridHeight = 200, gridWidth = 100;
+    private static readonly int gridHeight = 200;
+    private static readonly int gridWidth = 100;
     public CellScript cellScript;
-    float ratio = 0.16f;
-    CellScript[,] cells = new CellScript[gridHeight, gridWidth];
+    readonly float ratio = 0.16f;
+    readonly CellScript[,] cells = new CellScript[gridHeight, gridWidth];
     Block block = null;
     Block block2 = null;
-    List<Vector2Int> cellsToUpdate = new List<Vector2Int>();
-    List<Vector2Int> cellsToCheck = new List<Vector2Int>();
-    List<Vector2Int> cellsToRemove = new List<Vector2Int>();
+    List<Vector2Int> cellsToUpdate = new();
+    readonly List<Vector2Int> cellsToCheck = new();
+    List<Vector2Int> cellsToRemove = new();
     public StatsController statsController;
     public PauseController pauseController;
-    public bool endGame = false;
+    public bool EndGame = false;
     public NextBlockScript nextBlock;
 
     private AudioSource audioSource;
@@ -50,12 +51,12 @@ public class GameScript : MonoBehaviour
         }
         if (nextBlock)
             nextBlock.SetBlockAtGrid(block2);
-        endGame = CheckCollisionBlock();
+        EndGame = CheckCollisionBlock();
     }
 
     void Update()
     {
-        if (endGame)
+        if (EndGame)
         {
             audioSource.clip = loseAudio;
             if(!lostGameMusic)
@@ -118,14 +119,14 @@ public class GameScript : MonoBehaviour
         return cells[y, x].Type;
     }
 
-    bool CheckBlockTypeIfNotAtList(Vector2Int p,CellType type,List<Vector2Int> toRemove)
+    bool CheckBlockTypeIfNotAtList(Vector2Int p, CellType type, List<Vector2Int> toRemove)
     {
         return !cells[p.y, p.x].IsEmpty && GetTypeAt(p.x, p.y) == type && !toRemove.Contains(p);
     }
 
     void RemoveCells()
     {
-        List<Vector2Int> removeFromList= new List<Vector2Int>();
+        List<Vector2Int> removeFromList= new();
         int n = 32;
         if(cellsToRemove.Count/20>n)
             n= cellsToRemove.Count/20;
@@ -157,8 +158,8 @@ public class GameScript : MonoBehaviour
         }
 
         CellType type = cells[first.y, first.x].Type;
-        List<Vector2Int> cellsToRemove = new List<Vector2Int> { first };
-        List<Vector2Int> cellsToCheck = new List<Vector2Int> { first };
+        List<Vector2Int> cellsToRemove = new() { first };
+        List<Vector2Int> cellsToCheck = new() { first };
         int minX = first.x;
         int maxX = first.x;
 
@@ -169,27 +170,27 @@ public class GameScript : MonoBehaviour
 
             if (p.x - 1 >= 0)
             {
-                CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x - 1, p.y), type);
+                CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, new Vector2Int(p.x - 1, p.y), type);
                 if (p.y - 1 >= 0)
-                    CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x - 1, p.y - 1), type);
+                    CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, new Vector2Int(p.x - 1, p.y - 1), type);
                 if (p.y + 1 < gridHeight)
-                    CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x - 1, p.y + 1), type);
+                    CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, new Vector2Int(p.x - 1, p.y + 1), type);
             }
             if (p.y - 1 >= 0)
             {
-                CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x, p.y - 1), type);
+                CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, new Vector2Int(p.x, p.y - 1), type);
             }
             if (p.x + 1 < gridWidth)
             {
-                CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x + 1, p.y), type);
+                CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, new Vector2Int(p.x + 1, p.y), type);
                 if (p.y - 1 >= 0)
-                    CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x + 1, p.y - 1), type);
+                    CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, new Vector2Int(p.x + 1, p.y - 1), type);
                 if (p.y + 1 < gridHeight)
-                    CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x + 1, p.y + 1), type);
+                    CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, new Vector2Int(p.x + 1, p.y + 1), type);
             }
             if (p.y + 1 < gridHeight)
             {
-                CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, p, new Vector2Int(p.x, p.y + 1), type);
+                CheckAndAddBlockType(cellsToRemove, cellsToCheck, ref minX, ref maxX, new Vector2Int(p.x, p.y + 1), type);
             }
         }
 
@@ -210,7 +211,7 @@ public class GameScript : MonoBehaviour
         }
     }
 
-    void CheckAndAddBlockType(List<Vector2Int> cellsToRemove, List<Vector2Int> cellsToCheck, ref int minX, ref int maxX, Vector2Int p, Vector2Int tmp, CellType type)
+    void CheckAndAddBlockType(List<Vector2Int> cellsToRemove, List<Vector2Int> cellsToCheck, ref int minX, ref int maxX, Vector2Int tmp, CellType type)
     {
         if (CheckBlockTypeIfNotAtList(tmp, type, cellsToRemove))
         {
@@ -455,7 +456,7 @@ public class GameScript : MonoBehaviour
     public void RestartGame()
     {
         DestroyBlocksAndCells();
-        endGame = false;
+        EndGame = false;
         statsController.ResetTimer();
         statsController.StartTimer();
 

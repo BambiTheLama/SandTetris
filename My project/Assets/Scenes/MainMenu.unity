@@ -593,7 +593,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: da724a1032590e541becffb02cd969b8, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -861,7 +861,6 @@ MonoBehaviour:
   MusicImage: {fileID: 580693087}
   OnImage: {fileID: 21300000, guid: 2c1b698d5eb30df4d83f8e7cd0f4fde6, type: 3}
   OffImage: {fileID: 21300000, guid: 053fc08cdac2d8446a87726a41dd4426, type: 3}
-  parameterName: 
 --- !u!4 &641879623
 Transform:
   m_ObjectHideFlags: 0
@@ -2875,7 +2874,7 @@ Transform:
   m_GameObject: {fileID: 1617469249}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0043002, y: 0.02, z: 30}
+  m_LocalPosition: {x: -0.0043002, y: 0.02, z: 1}
   m_LocalScale: {x: 2.6289887, y: 2.5997713, z: 1.8642186}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3630,7 +3629,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3664884977827137913, guid: 97a3921d3697b8f408570e6083ba80c3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3664884977827137913, guid: 97a3921d3697b8f408570e6083ba80c3, type: 3}
       propertyPath: m_LocalRotation.w
