@@ -343,7 +343,7 @@ public class GameScript : MonoBehaviour
 
     void UpdateCells()
     {
-        List<Vector2Int> cellsToUpdate = this.cellsToUpdate;
+        List<Vector2Int> cellsToUpdate = this.cellsToUpdate.OrderBy(cell=>cell.y).ToList();
         this.cellsToUpdate = new List<Vector2Int>();
         foreach (var c in cellsToUpdate)
         {
