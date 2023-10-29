@@ -20,6 +20,7 @@ public class GameScript : MonoBehaviour
     List<Vector2Int> cellsToRemove = new();
     public StatsController statsController;
     public PauseController pauseController;
+    public AudioSource MainTheme;
     public bool EndGame = false;
     public NextBlockScript nextBlock;
 
@@ -69,6 +70,7 @@ public class GameScript : MonoBehaviour
             audioSource.clip = loseAudio;
             if(!lostGameMusic)
             {
+                MainTheme.Stop();
                 audioSource.Play();
                 lostGameMusic = true;
             }
@@ -574,6 +576,7 @@ public class GameScript : MonoBehaviour
     {
         DestroyBlocksAndCells();
         EndGame = false;
+        MainTheme.Play();
         statsController.ResetTimer();
         statsController.StartTimer();
 

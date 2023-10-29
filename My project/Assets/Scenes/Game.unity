@@ -152,6 +152,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 842995854}
     - target: {fileID: 3914322396682238292, guid: 430b975b98a267f4baa364d15403533c, type: 3}
+      propertyPath: MainTheme
+      value: 
+      objectReference: {fileID: 1371610706}
+    - target: {fileID: 3914322396682238292, guid: 430b975b98a267f4baa364d15403533c, type: 3}
       propertyPath: loseAudio
       value: 
       objectReference: {fileID: 8300000, guid: 813c4246de76ae748a0569f56f60e01f, type: 3}
@@ -1955,7 +1959,7 @@ GameObject:
   - component: {fileID: 1371610707}
   - component: {fileID: 1371610706}
   m_Layer: 0
-  m_Name: AudioTheme
+  m_Name: MainTheme
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

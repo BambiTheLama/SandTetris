@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System;
 
 /// <summary>
 /// Klasa kontroluj¹ca zachowanie po przegranej.
@@ -34,18 +36,62 @@ public class LoseController : MonoBehaviour
     /// </summary>
     public StatsController statsController;
 
+    string saveFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "best_scores.json");
+    private bool hasSavedScore = false; // Flaga oznaczaj¹ca, czy wynik zosta³ ju¿ zapisany.
+
+
     /// <summary>
     /// Metoda Update wywo³ywana raz na klatkê.
     /// Sprawdza, czy gra siê zakoñczy³a i wyœwietla ekran przegranej ze statystykami.
     /// </summary>
     private void Update()
     {
-        if (gameScript.EndGame)
+        if (gameScript.EndGame && !hasSavedScore)
         {
             LoseScreen.SetActive(true);
             timerText.text = "Czas gry: " + statsController.timerText.text;
             pointsText.text = "Wynik: " + statsController.pointsText.text;
+
+            // Odczytaj najlepsze wyniki z pliku (jeœli istniej¹).
+            BestScores bestScores = LoadBestScores();
+
+
+            // Dodaj nowy wynik do listy najlepszych wyników.
+            bestScores.scores.Add(new ScoreData(statsController.pointsText.text, statsController.timerText.text, "Sand"));
+
+            // Sortuj wyniki od najlepszego do najgorszego.
+            bestScores.scores.Sort((x, y) => y.Score.CompareTo(x.Score));
+
+            // Ogranicz listê do np. 10 najlepszych wyników (lub dowolnej liczby).
+            if (bestScores.scores.Count > 10)
+            {
+                bestScores.scores.RemoveRange(10, bestScores.scores.Count - 10);
+            }
+
+            // Zapisz zaktualizowane wyniki do pliku.
+            SaveBestScores(bestScores);
+
+            hasSavedScore= true;
         }
+    }
+
+    // Odczyt najlepszych wyników z pliku (lub utworzenie nowego obiektu, jeœli plik nie istnieje).
+    private BestScores LoadBestScores()
+    {
+        BestScores bestScores = new BestScores();
+        if (File.Exists(saveFilePath))
+        {
+            string json = File.ReadAllText(saveFilePath);
+            bestScores = JsonUtility.FromJson<BestScores>(json);
+        }
+        return bestScores;
+    }
+
+    // Zapis najlepszych wyników do pliku.
+    private void SaveBestScores(BestScores bestScores)
+    {
+        string json = JsonUtility.ToJson(bestScores);
+        File.WriteAllText(saveFilePath, json);
     }
 
     /// <summary>
@@ -67,4 +113,53 @@ public class LoseController : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+
+
+    
+}
+
+// Klasa przechowuj¹ca dane o wynikach.
+[System.Serializable]
+public class ScoreData
+{
+    public string Points;
+    public string Time;
+    public string Mode;
+    public float Score;
+
+
+    public ScoreData(string points, string time, string mode)
+    {
+        Points = points;
+        Time = time;
+        Mode = mode;
+        Score = CalculateScore(points, time);
+    }
+
+    private float CalculateScore(string points, string time)
+    {
+        float scoreValue = float.Parse(points);
+        string timeString = time;
+        int seconds = 0;
+
+        if (timeString.Contains(":"))
+        {
+            string[] timeParts = timeString.Split(':');
+            if (timeParts.Length == 2)
+            {
+                int minutes = int.Parse(timeParts[0]);
+                seconds = int.Parse(timeParts[1]);
+                seconds += minutes * 60;
+            }
+        }
+
+        return seconds > 0 ? scoreValue / seconds : 0f;
+    }
+}
+
+// Klasa przechowuj¹ca listê najlepszych wyników.
+[System.Serializable]
+public class BestScores
+{
+    public List<ScoreData> scores = new List<ScoreData>();
 }

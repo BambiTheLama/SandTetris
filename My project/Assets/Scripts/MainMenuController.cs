@@ -15,6 +15,7 @@ public class MenuController : MonoBehaviour
     public GameObject MainMenu; // Ekran g³ównego menu
     public GameObject PlayScreen; // Ekran wyboru trybu gry
     public GameObject SettingsScreen; // Ekran ustawieñ gry
+    public GameObject ScoreboardScreen; // Ekran tabeli wyników
 
     [Header("Audio")]
     AudioSource audioSource; // Komponent audio
@@ -57,6 +58,7 @@ public class MenuController : MonoBehaviour
         audioSource.Play();
         PlayScreen.SetActive(false);
         SettingsScreen.SetActive(false);
+        ScoreboardScreen.SetActive(false);
         MainMenu.SetActive(true);
     }
 
@@ -80,6 +82,17 @@ public class MenuController : MonoBehaviour
         audioSource.Play();
         MainMenu.SetActive(false);
         SettingsScreen.SetActive(true);
+    }
+
+    /// <summary>
+    /// Przejœcie do ekranu wyników.
+    /// </summary>
+    public void GoToScoreboardScreen()
+    {
+        audioSource.clip = ButtonAudio;
+        audioSource.Play();
+        MainMenu.SetActive(false);
+        ScoreboardScreen.SetActive(true);
     }
 
     /// <summary>
