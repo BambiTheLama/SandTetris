@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 686131862}
   - component: {fileID: 686131861}
   m_Layer: 0
-  m_Name: TextMeshPro Text
+  m_Name: AnyKeyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,7 +236,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -200}
-  m_SizeDelta: {x: 1500, y: 357.5}
+  m_SizeDelta: {x: 1500, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &686131861
 MonoBehaviour:
@@ -262,9 +262,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ed57967c52645d390a89dcf8f61ba73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AngleMultiplier: 1
-  SpeedMultiplier: 1
-  CurveScale: 25
 --- !u!114 &686131863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,7 +480,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079c51b74d920f7438d79ca2fa405302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressAnyKeyText: {fileID: 0}
 --- !u!4 &1282318112
 Transform:
   m_ObjectHideFlags: 0
