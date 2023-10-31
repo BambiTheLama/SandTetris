@@ -10,7 +10,8 @@ public enum CellType
     SandYellow,
     SandRed,
     SandBlue,
-    SandGreen
+    SandGreen,
+    size
     // Fire,
     // Wood
 }

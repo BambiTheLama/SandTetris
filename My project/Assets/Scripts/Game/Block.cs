@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public enum BlockType
 {
-    Box, LBlock, JBlock, TBlock, IBlock, SBlock, ZBlock
+    Box, LBlock, JBlock, TBlock, IBlock, SBlock, ZBlock, size
 }
 
 /// <summary>
@@ -74,8 +74,8 @@ public class Block
                 Height = 24;
                 break;
             case BlockType.IBlock:
-                Width = 32;
-                Height = 8;
+                Width = 8;
+                Height = 32;
                 break;
         }
 
@@ -194,7 +194,7 @@ public class Block
         }
 
         CellType = type;
-        X = 50 - Width / 2;
+        X = 40 - Width / 2;
         blockColor = CellType switch
         {
             CellType.SandYellow => Color.yellow,
@@ -222,7 +222,7 @@ public class Block
         this.blockGrid = blockGrid;
         (Width, Height) = (Height, Width);
         if (X + Width >= 80)
-            X = 79 - Width;
+            X = 80 - Width;
     }
 
     /// <summary>
@@ -232,7 +232,7 @@ public class Block
     {
         if (X > 0)
         {
-            X -= 10;
+            X -= 8;
             if (X < 0)
                 X = 0;
         }
@@ -245,7 +245,7 @@ public class Block
     {
         if (X + Width < 80)
         {
-            X += 10;
+            X += 8;
             if (X + Width >= 80)
                 X = 80 - Width;
         }

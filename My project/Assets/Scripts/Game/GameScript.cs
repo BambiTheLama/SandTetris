@@ -37,6 +37,7 @@ public class GameScript : MonoBehaviour
         statsController.ResetTimer();
         statsController.StartTimer();
 
+
     }
 
     /// <summary>
@@ -44,8 +45,8 @@ public class GameScript : MonoBehaviour
     /// </summary>
     void NewBlock()
     {
-        int sizeofCellType = sizeof(CellType);
-        int sizeofBlockType = sizeof(BlockType);
+        int sizeofCellType = (int)CellType.size;
+        int sizeofBlockType = (int)BlockType.size;
         if (block2 == null) 
         {
             block = new Block((CellType)Random.Range(0, sizeofCellType), (BlockType)Random.Range(0, sizeofBlockType));
