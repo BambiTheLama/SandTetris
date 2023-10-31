@@ -8,8 +8,8 @@ using UnityEngine;
 /// </summary>
 public class GameScript : MonoBehaviour
 {
-    private static readonly int gridHeight = 200;
-    private static readonly int gridWidth = 100;
+    private static readonly int gridHeight = 160;
+    private static readonly int gridWidth = 80;
     public CellScript cellScript;
     readonly float ratio = 0.16f;
     readonly CellScript[,] cells = new CellScript[gridHeight, gridWidth];
@@ -100,7 +100,7 @@ public class GameScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D) && !pauseController.paused)
             {
                 block.MoveRight();
-                if(block.X + block.Width < 100){ 
+                if(block.X + block.Width < 80){ 
                     audioSource.clip = moveAudio;
                     audioSource.Play();
                 }
@@ -465,7 +465,7 @@ public class GameScript : MonoBehaviour
 
         int x = block.X;
         int y = block.Y;
-        if (y+block.Height >=200)
+        if (y+block.Height >=160)
         {
             return true;
         }

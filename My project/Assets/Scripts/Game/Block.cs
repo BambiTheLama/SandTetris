@@ -62,20 +62,20 @@ public class Block
         switch (blockType)
         {
             case BlockType.Box:
-                Width = 20;
-                Height = 20;
+                Width = 16;
+                Height = 16;
                 break;
             case BlockType.JBlock:
             case BlockType.LBlock:
             case BlockType.TBlock:
             case BlockType.SBlock:
             case BlockType.ZBlock:
-                Width = 20;
-                Height = 30;
+                Width = 16;
+                Height = 24;
                 break;
             case BlockType.IBlock:
-                Width = 40;
-                Height = 10;
+                Width = 32;
+                Height = 8;
                 break;
         }
 
@@ -221,8 +221,8 @@ public class Block
 
         this.blockGrid = blockGrid;
         (Width, Height) = (Height, Width);
-        if (X + Width >= 100)
-            X = 99 - Width;
+        if (X + Width >= 80)
+            X = 79 - Width;
     }
 
     /// <summary>
@@ -243,11 +243,11 @@ public class Block
     /// </summary>
     public void MoveRight()
     {
-        if (X + Width < 100)
+        if (X + Width < 80)
         {
             X += 10;
-            if (X + Width >= 100)
-                X = 100 - Width;
+            if (X + Width >= 80)
+                X = 80 - Width;
         }
     }
 
@@ -267,8 +267,8 @@ public class Block
     {
         yPos += deltaTime * speed * 21.37f;
         Y = (int)yPos;
-        if (Y + Height >= 200)
-            Y = 200 - Height;
+        if (Y + Height >= 160)
+            Y = 160 - Height;
         speed = 1;
     }
 
