@@ -54,11 +54,11 @@ public class NormalTetrisScript : MonoBehaviour
             DeactivateBlockCells();
             if (Input.GetKey(KeyCode.S))
                 block.MoveDown();
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) && canBlockBeRotated())
                 block.RotateBlock();
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.A) && canBlockBeMove(-1))
                 block.MoveLeft();
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.D) && canBlockBeMove(1))
                 block.MoveRight();
             block.GoDown(Time.deltaTime);
             if (CheckCollisionBlock())
@@ -95,6 +95,34 @@ public class NormalTetrisScript : MonoBehaviour
         }
     }
 
+    bool canBlockBeMove(int n)
+    {
+        int x = block.X+n;
+        int y = block.Y;
+        if (x < 0 || x + block.Width > gridWidth)
+            return false;
+        if (y < 0 || y + block.Height > gridHeight)
+            return false;
+        for (int i = 0; i < block.Width; i++)
+            for (int j = 0; j < block.Height; j++)
+                if (cells[j + y, i + x].Type > 0 && block.HasBlock(i,j))
+                    return false;
+
+        return true;
+    }
+    bool canBlockBeRotated()
+    {
+        TetrisBlock b = new TetrisBlock(block);
+        b.RotateBlock();
+        int x = b.X;
+        int y = b.Y;
+        for (int i = 0; i < b.Width; i++)
+            for (int j = 0; j < b.Height; j++)
+                if (cells[j + y, i + x].Type > 0 && b.HasBlock(i, j))
+                    return false;
+
+        return true;
+    }
     void removeLine(int line)
     {
         for (int i = 0; i < gridWidth; i++)
