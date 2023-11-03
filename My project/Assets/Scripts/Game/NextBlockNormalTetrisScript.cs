@@ -4,23 +4,20 @@ using UnityEngine;
 
 public class NextBlockNormalTetrisScript : MonoBehaviour
 {
-    // Start is called before the first frame update
     private static readonly int gridHeight = 4;
     private static readonly int gridWidth = 2;
     public CellNormalTetrisScript cellScript;
     readonly float ratio = 0.64f;
     readonly CellNormalTetrisScript[,] cells = new CellNormalTetrisScript[gridHeight, gridWidth];
+    
     void Start()
     {
         GenerateGrid();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// Czyœci kolory wszystkich komórek w siatce.
+    /// </summary>
     void ClearColor()
     {
         for (int y = 0; y < gridHeight; y++)
@@ -33,6 +30,10 @@ public class NextBlockNormalTetrisScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Ustawia blok na siatce komórek.
+    /// </summary>
+    /// <param name="block">Blok do wyœwietlenia na siatce.</param>
     public void SetBlockAtGrid(TetrisBlock block)
     {
         ClearColor();
@@ -48,6 +49,9 @@ public class NextBlockNormalTetrisScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Generuje siatkê komórek na podstawie ustawieñ pocz¹tkowych.
+    /// </summary>
     void GenerateGrid()
     {
 

@@ -21,6 +21,13 @@ public enum CellType
 /// </summary>
 public class CellScript : MonoBehaviour
 {
+    private SpriteRenderer _sprite;
+
+    /// <summary>
+    /// Kolor komórki.
+    /// </summary>
+    public Color Color;
+
     /// <summary>
     /// Flaga informuj¹ca, czy komórka jest pusta.
     /// </summary>
@@ -30,13 +37,6 @@ public class CellScript : MonoBehaviour
     /// Typ komórki.
     /// </summary>
     public CellType Type { get; private set; }
-
-    /// <summary>
-    /// Kolor komórki.
-    /// </summary>
-    public Color Color;
-
-    private SpriteRenderer _sprite;
 
     /// <summary>
     /// Inicjalizacja komórki.

@@ -13,6 +13,11 @@ public class TetrisBlock
     private float yPos = 0;
     private float speed = 1.0f;
     private int[,] blockGrid;
+
+    /// <summary>
+    /// Konstruktor kopiuj¹cy bloku.
+    /// </summary>
+    /// <param name="block">Blok do skopiowania.</param>
     public TetrisBlock(TetrisBlock block)
     {
         Type = block.Type;
@@ -32,6 +37,11 @@ public class TetrisBlock
         }
     }
 
+    /// <summary>
+    /// Konstruktor bloku.
+    /// </summary>
+    /// <param name="type">Typ komórki bloku.</param>
+    /// <param name="blockType">Typ bloku.</param>
     public TetrisBlock(int type, BlockType blockType)
     {
         Y = 0;
@@ -163,6 +173,10 @@ public class TetrisBlock
 
         X = (10 - Width) / 2;
     }
+
+    /// <summary>
+    /// Obraca blok o 90 stopni w prawo.
+    /// </summary>
     public void RotateBlock()
     {
         int[,] blockGrid = new int[Width, Height];

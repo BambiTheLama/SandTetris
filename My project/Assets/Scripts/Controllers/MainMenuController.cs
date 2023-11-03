@@ -102,7 +102,7 @@ public class MenuController : MonoBehaviour
     {
         audioSource.clip = StartGameAudio;
         audioSource.Play();
-        StartCoroutine(LoadGameSceneAfterSound());
+        StartCoroutine(LoadGameSceneAfterSound("SandModeGame"));
     }
 
     /// <summary>
@@ -112,16 +112,16 @@ public class MenuController : MonoBehaviour
     {
         audioSource.clip = StartGameAudio;
         audioSource.Play();
-        StartCoroutine(LoadGameSceneAfterSound());
+        StartCoroutine(LoadGameSceneAfterSound("ClassicModeGame"));
     }
 
     /// <summary>
     /// Asynchroniczne ³adowanie sceny gry po zakoñczeniu dŸwiêku rozpoczêcia gry.
     /// </summary>
-    private IEnumerator LoadGameSceneAfterSound()
+    private IEnumerator LoadGameSceneAfterSound(string SceneName)
     {
         yield return new WaitForSeconds(StartGameAudio.length);
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(SceneName);
     }
 
     /// <summary>

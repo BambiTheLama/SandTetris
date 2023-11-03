@@ -20,14 +20,16 @@ public class NormalTetrisScript : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip moveAudio, loseAudio, pointsAudio;
     bool lostGameMusic = false;
-    List<int> checkLines = new List<int>();
-    // Start is called before the first frame update
+    readonly List<int> checkLines = new();
     void Start()
     {
-        GenerateGrid();
+        audioSource = GetComponent<AudioSource>();
+        Time.timeScale = 1;
+        GenerateGrid(); 
+        statsController.ResetTimer();
+        statsController.StartTimer();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (EndGame)
@@ -54,12 +56,23 @@ public class NormalTetrisScript : MonoBehaviour
             DeactivateBlockCells();
             if (Input.GetKey(KeyCode.S))
                 block.MoveDown();
-            if (Input.GetKeyDown(KeyCode.W) && canBlockBeRotated())
+            if (Input.GetKeyDown(KeyCode.W) && CanBlockBeRotated())
                 block.RotateBlock();
-            if (Input.GetKeyDown(KeyCode.A) && canBlockBeMove(-1))
+            if (Input.GetKeyDown(KeyCode.A) && !pauseController.paused && CanBlockBeMove(-1))
+            {
                 block.MoveLeft();
-            if (Input.GetKeyDown(KeyCode.D) && canBlockBeMove(1))
+                audioSource.clip = moveAudio;
+                audioSource.Play();
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.D) && !pauseController.paused && CanBlockBeMove(1))
+            {
                 block.MoveRight();
+                audioSource.clip = moveAudio;
+                audioSource.Play();
+            }
+
             block.GoDown(Time.deltaTime);
             if (CheckCollisionBlock())
             {
@@ -84,18 +97,25 @@ public class NormalTetrisScript : MonoBehaviour
                         }
                     if(allFull)
                     {
-                        removeLine(line);
+                        RemoveLine(line);
+                        statsController.AddPoints(1000);
+                        audioSource.clip = pointsAudio;
+                        audioSource.Play();
                     }
 
                 }
                 checkLines.Clear();
+
 
             }
             ActivateBlockCells();
         }
     }
 
-    bool canBlockBeMove(int n)
+    /// <summary>
+    /// Sprawdza czy blok mo¿e zostaæ poruszony na boki bezkolizyjnie.
+    /// </summary>
+    bool CanBlockBeMove(int n)
     {
         int x = block.X+n;
         int y = block.Y;
@@ -110,9 +130,13 @@ public class NormalTetrisScript : MonoBehaviour
 
         return true;
     }
-    bool canBlockBeRotated()
+
+    /// <summary>
+    /// Sprawdza czy blok mo¿e zostaæ obrócony bezkolizyjnie.
+    /// </summary>
+    bool CanBlockBeRotated()
     {
-        TetrisBlock b = new TetrisBlock(block);
+        TetrisBlock b = new(block);
         b.RotateBlock();
         int x = b.X;
         int y = b.Y;
@@ -123,7 +147,12 @@ public class NormalTetrisScript : MonoBehaviour
 
         return true;
     }
-    void removeLine(int line)
+
+    /// <summary>
+    /// Usuwa dan¹ liniê
+    /// </summary>
+    /// <param name="line">Numer linii</param>
+    void RemoveLine(int line)
     {
         for (int i = 0; i < gridWidth; i++)
             cells[line, i].DeactivateCell();
@@ -154,6 +183,10 @@ public class NormalTetrisScript : MonoBehaviour
                 cells[y, x].DeactivateCell();
             }
     }
+
+    /// <summary>
+    /// Umieszcza blok na planszy, aktywuj¹c komórki w jego obszarze.
+    /// </summary>
     void ActivateBlockCells()
     {
         for (int i = block.Height - 1; i >= 0; i--)
@@ -167,6 +200,9 @@ public class NormalTetrisScript : MonoBehaviour
             }
     }
 
+    /// <summary>
+    /// Tworzy nowy blok do gry.
+    /// </summary>
     void NewBlock()
     {
         int sizeofCellType = 5;
@@ -213,6 +249,10 @@ public class NormalTetrisScript : MonoBehaviour
             }
         return false;
     }
+
+    /// <summary>
+    /// Generuje planszê gry w postaci komórek.
+    /// </summary>
     void GenerateGrid()
     {
 
@@ -228,5 +268,19 @@ public class NormalTetrisScript : MonoBehaviour
             }
         }
 
+    }
+
+    /// <summary>
+    /// Rozpoczyna grê od nowa.
+    /// </summary>
+    public void RestartGame()
+    {
+        EndGame = false;
+        MainTheme.Play();
+        statsController.ResetTimer();
+        statsController.StartTimer();
+
+        GenerateGrid();
+        NewBlock();
     }
 }

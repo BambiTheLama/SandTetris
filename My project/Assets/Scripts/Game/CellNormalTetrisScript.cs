@@ -7,23 +7,32 @@ using UnityEngine;
 public class CellNormalTetrisScript : MonoBehaviour
 {
     private SpriteRenderer _sprite;
+
+    /// <summary>
+    /// Kolor bloku.
+    /// </summary>
     public Color Color;
+
+    /// <summary>
+    /// Flaga informuj¹ca, czy komórka jest pusta.
+    /// </summary>
     public bool IsEmpty { get; private set; } = true;
+    
+    /// <summary>
+    /// Typ komórki.
+    /// </summary>
     public int Type { get; private set; }
-    // Start is called before the first frame update
+    
+    /// <summary>
+    /// Inicjalizacja komórki.
+    /// </summary>
     void Start()
     {
         _sprite = GetComponent<SpriteRenderer>();
         Color = new Color(0.1f, 0.1f, 0.1f, 1f);
         _sprite.color = Color;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
     /// <summary>
     /// Deaktywuj komórkê i ustaw jej kolor na ciemny.
     /// </summary>
@@ -46,26 +55,25 @@ public class CellNormalTetrisScript : MonoBehaviour
         IsEmpty = true;
         if (!_sprite)
             _sprite = GetComponent<SpriteRenderer>();
-        Color = new Color(0.1f, 0.1f, 0.1f, 1f);
-        //Color = new Color(0f, 0f, 0f, 0f); // Ustaw przezroczysty kolor
+        Color = new Color(0f, 0f, 0f, 0f); // Ustaw przezroczysty kolor
         _sprite.color = Color;
     }
     /// <summary>
     /// Ustaw wartoœci komórki na podstawie podanego typu i koloru.
     /// </summary>
     /// <param name="cellType">Typ bloku</param>
-    public void SetCellValue(int type)
+    public void SetCellValue(int cellType)
     {
         if (!IsEmpty)
             return;
-        if(type==0)
+        if(cellType == 0)
         {
             DeactivateCell();
             return;
         }
         
-        Type = type;
-        switch(type)
+        Type = cellType;
+        switch(cellType)
         {
             case 1:
                 Color = new Color(1, 0, 0,1);

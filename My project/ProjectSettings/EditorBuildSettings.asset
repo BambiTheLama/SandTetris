@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: fe49462990e4a1349bc8466a18075a66
   - enabled: 1
-    path: Assets/Scenes/Game.unity
+    path: Assets/Scenes/SandModeGame.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/ClassicModeGame.unity
+    guid: a6320f1e1147dc245a43986e240d3634
   m_configObjects: {}
