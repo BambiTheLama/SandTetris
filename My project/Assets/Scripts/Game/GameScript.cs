@@ -45,7 +45,7 @@ public class GameScript : MonoBehaviour
     /// </summary>
     void NewBlock()
     {
-        int sizeofCellType = (int)CellType.size;
+        int sizeofCellType = 4;
         int sizeofBlockType = (int)BlockType.size;
         if (block2 == null) 
         {
@@ -439,10 +439,9 @@ public class GameScript : MonoBehaviour
             CellScript cell = cells[c.y, c.x];
             if (c.y + 1 >= gridHeight)
                 continue;
-            if (cell.Type >= CellType.SandYellow && cell.Type <= CellType.SandGreen)
-            {
-                SandUpdate(c);
-            }
+
+            SandUpdate(c);
+
         }
         cellsToUpdate.Clear();
     }
@@ -466,7 +465,7 @@ public class GameScript : MonoBehaviour
 
         int x = block.X;
         int y = block.Y;
-        if (y+block.Height >=160)
+        if (y+block.Height >=gridHeight)
         {
             return true;
         }

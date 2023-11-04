@@ -182,15 +182,49 @@ public class Block
 
 
         }
-        for (int i = 0; i < Width; i++)
+        if ((int)type < 4)
         {
-            for (int j = 0; j < Height; j++)
+            for (int i = 0; i < Width; i++)
             {
-                if (blockGrid[j, i] == 1)
+                for (int j = 0; j < Height; j++)
                 {
-                    blockGrid[j, i] = Random.Range(1, 4);
+                    if (blockGrid[j, i] == 1)
+                    {
+                        blockGrid[j, i] = Random.Range(1, 4);
+                    }
                 }
             }
+        }
+        else if (type == CellType.Fire)
+        {
+            for (int i = 0; i < Width; i++)
+            {
+                for (int j = 0; j < Height; j++)
+                {
+                    if (blockGrid[j, i] == 1)
+                    {
+                        blockGrid[j, i] = Random.Range(1, 2);
+                    }
+                }
+            }
+        }
+        else if (type == CellType.Wood)
+        {
+            for (int i = 0; i < Width; i++)
+            {
+                for (int j = 0; j < Height; j++)
+                {
+                    if (blockGrid[j, i] == 1)
+                    {
+                        if (i % 8 < 2 || i % 8 > 5) 
+                            blockGrid[j, i] =  2;
+                    }
+                }
+            }
+        }
+        else if (type == CellType.Water) 
+        {
+
         }
 
         CellType = type;
@@ -201,6 +235,9 @@ public class Block
             CellType.SandRed => Color.red,
             CellType.SandBlue => Color.blue,
             CellType.SandGreen => Color.green,
+            CellType.Fire => Color.red,
+            CellType.Wood => new Color(0.25f,0.0f,0.0f),
+            CellType.Water => Color.blue,
             _ => Color.white,
         };
     }

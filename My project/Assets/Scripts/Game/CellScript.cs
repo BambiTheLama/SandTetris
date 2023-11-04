@@ -7,13 +7,14 @@ using UnityEngine;
 /// </summary>
 public enum CellType
 {
-    SandYellow,
+
     SandRed,
     SandBlue,
     SandGreen,
-    size
-    // Fire,
-    // Wood
+    SandYellow,
+    Fire,
+    Wood,
+    Water,
 }
 
 /// <summary>
