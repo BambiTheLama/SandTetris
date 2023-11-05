@@ -614,7 +614,7 @@ public class ElementalsTetrisScript : MonoBehaviour
         statsController.ResetTimer();
         statsController.StartTimer();
 
-        GenerateGrid();
+        SetColor();
         NewBlock();
     }
 }

@@ -567,13 +567,13 @@ public class GameScript : MonoBehaviour
     /// </summary>
     public void RestartGame()
     {
-        DestroyBlocksAndCells();
+        //DestroyBlocksAndCells();
         EndGame = false;
         MainTheme.Play();
         statsController.ResetTimer();
         statsController.StartTimer();
 
-        GenerateGrid();
+        //GenerateGrid();
         SetColor();
         NewBlock();
     }
