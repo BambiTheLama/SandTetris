@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ElementalsTetrisScript : MonoBehaviour
@@ -185,7 +186,7 @@ public class ElementalsTetrisScript : MonoBehaviour
         foreach (var c in cellsToUpdate)
         {
             CellScript cell = cells[c.y, c.x];
-            if (c.y + 1 >= gridHeight)
+            if (c.y + 1 >= gridHeight || c.y < 0 || c.x < 0 || c.x >= gridWidth) 
                 continue;
             if(cell.IsEmpty) 
                 continue;
@@ -252,7 +253,33 @@ public class ElementalsTetrisScript : MonoBehaviour
     }
     void WoodUpdate(Vector2Int c)
     {
-
+        if (c.y + 1 >= gridHeight)
+            return;
+        if (cells[c.y + 1, c.x].IsEmpty || cells[c.y + 1, c.x].Type == CellType.SandYellow)
+        {
+            CellScript c1 = cells[c.y, c.x];
+            CellScript c2 = cells[c.y + 1, c.x];
+            c2.DeactivateCell();
+            c2.SetCellValue(c1.Type, c1.Color, c1.timer);
+            c1.DeactivateCell();
+            AddToUpdate(new Vector2Int(c.x, c.y + 1));
+        }
+        else if(cells[c.y + 1, c.x].Type != CellType.Wood)
+        {
+            CellScript c1 = cells[c.y, c.x];
+            CellScript c2 = cells[c.y + 1, c.x];
+            CellType type = c1.Type;
+            Color color = c1.Color;
+            int timer = c1.timer;
+            c1.DeactivateCell();
+            c1.SetCellValue(c2.Type, c2.Color, c2.timer);
+            c2.DeactivateCell();
+            c2.SetCellValue(type, color, timer);
+            if (!cells[c.y, c.x].IsEmpty)
+                AddToUpdate(new Vector2Int(c.x, c.y));
+            AddToUpdate(new Vector2Int(c.x, c.y + 1));
+            AddBlocksToUpdate(c);
+        }
     }
     void FirerBlock(Vector2Int p)
     {
@@ -289,16 +316,27 @@ public class ElementalsTetrisScript : MonoBehaviour
         if (c.y+1<gridHeight && MoveCellBlock(c, new Vector2Int(c.x, c.y + 1)))
         {
             AddToUpdate(new Vector2Int(c.x, c.y + 1));
+            AddBlocksToUpdate(c);
         }
         else if (!cells[c.y, c.x].IsEmpty)
         {
             cells[c.y, c.x].updateTimer();
-            AddToUpdate(c);
+            if (cells[c.y, c.x].IsEmpty)
+                AddBlocksToUpdate(c);
+            else
+                AddToUpdate(c);
         }
 
 
 
 
+    }
+    bool DisaperWater(Vector2Int p)
+    {
+        if (cells[p.y, p.x].Type != CellType.Water)
+            return false;
+        cells[p.y, p.x].DeactivateCell();
+        return true;
     }
     /// <summary>
     /// Aktualizuje komórki piasku (funkcja zwi¹zana z mechanik¹ piasku).
@@ -312,6 +350,22 @@ public class ElementalsTetrisScript : MonoBehaviour
             dir = -1;
         else
             dir = 1;
+        if (c.y + 1 < gridHeight)
+        {
+            if (DisaperWater(new Vector2Int(c.x, c.y + 1)))
+            {
+
+            }
+            else if (c.x - dir >= 0 && c.x - dir < gridHeight && DisaperWater(new Vector2Int(c.x - dir, c.y + 1))) 
+            {
+
+            }
+            else if (c.x + dir >= 0 && c.x + dir < gridHeight && DisaperWater(new Vector2Int(c.x + dir, c.y + 1)))
+            {
+
+            }
+        }
+           
         if (MoveCellBlock(c, p = new Vector2Int(c.x, c.y + 1)))
         {
             AddBlocksToUpdate(c);
