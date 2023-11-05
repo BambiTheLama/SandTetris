@@ -3584,7 +3584,8 @@ MonoBehaviour:
   timerText: {fileID: 1409608435}
   pointsText: {fileID: 1436815604}
   LoseScreen: {fileID: 741822506}
-  gameScript: {fileID: 1838120109}
+  sandScript: {fileID: 1838120109}
+  classicScript: {fileID: 0}
   statsController: {fileID: 842995854}
 --- !u!4 &2077781274
 Transform:
