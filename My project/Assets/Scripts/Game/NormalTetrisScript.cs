@@ -269,7 +269,20 @@ public class NormalTetrisScript : MonoBehaviour
         }
 
     }
+    /// <summary>
+    /// Ustawia kolor wszystkich komórek na planszy.
+    /// </summary>
+    void SetColor()
+    {
+        for (int y = 0; y < gridHeight; y++)
+        {
+            for (int x = 0; x < gridWidth; x++)
+            {
+                cells[y, x].DeactivateCell();
+            }
+        }
 
+    }
     /// <summary>
     /// Rozpoczyna grê od nowa.
     /// </summary>
@@ -280,7 +293,7 @@ public class NormalTetrisScript : MonoBehaviour
         statsController.ResetTimer();
         statsController.StartTimer();
 
-        GenerateGrid();
+        SetColor();
         NewBlock();
     }
 }
