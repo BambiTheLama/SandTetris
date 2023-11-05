@@ -23,7 +23,7 @@ public class ElementalsTetrisScript : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip moveAudio, loseAudio, pointsAudio;
     bool lostGameMusic = false;
-
+    float timer = 0.0f;
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -43,7 +43,13 @@ public class ElementalsTetrisScript : MonoBehaviour
         {
             return;
         }
-        UpdateCells();
+        timer += Time.deltaTime;
+        if(timer>=0.03f)
+        {
+            timer-=0.03f;
+            UpdateCells();
+        }
+
         if (block==null)
         {
             NewBlock();
@@ -181,11 +187,118 @@ public class ElementalsTetrisScript : MonoBehaviour
             CellScript cell = cells[c.y, c.x];
             if (c.y + 1 >= gridHeight)
                 continue;
+            if(cell.IsEmpty) 
+                continue;
             if (cell.Type <= CellType.SandYellow)
                 SandUpdate(c);
+            else if (cell.Type == CellType.Fire)
+                FireUpdate(c);
+            else if (cell.Type == CellType.Water)
+                WaterUpdate(c);
+            else if (cell.Type == CellType.Wood)
+                WoodUpdate(c);
+            else if (cell.Type == CellType.Steam)
+                WoodUpdate(c);
 
         }
         cellsToUpdate.Clear();
+    }
+    void ClearFier(Vector2Int p)
+    {
+        if (cells[p.y, p.x].Type != CellType.Fire)
+            return;
+        cells[p.y, p.x].DeactivateCell();
+    }
+    void WaterUpdate(Vector2Int c)
+    {
+        if (c.y + 1 < gridHeight)
+            ClearFier(new Vector2Int(c.x, c.y + 1));
+        if (c.x + 1 < gridWidth)
+            ClearFier(new Vector2Int(c.x + 1, c.y));
+        if (c.x - 1 >= 0)
+            ClearFier(new Vector2Int(c.x - 1, c.y));
+
+        Vector2Int p;
+        AddToUpdate(c);
+        int dir = 0;
+        if (Random.Range(0, 2) == 0) 
+            dir = -1;
+        else
+            dir = 1;
+        if (MoveCellBlock(c, p = new Vector2Int(c.x, c.y + 1)))
+        {
+            AddBlocksToUpdate(c);
+        }
+        else if (IsFreeSpaceIn(p = new Vector2Int(c.x - dir, c.y + 1)) && MoveCellBlock(c, p))
+        {
+            AddBlocksToUpdateLeft(c);
+        }
+        else if (IsFreeSpaceIn(p = new Vector2Int(c.x - dir, c.y)) && MoveCellBlock(c, p))
+        {
+            AddBlocksToUpdateLeft(c);
+        }
+        else if (IsFreeSpaceIn(p = new Vector2Int(c.x + dir, c.y + 1)) && MoveCellBlock(c, p))
+        {
+            AddBlocksToUpdateRight(c);
+        }
+        else if (IsFreeSpaceIn(p = new Vector2Int(c.x + dir, c.y)) && MoveCellBlock(c, p))
+        {
+            AddBlocksToUpdateRight(c);
+        }
+        else
+            return;
+        AddToUpdate(p);
+        cellsToCheck.Add(p);
+    }
+    void WoodUpdate(Vector2Int c)
+    {
+
+    }
+    void FirerBlock(Vector2Int p)
+    {
+        if (cells[p.y, p.x].Type != CellType.Wood)
+            return;
+        cells[p.y, p.x].DeactivateCell();
+        cells[p.y, p.x].SetCellValue(CellType.Fire, Color.red);
+        AddToUpdate(p);
+    }
+    void FireUpdate(Vector2Int c)
+    {
+        Vector2Int p;
+        p = new Vector2Int(c.x, c.y - 1);
+        if (p.y >= 0) 
+        {
+            FirerBlock(p);
+        }
+        p = new Vector2Int(c.x, c.y + 1);
+        if (p.y < gridHeight)
+        {
+            FirerBlock(p);
+        }
+        p = new Vector2Int(c.x - 1, c.y);
+        if (p.x >= 0)
+        {
+            FirerBlock(p);
+        }
+        p = new Vector2Int(c.x + 1, c.y);
+        if (p.x < gridWidth)
+        {
+            FirerBlock(p);
+        }
+
+        if (c.y+1<gridHeight && MoveCellBlock(c, new Vector2Int(c.x, c.y + 1)))
+        {
+            AddToUpdate(new Vector2Int(c.x, c.y + 1));
+        }
+        else if (!cells[c.y, c.x].IsEmpty)
+        {
+            cells[c.y, c.x].updateTimer();
+            AddToUpdate(c);
+        }
+
+
+
+
     }
     /// <summary>
     /// Aktualizuje komórki piasku (funkcja zwi¹zana z mechanik¹ piasku).
@@ -194,35 +307,27 @@ public class ElementalsTetrisScript : MonoBehaviour
     void SandUpdate(Vector2Int c)
     {
         Vector2Int p;
-
+        int dir = 0;
+        if (Random.Range(0, 2) == 0)
+            dir = -1;
+        else
+            dir = 1;
         if (MoveCellBlock(c, p = new Vector2Int(c.x, c.y + 1)))
         {
             AddBlocksToUpdate(c);
-            AddToUpdate(p);
-            cellsToCheck.Add(p);
+        }
+        else if (IsFreeSpaceIn(p = new Vector2Int(c.x - dir, c.y + 1)) && MoveCellBlock(c, p))
+        {
+            AddBlocksToUpdateLeft(c);
+        }
+        else if (IsFreeSpaceIn(p = new Vector2Int(c.x + dir, c.y + 1)) && MoveCellBlock(c, p))
+        {
+            AddBlocksToUpdateRight(c);
         }
         else
-        {
-            p = new Vector2Int(c.x - 1, c.y + 1);
-            if (IsFreeSpaceIn(p))
-            {
-                AddToUpdate(p);
-                MoveCellBlock(c, p);
-                cellsToCheck.Add(p);
-                AddBlocksToUpdateRight(c);
-            }
-            else
-            {
-                p = new Vector2Int(c.x + 1, c.y + 1);
-                if (IsFreeSpaceIn(p))
-                {
-                    AddToUpdate(p);
-                    MoveCellBlock(c, p);
-                    cellsToCheck.Add(p);
-                    AddBlocksToUpdateLeft(c);
-                }
-            }
-        }
+            return;
+        AddToUpdate(p);
+        cellsToCheck.Add(p);
     }
     /// <summary>
     /// Przenosi komórkê z pozycji aktywnej na pozycjê nieaktywn¹, jeœli jest to mo¿liwe.
@@ -237,7 +342,7 @@ public class ElementalsTetrisScript : MonoBehaviour
         if (!cells[nonactive.y, nonactive.x].IsEmpty)
             return false;
         CellScript a = cells[active.y, active.x];
-        cells[nonactive.y, nonactive.x].SetCellValue(a.Type, a.Color);
+        cells[nonactive.y, nonactive.x].SetCellValue(a.Type, a.Color, a.timer);
         a.DeactivateCell();
         return true;
     }
@@ -273,8 +378,12 @@ public class ElementalsTetrisScript : MonoBehaviour
             {
                 AddToUpdate(new Vector2Int(pos.x, pos.y - 1));
             }
-
+            if (pos.x - 1 >= 0 && !cells[pos.y, pos.x - 1].IsEmpty)
+            {
+                AddToUpdate(new Vector2Int(pos.x - 1, pos.y));
+            }
         }
+
     }
 
     /// <summary>
@@ -293,7 +402,12 @@ public class ElementalsTetrisScript : MonoBehaviour
             {
                 AddToUpdate(new Vector2Int(pos.x, pos.y - 1));
             }
+            if (pos.x + 1 < gridWidth && !cells[pos.y, pos.x + 1].IsEmpty)
+            {
+                AddToUpdate(new Vector2Int(pos.x + 1, pos.y));
+            }
         }
+
     }
     /// <summary>
     /// Sprawdza, czy dana pozycja jest wolna na planszy.

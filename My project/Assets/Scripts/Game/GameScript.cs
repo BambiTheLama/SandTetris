@@ -27,7 +27,6 @@ public class GameScript : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip moveAudio, loseAudio, pointsAudio;
     bool lostGameMusic = false;
-
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -81,6 +80,8 @@ public class GameScript : MonoBehaviour
         }
 
         UpdateCells();
+
+
         if (block == null)
             NewBlock();
         else 
@@ -396,35 +397,27 @@ public class GameScript : MonoBehaviour
     void SandUpdate(Vector2Int c)
     {
         Vector2Int p;
-
+        int dir = 0;
+        if (Random.Range(0, 2) == 0)
+            dir = -1;
+        else
+            dir = 1;
         if (MoveCellBlock(c, p = new Vector2Int(c.x, c.y + 1)))
         {
             AddBlocksToUpdate(c);
-            AddToUpdate(p);
-            cellsToCheck.Add(p);
+        }
+        else if (IsFreeSpaceIn(p = new Vector2Int(c.x - dir, c.y + 1)) && MoveCellBlock(c, p))
+        {
+            AddBlocksToUpdateLeft(c);
+        }
+        else if (IsFreeSpaceIn(p = new Vector2Int(c.x + dir, c.y + 1)) && MoveCellBlock(c, p))
+        {
+            AddBlocksToUpdateRight(c);
         }
         else
-        {
-            p = new Vector2Int(c.x - 1, c.y + 1);
-            if (IsFreeSpaceIn(p))
-            {
-                AddToUpdate(p);
-                MoveCellBlock(c, p);
-                cellsToCheck.Add(p);
-                AddBlocksToUpdateRight(c);
-            }
-            else
-            {
-                p = new Vector2Int(c.x + 1, c.y + 1);
-                if (IsFreeSpaceIn(p))
-                {
-                    AddToUpdate(p);
-                    MoveCellBlock(c, p);
-                    cellsToCheck.Add(p);
-                    AddBlocksToUpdateLeft(c);
-                }
-            }
-        }
+            return;
+        AddToUpdate(p);
+        cellsToCheck.Add(p);
     }
 
     /// <summary>

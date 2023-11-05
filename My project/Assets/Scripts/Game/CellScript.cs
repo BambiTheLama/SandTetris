@@ -15,6 +15,8 @@ public enum CellType
     Fire,
     Wood,
     Water,
+    Steam,
+    NON
 }
 
 /// <summary>
@@ -22,6 +24,8 @@ public enum CellType
 /// </summary>
 public class CellScript : MonoBehaviour
 {
+    public int timer { get; private set; } = 0;
+    const int timerMax = 200;
     private SpriteRenderer _sprite;
 
     /// <summary>
@@ -37,7 +41,7 @@ public class CellScript : MonoBehaviour
     /// <summary>
     /// Typ komórki.
     /// </summary>
-    public CellType Type { get; private set; }
+    public CellType Type { get; private set; } = CellType.NON;
 
     /// <summary>
     /// Inicjalizacja komórki.
@@ -58,6 +62,8 @@ public class CellScript : MonoBehaviour
             _sprite = GetComponent<SpriteRenderer>();
         Color = new Color(0.1f, 0.1f, 0.1f, 1f);
         _sprite.color = Color;
+        timer = 0;
+        Type = CellType.NON;
     }
 
     /// <summary>
@@ -70,6 +76,8 @@ public class CellScript : MonoBehaviour
             _sprite = GetComponent<SpriteRenderer>();
         Color = new Color(0f, 0f, 0f, 0f); // Ustaw przezroczysty kolor
         _sprite.color = Color;
+        timer = 0;
+        Type=CellType.NON;
     }
 
     /// <summary>
@@ -77,7 +85,7 @@ public class CellScript : MonoBehaviour
     /// </summary>
     /// <param name="cellType">Typ komórki piasku.</param>
     /// <param name="cellColor">Kolor komórki.</param>
-    public void SetCellValue(CellType cellType, Color cellColor)
+    public void SetCellValue(CellType cellType, Color cellColor,int time=timerMax)
     {
         if (!IsEmpty)
             return;
@@ -86,6 +94,7 @@ public class CellScript : MonoBehaviour
         Type = cellType;
         _sprite.color = cellColor;
         IsEmpty = false;
+        timer = time;
     }
 
     /// <summary>
@@ -94,5 +103,20 @@ public class CellScript : MonoBehaviour
     public void SetWhite()
     {
         _sprite.color = Color.white;
+    }
+
+    public void updateTimer()
+    {
+        if (Type == CellType.Fire) 
+        {
+
+            Color = Color.Lerp(Color.yellow, Color.red, (float)timer / (float)timerMax);
+            _sprite.color = Color;
+            timer--;
+            if (timer<0)
+            {
+                DeactivateCell();
+            }    
+        }
     }
 }
