@@ -116,6 +116,16 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
+    /// Rozpoczêcie trybu gry "Elemental Mode".
+    /// </summary>
+    public void PlayElementalMode()
+    {
+        audioSource.clip = StartGameAudio;
+        audioSource.Play();
+        StartCoroutine(LoadGameSceneAfterSound("ElementalModeGame"));
+    }
+
+    /// <summary>
     /// Asynchroniczne ³adowanie sceny gry po zakoñczeniu dŸwiêku rozpoczêcia gry.
     /// </summary>
     private IEnumerator LoadGameSceneAfterSound(string SceneName)

@@ -31,6 +31,7 @@ public class LoseController : MonoBehaviour
     /// </summary>
     public GameScript sandScript;
     public NormalTetrisScript classicScript;
+    public ElementalsTetrisScript elementalScript;
 
     /// <summary>
     /// Referencja do StatsController do zarz¹dzania statystykami gry.
@@ -107,6 +108,37 @@ public class LoseController : MonoBehaviour
                 hasSavedScore = true;
             }
         }
+
+        if (elementalScript)
+        {
+            if (elementalScript.EndGame && !hasSavedScore)
+            {
+                LoseScreen.SetActive(true);
+                timerText.text = "Czas gry: " + statsController.timerText.text;
+                pointsText.text = "Wynik: " + statsController.pointsText.text;
+
+                // Odczytaj najlepsze wyniki z pliku (jeœli istniej¹).
+                BestScores bestScores = LoadBestScores();
+
+
+                // Dodaj nowy wynik do listy najlepszych wyników.
+                bestScores.scores.Add(new ScoreData(statsController.pointsText.text, statsController.timerText.text, "Elementals"));
+
+                // Sortuj wyniki od najlepszego do najgorszego.
+                bestScores.scores.Sort((x, y) => y.Score.CompareTo(x.Score));
+
+                // Ogranicz listê do np. 10 najlepszych wyników (lub dowolnej liczby).
+                if (bestScores.scores.Count > 10)
+                {
+                    bestScores.scores.RemoveRange(10, bestScores.scores.Count - 10);
+                }
+
+                // Zapisz zaktualizowane wyniki do pliku.
+                SaveBestScores(bestScores);
+
+                hasSavedScore = true;
+            }
+        }
     }
 
     // Odczyt najlepszych wyników z pliku (lub utworzenie nowego obiektu, jeœli plik nie istnieje).
@@ -138,6 +170,8 @@ public class LoseController : MonoBehaviour
             sandScript.RestartGame();
         if(classicScript)
             classicScript.RestartGame();
+        if (elementalScript)
+            elementalScript.RestartGame();
         statsController.ResetTimer();
         statsController.ResetPoints();
         LoseScreen.SetActive(false);
@@ -152,7 +186,9 @@ public class LoseController : MonoBehaviour
     } 
 }
 
-// Klasa przechowuj¹ca dane o wynikach.
+/// <summary>
+/// Klasa przechowuj¹ca dane o wynikach.
+/// </summary>
 [System.Serializable]
 public class ScoreData
 {
@@ -170,25 +206,35 @@ public class ScoreData
         Score = CalculateScore(points, time);
     }
 
+    /// <summary>
+    /// Przelicznik wyników
+    /// </summary>
     private float CalculateScore(string points, string time)
     {
-        float scoreValue = float.Parse(points);
-        string timeString = time;
-        int seconds = 0;
-
-        if (timeString.Contains(":"))
+        if (float.TryParse(points, out float scoreValue))
         {
-            string[] timeParts = timeString.Split(':');
-            if (timeParts.Length == 2)
+            string timeString = time;
+            int seconds = 0;
+
+            if (timeString.Contains(":"))
             {
-                int minutes = int.Parse(timeParts[0]);
-                seconds = int.Parse(timeParts[1]);
-                seconds += minutes * 60;
+                string[] timeParts = timeString.Split(':');
+                if (timeParts.Length == 2)
+                {
+                    int minutes = 0;
+                    if (int.TryParse(timeParts[0], out minutes) && int.TryParse(timeParts[1], out seconds))
+                    {
+                        seconds += minutes * 60;
+                        return seconds > 0 ? scoreValue / seconds : 0f;
+                    }
+                }
             }
         }
 
-        return seconds > 0 ? scoreValue / seconds : 0f;
+        // Obs³uga b³êdnego formatu danych wejœciowych.
+        return 0f;
     }
+
 }
 
 // Klasa przechowuj¹ca listê najlepszych wyników.

@@ -31,9 +31,8 @@ public class ElementalsTetrisScript : MonoBehaviour
         Time.timeScale = 1;
         GenerateGrid();
         SetColor();
-        //statsController.ResetTimer();
-        //statsController.StartTimer();
-
+        statsController.ResetTimer();
+        statsController.StartTimer();
 
     }
 
@@ -42,6 +41,15 @@ public class ElementalsTetrisScript : MonoBehaviour
     {
         if(EndGame)
         {
+            audioSource.clip = loseAudio;
+            if (!lostGameMusic)
+            {
+                MainTheme.Stop();
+                audioSource.Play();
+                lostGameMusic = true;
+            }
+
+            statsController.StopTimer();
             return;
         }
         timer += Time.deltaTime;
@@ -65,8 +73,8 @@ public class ElementalsTetrisScript : MonoBehaviour
                 block.MoveLeft();
                 if (block.X > 0)
                 {
-                    //audioSource.clip = moveAudio;
-                    //audioSource.Play();
+                    audioSource.clip = moveAudio;
+                    audioSource.Play();
                 }
             }
 
@@ -75,8 +83,8 @@ public class ElementalsTetrisScript : MonoBehaviour
                 block.MoveRight();
                 if (block.X + block.Width < 80)
                 {
-                    //audioSource.clip = moveAudio;
-                    //audioSource.Play();
+                    audioSource.clip = moveAudio;
+                    audioSource.Play();
                 }
             }
 
@@ -204,20 +212,30 @@ public class ElementalsTetrisScript : MonoBehaviour
         }
         cellsToUpdate.Clear();
     }
-    void ClearFier(Vector2Int p)
+
+    /// <summary>
+    /// Usuwa komórki ognia.
+    /// </summary>
+    /// <param name="p">Pozycja komórki ognia do usuniêcia.</param>
+    void ClearFire(Vector2Int p)
     {
         if (cells[p.y, p.x].Type != CellType.Fire)
             return;
         cells[p.y, p.x].DeactivateCell();
     }
+
+    /// <summary>
+    /// Aktualizuje komórki wody.
+    /// </summary>
+    /// <param name="c">Pozycja komórki wody do aktualizacji.</param>
     void WaterUpdate(Vector2Int c)
     {
         if (c.y + 1 < gridHeight)
-            ClearFier(new Vector2Int(c.x, c.y + 1));
+            ClearFire(new Vector2Int(c.x, c.y + 1));
         if (c.x + 1 < gridWidth)
-            ClearFier(new Vector2Int(c.x + 1, c.y));
+            ClearFire(new Vector2Int(c.x + 1, c.y));
         if (c.x - 1 >= 0)
-            ClearFier(new Vector2Int(c.x - 1, c.y));
+            ClearFire(new Vector2Int(c.x - 1, c.y));
 
         Vector2Int p;
         AddToUpdate(c);
@@ -251,6 +269,12 @@ public class ElementalsTetrisScript : MonoBehaviour
         AddToUpdate(p);
         cellsToCheck.Add(p);
     }
+
+
+    /// <summary>
+    /// Aktualizuje komórki drewna.
+    /// </summary>
+    /// <param name="c">Pozycja komórki drewna do aktualizacji.</param>
     void WoodUpdate(Vector2Int c)
     {
         if (c.y + 1 >= gridHeight)
@@ -281,7 +305,12 @@ public class ElementalsTetrisScript : MonoBehaviour
             AddBlocksToUpdate(c);
         }
     }
-    void FirerBlock(Vector2Int p)
+
+    /// <summary>
+    /// Aktywuje komórki ognia.
+    /// </summary>
+    /// <param name="p">Pozycja komórki ognia.</param>
+    void FireBlock(Vector2Int p)
     {
         if (cells[p.y, p.x].Type != CellType.Wood)
             return;
@@ -289,28 +318,33 @@ public class ElementalsTetrisScript : MonoBehaviour
         cells[p.y, p.x].SetCellValue(CellType.Fire, Color.red);
         AddToUpdate(p);
     }
+
+    /// <summary>
+    /// Aktualizuje komórki ognia.
+    /// </summary>
+    /// <param name="c">Pozycja komórki ognia do aktualizacji.</param>
     void FireUpdate(Vector2Int c)
     {
         Vector2Int p;
         p = new Vector2Int(c.x, c.y - 1);
         if (p.y >= 0) 
         {
-            FirerBlock(p);
+            FireBlock(p);
         }
         p = new Vector2Int(c.x, c.y + 1);
         if (p.y < gridHeight)
         {
-            FirerBlock(p);
+            FireBlock(p);
         }
         p = new Vector2Int(c.x - 1, c.y);
         if (p.x >= 0)
         {
-            FirerBlock(p);
+            FireBlock(p);
         }
         p = new Vector2Int(c.x + 1, c.y);
         if (p.x < gridWidth)
         {
-            FirerBlock(p);
+            FireBlock(p);
         }
 
         if (c.y+1<gridHeight && MoveCellBlock(c, new Vector2Int(c.x, c.y + 1)))
@@ -331,13 +365,19 @@ public class ElementalsTetrisScript : MonoBehaviour
 
 
     }
-    bool DisaperWater(Vector2Int p)
+
+    /// <summary>
+    /// Usuwa cz¹steczki wody.
+    /// </summary>
+    /// <param name="p">Pozycja komórki wody do usuniêcia.</param>
+    bool DisapearWater(Vector2Int p)
     {
         if (cells[p.y, p.x].Type != CellType.Water)
             return false;
         cells[p.y, p.x].DeactivateCell();
         return true;
     }
+
     /// <summary>
     /// Aktualizuje komórki piasku (funkcja zwi¹zana z mechanik¹ piasku).
     /// </summary>
@@ -352,15 +392,15 @@ public class ElementalsTetrisScript : MonoBehaviour
             dir = 1;
         if (c.y + 1 < gridHeight)
         {
-            if (DisaperWater(new Vector2Int(c.x, c.y + 1)))
+            if (DisapearWater(new Vector2Int(c.x, c.y + 1)))
             {
 
             }
-            else if (c.x - dir >= 0 && c.x - dir < gridHeight && DisaperWater(new Vector2Int(c.x - dir, c.y + 1))) 
+            else if (c.x - dir >= 0 && c.x - dir < gridHeight && DisapearWater(new Vector2Int(c.x - dir, c.y + 1))) 
             {
 
             }
-            else if (c.x + dir >= 0 && c.x + dir < gridHeight && DisaperWater(new Vector2Int(c.x + dir, c.y + 1)))
+            else if (c.x + dir >= 0 && c.x + dir < gridHeight && DisapearWater(new Vector2Int(c.x + dir, c.y + 1)))
             {
 
             }
@@ -565,5 +605,16 @@ public class ElementalsTetrisScript : MonoBehaviour
             }
         }
 
+    }
+
+    public void RestartGame()
+    {
+        EndGame = false;
+        MainTheme.Play();
+        statsController.ResetTimer();
+        statsController.StartTimer();
+
+        GenerateGrid();
+        NewBlock();
     }
 }

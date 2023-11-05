@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
+/// <
+/// >
 /// Typy bloków.
 /// </summary>
 public enum BlockType
