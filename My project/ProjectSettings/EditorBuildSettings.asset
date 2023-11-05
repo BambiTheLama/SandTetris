@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ClassicModeGame.unity
     guid: a6320f1e1147dc245a43986e240d3634
+  - enabled: 1
+    path: Assets/Scenes/ElementalModeGame.unity
+    guid: 3861257107c492a4bb366c47707b8122
   m_configObjects: {}
