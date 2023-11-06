@@ -1,9 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// G³ówny skrypt zarz¹dzaj¹cy gr¹ i plansz¹.
+/// </summary>
 public class ElementalsTetrisScript : MonoBehaviour
 {
     private static readonly int gridHeight = 160;
@@ -36,7 +37,6 @@ public class ElementalsTetrisScript : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(EndGame)
@@ -104,6 +104,7 @@ public class ElementalsTetrisScript : MonoBehaviour
         }
 
     }
+    
     /// <summary>
     /// Dodaje komórki do aktualizacji na podstawie aktywowanego bloku.
     /// </summary>
@@ -370,7 +371,7 @@ public class ElementalsTetrisScript : MonoBehaviour
         }
         else if (!cells[c.y, c.x].IsEmpty)
         {
-            cells[c.y, c.x].updateTimer();
+            cells[c.y, c.x].UpdateTimer();
             if (cells[c.y, c.x].IsEmpty)
                 AddBlocksToUpdate(c);
             else
@@ -625,6 +626,9 @@ public class ElementalsTetrisScript : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Rozpoczyna grê od nowa.
+    /// </summary>
     public void RestartGame()
     {
         EndGame = false;

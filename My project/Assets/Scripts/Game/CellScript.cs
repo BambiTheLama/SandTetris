@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -7,7 +5,6 @@ using UnityEngine;
 /// </summary>
 public enum CellType
 {
-
     SandRed,
     SandBlue,
     SandGreen,
@@ -106,7 +103,11 @@ public class CellScript : MonoBehaviour
         _sprite.color = Color.white;
     }
 
-    public void updateTimer()
+
+    /// <summary>
+    /// Aktualizacja timera.
+    /// </summary>
+    public void UpdateTimer()
     {
         if (Type == CellType.Fire) 
         {

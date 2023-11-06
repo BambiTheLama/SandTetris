@@ -4,6 +4,10 @@ using System.IO;
 using System;
 using TMPro;
 
+
+/// <summary>
+/// Klasa kontroluj¹ca wyœwietlanie punktacji.
+/// </summary>
 public class ScoreBoardController : MonoBehaviour
 {
     public GameObject wynikTemplatePrefab; // Prefab obiektu zawieraj¹cego dane wyniku.
@@ -16,6 +20,10 @@ public class ScoreBoardController : MonoBehaviour
         LoadScoresFromFile();
     }
 
+
+    /// <summary>
+    /// Wczytywanie punktacji z pliku
+    /// </summary>
     private void LoadScoresFromFile()
     {
         if (File.Exists(saveFilePath))

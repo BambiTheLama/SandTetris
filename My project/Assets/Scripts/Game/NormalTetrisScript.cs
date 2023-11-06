@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
+/// <summary>
+/// G³ówny skrypt zarz¹dzaj¹cy gr¹ i plansz¹.
+/// </summary>
 public class NormalTetrisScript : MonoBehaviour
 {
     private static readonly int gridHeight = 20;

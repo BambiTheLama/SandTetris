@@ -141,7 +141,9 @@ public class LoseController : MonoBehaviour
         }
     }
 
-    // Odczyt najlepszych wyników z pliku (lub utworzenie nowego obiektu, jeœli plik nie istnieje).
+    /// <summary>
+    /// Odczyt najlepszych wyników z pliku (lub utworzenie nowego obiektu, jeœli plik nie istnieje).
+    /// </summary>
     private BestScores LoadBestScores()
     {
         BestScores bestScores = new();
@@ -153,7 +155,9 @@ public class LoseController : MonoBehaviour
         return bestScores;
     }
 
-    // Zapis najlepszych wyników do pliku.
+    /// <summary>
+    /// Zapis najlepszych wyników do pliku.
+    /// </summary>
     private void SaveBestScores(BestScores bestScores)
     {
         string json = JsonUtility.ToJson(bestScores);
@@ -237,7 +241,9 @@ public class ScoreData
 
 }
 
-// Klasa przechowuj¹ca listê najlepszych wyników.
+/// <summary>
+/// Klasa przechowuj¹ca listê najlepszych wyników.
+/// </summary>
 [System.Serializable]
 public class BestScores
 {
