@@ -194,7 +194,7 @@ public class ElementalsTetrisScript : MonoBehaviour
         foreach (var c in cellsToUpdate)
         {
             CellScript cell = cells[c.y, c.x];
-            if (c.y + 1 >= gridHeight || c.y < 0 || c.x < 0 || c.x >= gridWidth) 
+            if (c.y >= gridHeight || c.y < 0 || c.x < 0 || c.x >= gridWidth) 
                 continue;
             if(cell.IsEmpty) 
                 continue;
@@ -230,13 +230,6 @@ public class ElementalsTetrisScript : MonoBehaviour
     /// <param name="c">Pozycja komórki wody do aktualizacji.</param>
     void WaterUpdate(Vector2Int c)
     {
-        if (c.y + 1 < gridHeight)
-            ClearFire(new Vector2Int(c.x, c.y + 1));
-        if (c.x + 1 < gridWidth)
-            ClearFire(new Vector2Int(c.x + 1, c.y));
-        if (c.x - 1 >= 0)
-            ClearFire(new Vector2Int(c.x - 1, c.y));
-
         Vector2Int p;
         AddToUpdate(c);
         int dir = 0;
@@ -244,23 +237,35 @@ public class ElementalsTetrisScript : MonoBehaviour
             dir = -1;
         else
             dir = 1;
-        if (MoveCellBlock(c, p = new Vector2Int(c.x, c.y + 1)))
+        if (c.y + 1 < gridHeight)
+            ClearFire(new Vector2Int(c.x, c.y + 1));
+        if (c.y - 1 >= 0)
+            ClearFire(new Vector2Int(c.x, c.y - 1));
+        if (c.x + 1 < gridWidth) 
+            ClearFire(new Vector2Int(c.x + 1, c.y));
+        if (c.x - 1 >= 0)
+            ClearFire(new Vector2Int(c.x - 1, c.y));
+        if (c.y + 1 < gridHeight && MoveCellBlock(c, p = new Vector2Int(c.x, c.y + 1)))
         {
             AddBlocksToUpdate(c);
         }
-        else if (IsFreeSpaceIn(p = new Vector2Int(c.x - dir, c.y + 1)) && MoveCellBlock(c, p))
+        else if (c.x - dir < gridWidth && c.x - dir >= 0 && c.y + 1<gridHeight &&
+            IsFreeSpaceIn(p = new Vector2Int(c.x - dir, c.y + 1)) && MoveCellBlock(c, p))
         {
             AddBlocksToUpdateLeft(c);
         }
-        else if (IsFreeSpaceIn(p = new Vector2Int(c.x - dir, c.y)) && MoveCellBlock(c, p))
+        else if (c.x - dir < gridWidth && c.x - dir >= 0 && 
+            IsFreeSpaceIn(p = new Vector2Int(c.x - dir, c.y)) && MoveCellBlock(c, p))
         {
             AddBlocksToUpdateLeft(c);
         }
-        else if (IsFreeSpaceIn(p = new Vector2Int(c.x + dir, c.y + 1)) && MoveCellBlock(c, p))
+        else if (c.x + dir < gridWidth && c.x + dir >= 0 && c.y + 1 < gridHeight &&
+            IsFreeSpaceIn(p = new Vector2Int(c.x + dir, c.y + 1)) && MoveCellBlock(c, p))
         {
             AddBlocksToUpdateRight(c);
         }
-        else if (IsFreeSpaceIn(p = new Vector2Int(c.x + dir, c.y)) && MoveCellBlock(c, p))
+        else if (c.x + dir < gridWidth && c.x + dir >= 0 &&
+            IsFreeSpaceIn(p = new Vector2Int(c.x + dir, c.y)) && MoveCellBlock(c, p))
         {
             AddBlocksToUpdateRight(c);
         }
@@ -347,7 +352,7 @@ public class ElementalsTetrisScript : MonoBehaviour
             FireBlock(p);
         }
 
-        if (c.y+1<gridHeight && MoveCellBlock(c, new Vector2Int(c.x, c.y + 1)))
+        if (c.y + 1 < gridHeight && MoveCellBlock(c, new Vector2Int(c.x, c.y + 1))) 
         {
             AddToUpdate(new Vector2Int(c.x, c.y + 1));
             AddBlocksToUpdate(c);
@@ -390,31 +395,33 @@ public class ElementalsTetrisScript : MonoBehaviour
             dir = -1;
         else
             dir = 1;
-        if (c.y + 1 < gridHeight)
+        if (c.y + 1 >= gridHeight)
+            return;
+
+        if (DisapearWater(new Vector2Int(c.x, c.y + 1)))
         {
-            if (DisapearWater(new Vector2Int(c.x, c.y + 1)))
-            {
 
-            }
-            else if (c.x - dir >= 0 && c.x - dir < gridHeight && DisapearWater(new Vector2Int(c.x - dir, c.y + 1))) 
-            {
-
-            }
-            else if (c.x + dir >= 0 && c.x + dir < gridHeight && DisapearWater(new Vector2Int(c.x + dir, c.y + 1)))
-            {
-
-            }
         }
-           
+        else if (c.x - dir >= 0 && c.x - dir < gridHeight && DisapearWater(new Vector2Int(c.x - dir, c.y + 1)))
+        {
+
+        }
+        else if (c.x + dir >= 0 && c.x + dir < gridHeight && DisapearWater(new Vector2Int(c.x + dir, c.y + 1)))
+        {
+
+        }
+
         if (MoveCellBlock(c, p = new Vector2Int(c.x, c.y + 1)))
         {
             AddBlocksToUpdate(c);
         }
-        else if (IsFreeSpaceIn(p = new Vector2Int(c.x - dir, c.y + 1)) && MoveCellBlock(c, p))
+        else if (c.x - dir >= 0 && c.x - dir < gridHeight && 
+            IsFreeSpaceIn(p = new Vector2Int(c.x - dir, c.y + 1)) && MoveCellBlock(c, p))
         {
             AddBlocksToUpdateLeft(c);
         }
-        else if (IsFreeSpaceIn(p = new Vector2Int(c.x + dir, c.y + 1)) && MoveCellBlock(c, p))
+        else if (c.x + dir >= 0 && c.x + dir < gridHeight && 
+            IsFreeSpaceIn(p = new Vector2Int(c.x + dir, c.y + 1)) && MoveCellBlock(c, p))
         {
             AddBlocksToUpdateRight(c);
         }
