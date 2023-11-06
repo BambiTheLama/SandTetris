@@ -206,8 +206,9 @@ public class ElementalsTetrisScript : MonoBehaviour
                 WaterUpdate(c);
             else if (cell.Type == CellType.Wood)
                 WoodUpdate(c);
-            else if (cell.Type == CellType.Steam)
-                WoodUpdate(c);
+            //else if (cell.Type == CellType.Steam) 
+            //    ;
+
 
         }
         cellsToUpdate.Clear();
@@ -284,7 +285,7 @@ public class ElementalsTetrisScript : MonoBehaviour
     {
         if (c.y + 1 >= gridHeight)
             return;
-        if (cells[c.y + 1, c.x].IsEmpty || cells[c.y + 1, c.x].Type == CellType.SandYellow)
+        if (cells[c.y + 1, c.x].IsEmpty || cells[c.y + 1, c.x].Type <= CellType.SandYellow || cells[c.y + 1, c.x].Type == CellType.Glass)
         {
             CellScript c1 = cells[c.y, c.x];
             CellScript c2 = cells[c.y + 1, c.x];
@@ -317,11 +318,21 @@ public class ElementalsTetrisScript : MonoBehaviour
     /// <param name="p">Pozycja komórki ognia.</param>
     void FireBlock(Vector2Int p)
     {
-        if (cells[p.y, p.x].Type != CellType.Wood)
+        if (cells[p.y, p.x].Type == CellType.Wood)
+        {
+            cells[p.y, p.x].DeactivateCell();
+            cells[p.y, p.x].SetCellValue(CellType.Fire, Color.red);
+
+        }
+        else if (cells[p.y, p.x].Type <= CellType.SandYellow)
+        {
+            cells[p.y, p.x].DeactivateCell();
+            cells[p.y, p.x].SetCellValue(CellType.Glass, Color.white);
+        }
+        else 
             return;
-        cells[p.y, p.x].DeactivateCell();
-        cells[p.y, p.x].SetCellValue(CellType.Fire, Color.red);
         AddToUpdate(p);
+
     }
 
     /// <summary>

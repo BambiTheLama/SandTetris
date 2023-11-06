@@ -15,6 +15,7 @@ public enum CellType
     Fire,
     Wood,
     Water,
+    Glass,
     Steam,
     NON
 }
