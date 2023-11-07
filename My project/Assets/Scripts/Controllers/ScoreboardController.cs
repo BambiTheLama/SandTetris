@@ -6,12 +6,12 @@ using TMPro;
 
 
 /// <summary>
-/// Klasa kontroluj¹ca wyœwietlanie punktacji.
+/// Klasa kontrolujÄ…ca wyÅ›wietlanie punktacji.
 /// </summary>
 public class ScoreBoardController : MonoBehaviour
 {
-    public GameObject wynikTemplatePrefab; // Prefab obiektu zawieraj¹cego dane wyniku.
-    public Transform wynikiListParent; // Obiekt nadrzêdny dla wyników.
+    public GameObject wynikTemplatePrefab; // Prefab obiektu zawierajÄ…cego dane wyniku.
+    public Transform wynikiListParent; // Obiekt nadrzÄ™dny dla wynikÃ³w.
     readonly string saveFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "best_scores.json");
     public Button wynikiButton;
 
@@ -34,32 +34,32 @@ public class ScoreBoardController : MonoBehaviour
             BestScores bestScores = JsonUtility.FromJson<BestScores>(json);
 
 
-            // Wyœwietl wyniki w UI.
+            // WyÅ›wietl wyniki w UI.
             int position = 1;
-            float offsetY = 0f; // Inicjalizacja odstêpu.
+            float offsetY = 0f; // Inicjalizacja odstÄ™pu.
 
             foreach (ScoreData scoreData in bestScores.scores)
             {
                 GameObject wynikTemplate = Instantiate(wynikTemplatePrefab, wynikiListParent);
-                wynikTemplate.SetActive(true); // Upewnij siê, ¿e jest aktywny.
+                wynikTemplate.SetActive(true); // Upewnij siÄ™, Å¼e jest aktywny.
 
-                // Przypisz teksty do odpowiednich pól.
+                // Przypisz teksty do odpowiednich pÃ³l.
                 TextMeshProUGUI placeText = wynikTemplate.transform.Find("PlaceText").GetComponent<TextMeshProUGUI>();
                 TextMeshProUGUI pointsText = wynikTemplate.transform.Find("PointsText").GetComponent<TextMeshProUGUI>();
                 TextMeshProUGUI timeText = wynikTemplate.transform.Find("TimeText").GetComponent<TextMeshProUGUI>();
                 TextMeshProUGUI scoreText = wynikTemplate.transform.Find("ScoreText").GetComponent<TextMeshProUGUI>();
                 TextMeshProUGUI modeText = wynikTemplate.transform.Find("ModeText").GetComponent<TextMeshProUGUI>();
 
-                // Ustaw pozycjê wyniku z odstêpem 100 pikseli.
+                // Ustaw pozycjÄ™ wyniku z odstÄ™pem 100 pikseli.
                 RectTransform rectTransform = wynikTemplate.GetComponent<RectTransform>();
                 rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, offsetY);
 
-                // Przypisanie wartoœci "Score" i "Time" do zmiennych liczbowych.
+                // Przypisanie wartoÅ›ci "Score" i "Time" do zmiennych liczbowych.
                 float scoreValue = float.Parse(scoreData.Points);
                 string timeString = scoreData.Time;
                 int seconds = 0;
 
-                // Próba konwersji ci¹gu "Time" na liczbê ca³kowit¹ reprezentuj¹c¹ sekundy.
+                // PrÃ³ba konwersji ciÄ…gu "Time" na liczbÄ™ caÅ‚kowitÄ… reprezentujÄ…cÄ… sekundy.
                 if (timeString.Contains(":"))
                 {
                     string[] timeParts = timeString.Split(':');

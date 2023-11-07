@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Typy bloków.
+/// Typy blokÃ³w.
 /// </summary>
 public enum BlockType
 {
@@ -9,7 +9,7 @@ public enum BlockType
 }
 
 /// <summary>
-/// Klasa reprezentuj¹ca blok w grze.
+/// Klasa reprezentujÄ…ca blok w grze.
 /// </summary>
 public class Block
 {
@@ -26,7 +26,7 @@ public class Block
 
 
     /// <summary>
-    /// Konstruktor kopiuj¹cy bloku.
+    /// Konstruktor kopiujÄ…cy bloku.
     /// </summary>
     /// <param name="block">Blok do skopiowania.</param>
     public Block(Block block)
@@ -52,7 +52,7 @@ public class Block
     /// <summary>
     /// Konstruktor bloku.
     /// </summary>
-    /// <param name="type">Typ komórki bloku.</param>
+    /// <param name="type">Typ komÃ³rki bloku.</param>
     /// <param name="blockType">Typ bloku.</param>
     public Block(CellType type, BlockType blockType)
     {
@@ -287,7 +287,7 @@ public class Block
     }
 
     /// <summary>
-    /// Rozpoczyna ruch bloku w dó³.
+    /// Rozpoczyna ruch bloku w dÃ³Å‚.
     /// </summary>
     public void MoveDown()
     {
@@ -295,7 +295,7 @@ public class Block
     }
 
     /// <summary>
-    /// Realizuje ruch bloku w dó³ z uwzglêdnieniem prêdkoœci.
+    /// Realizuje ruch bloku w dÃ³Å‚ z uwzglÄ™dnieniem prÄ™dkoÅ›ci.
     /// </summary>
     /// <param name="deltaTime">Czas od ostatniej aktualizacji.</param>
     public void GoDown(float deltaTime)
@@ -308,11 +308,11 @@ public class Block
     }
 
     /// <summary>
-    /// Sprawdza, czy blok ma komórkê na podanej pozycji.
+    /// Sprawdza, czy blok ma komÃ³rkÄ™ na podanej pozycji.
     /// </summary>
-    /// <param name="x">Wspó³rzêdna X komórki.</param>
-    /// <param name="y">Wspó³rzêdna Y komórki.</param>
-    /// <returns>Prawda, jeœli blok ma komórkê na danej pozycji, w przeciwnym razie fa³sz.</returns>
+    /// <param name="x">WspÃ³Å‚rzÄ™dna X komÃ³rki.</param>
+    /// <param name="y">WspÃ³Å‚rzÄ™dna Y komÃ³rki.</param>
+    /// <returns>Prawda, jeÅ›li blok ma komÃ³rkÄ™ na danej pozycji, w przeciwnym razie faÅ‚sz.</returns>
     public bool HasBlock(int x, int y)
     {
         if (x < 0 || y < 0)
@@ -324,11 +324,11 @@ public class Block
 
 
     /// <summary>
-    /// Zwraca kolor komórki bloku na podanej pozycji.
+    /// Zwraca kolor komÃ³rki bloku na podanej pozycji.
     /// </summary>
-    /// <param name="x">Wspó³rzêdna X komórki.</param>
-    /// <param name="y">Wspó³rzêdna Y komórki.</param>
-    /// <returns>Kolor komórki bloku na danej pozycji.</returns>
+    /// <param name="x">WspÃ³Å‚rzÄ™dna X komÃ³rki.</param>
+    /// <param name="y">WspÃ³Å‚rzÄ™dna Y komÃ³rki.</param>
+    /// <returns>Kolor komÃ³rki bloku na danej pozycji.</returns>
     public Color GetColor(int x, int y)
     {
         Color color = blockColor;

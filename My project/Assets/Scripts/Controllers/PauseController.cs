@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Klasa kontroluj¹ca zachowanie pauzy.
+/// Klasa kontrolujÄ…ca zachowanie pauzy.
 /// </summary>
 public class PauseController : MonoBehaviour
 {
@@ -13,8 +13,8 @@ public class PauseController : MonoBehaviour
     public bool paused;
 
     /// <summary>
-    /// Metoda Update wywo³ywana raz na klatkê.
-    /// Obs³uguje wstrzymywanie i wznawianie gry po naciœniêciu klawisza Escape.
+    /// Metoda Update wywoÅ‚ywana raz na klatkÄ™.
+    /// ObsÅ‚uguje wstrzymywanie i wznawianie gry po naciÅ›niÄ™ciu klawisza Escape.
     /// </summary>
     private void Update()
     {
@@ -36,7 +36,7 @@ public class PauseController : MonoBehaviour
     }
 
     /// <summary>
-    /// Kontynuowanie gry po klikniêciu przycisku "Kontynuuj".
+    /// Kontynuowanie gry po klikniÄ™ciu przycisku "Kontynuuj".
     /// </summary>
     public void ContinueButton()
     {
@@ -46,7 +46,7 @@ public class PauseController : MonoBehaviour
     }
 
     /// <summary>
-    /// Wyjœcie do menu g³ównego po klikniêciu przycisku "Wyjœcie".
+    /// WyjÅ›cie do menu gÅ‚Ã³wnego po klikniÄ™ciu przycisku "WyjÅ›cie".
     /// </summary>
     public void ExitButton()
     {

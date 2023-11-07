@@ -7,30 +7,30 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// Klasa kontroluj¹ca zachowanie menu gry.
+/// Klasa kontrolujÄ…ca zachowanie menu gry.
 /// </summary>
 public class MenuController : MonoBehaviour
 {
     [Header("Ekrany")]
-    public GameObject MainMenu; // Ekran g³ównego menu
+    public GameObject MainMenu; // Ekran gÅ‚Ã³wnego menu
     public GameObject PlayScreen; // Ekran wyboru trybu gry
-    public GameObject SettingsScreen; // Ekran ustawieñ gry
-    public GameObject ScoreboardScreen; // Ekran tabeli wyników
+    public GameObject SettingsScreen; // Ekran ustawieÅ„ gry
+    public GameObject ScoreboardScreen; // Ekran tabeli wynikÃ³w
 
     [Header("Audio")]
     AudioSource audioSource; // Komponent audio
-    public AudioClip StartGameAudio; // DŸwiêk rozpoczêcia gry
-    public AudioClip ButtonAudio; // DŸwiêk przycisku
+    public AudioClip StartGameAudio; // DÅºwiÄ™k rozpoczÄ™cia gry
+    public AudioClip ButtonAudio; // DÅºwiÄ™k przycisku
 
     [Header("Ustawienia")]
-    public AudioMixer audioMixer; // Mixer dŸwiêku
-    public Toggle FXToogle, MusicToogle; // Prze³¹czniki wyciszenia efektów dŸwiêkowych i muzyki
-    public Image FXImage, MusicImage; // Obrazek do wyœwietlania stanu efektów dŸwiêkowych i muzyki
-    public Sprite OnImage, OffImage; // Grafika do stanu w³¹czonego i wy³¹czonego
+    public AudioMixer audioMixer; // Mixer dÅºwiÄ™ku
+    public Toggle FXToogle, MusicToogle; // PrzeÅ‚Ä…czniki wyciszenia efektÃ³w dÅºwiÄ™kowych i muzyki
+    public Image FXImage, MusicImage; // Obrazek do wyÅ›wietlania stanu efektÃ³w dÅºwiÄ™kowych i muzyki
+    public Sprite OnImage, OffImage; // Grafika do stanu wÅ‚Ä…czonego i wyÅ‚Ä…czonego
 
 
     /// <summary>
-    /// Inicjalizacja komponentów audio i ustawieñ dŸwiêku przy starcie.
+    /// Inicjalizacja komponentÃ³w audio i ustawieÅ„ dÅºwiÄ™ku przy starcie.
     /// </summary>
     private void Start()
     {
@@ -50,7 +50,7 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Powrót do menu g³ównego.
+    /// PowrÃ³t do menu gÅ‚Ã³wnego.
     /// </summary>
     public void BackToMainMenu()
     {
@@ -63,7 +63,7 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Przejœcie do ekranu rozpoczêcia gry.
+    /// PrzejÅ›cie do ekranu rozpoczÄ™cia gry.
     /// </summary>
     public void GoToPlayScreen()
     {
@@ -74,7 +74,7 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Przejœcie do ekranu ustawieñ.
+    /// PrzejÅ›cie do ekranu ustawieÅ„.
     /// </summary>
     public void GoToSettingsScreen()
     {
@@ -85,7 +85,7 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Przejœcie do ekranu wyników.
+    /// PrzejÅ›cie do ekranu wynikÃ³w.
     /// </summary>
     public void GoToScoreboardScreen()
     {
@@ -96,7 +96,7 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Rozpoczêcie trybu gry "Sand Mode".
+    /// RozpoczÄ™cie trybu gry "Sand Mode".
     /// </summary>
     public void PlaySandMode()
     {
@@ -106,7 +106,7 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Rozpoczêcie trybu gry "Classic Mode".
+    /// RozpoczÄ™cie trybu gry "Classic Mode".
     /// </summary>
     public void PlayClassicMode()
     {
@@ -116,7 +116,7 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Rozpoczêcie trybu gry "Elemental Mode".
+    /// RozpoczÄ™cie trybu gry "Elemental Mode".
     /// </summary>
     public void PlayElementalMode()
     {
@@ -126,7 +126,7 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Asynchroniczne ³adowanie sceny gry po zakoñczeniu dŸwiêku rozpoczêcia gry.
+    /// Asynchroniczne Å‚adowanie sceny gry po zakoÅ„czeniu dÅºwiÄ™ku rozpoczÄ™cia gry.
     /// </summary>
     private IEnumerator LoadGameSceneAfterSound(string SceneName)
     {
@@ -135,7 +135,7 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Obs³uga przycisku wyjœcia z gry.
+    /// ObsÅ‚uga przycisku wyjÅ›cia z gry.
     /// </summary>
     public void OnExitButtonClick()
     {
@@ -145,7 +145,7 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Wyciszenie/w³¹czenie muzyki.
+    /// Wyciszenie/wÅ‚Ä…czenie muzyki.
     /// </summary>
     public void MuteMusic()
     {
@@ -162,7 +162,7 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Wyciszenie/w³¹czenie efektów dŸwiêkowych.
+    /// Wyciszenie/wÅ‚Ä…czenie efektÃ³w dÅºwiÄ™kowych.
     /// </summary>
     public void MuteFX()
     {

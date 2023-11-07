@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// G³ówny skrypt zarz¹dzaj¹cy gr¹ i plansz¹.
+/// GÅ‚Ã³wny skrypt zarzÄ…dzajÄ…cy grÄ… i planszÄ….
 /// </summary>
 public class ElementalsTetrisScript : MonoBehaviour
 {
@@ -106,7 +106,7 @@ public class ElementalsTetrisScript : MonoBehaviour
     }
     
     /// <summary>
-    /// Dodaje komórki do aktualizacji na podstawie aktywowanego bloku.
+    /// Dodaje komÃ³rki do aktualizacji na podstawie aktywowanego bloku.
     /// </summary>
     void AddCellStoUpdateFromBlock()
     {
@@ -122,7 +122,7 @@ public class ElementalsTetrisScript : MonoBehaviour
 
     }
     /// <summary>
-    /// Umieszcza aktywowany blok na planszy i przygotowuje do aktualizacji komórek.
+    /// Umieszcza aktywowany blok na planszy i przygotowuje do aktualizacji komÃ³rek.
     /// </summary>
     void SpawnBlockAtMap()
     {
@@ -131,7 +131,7 @@ public class ElementalsTetrisScript : MonoBehaviour
         block = null;
     }
     /// <summary>
-    /// Umieszcza blok na planszy, aktywuj¹c komórki w jego obszarze.
+    /// Umieszcza blok na planszy, aktywujÄ…c komÃ³rki w jego obszarze.
     /// </summary>
     void ActivateBlockCells()
     {
@@ -146,7 +146,7 @@ public class ElementalsTetrisScript : MonoBehaviour
             }
     }
     /// <summary>
-    /// Deaktywuje komórki bloku na planszy.
+    /// Deaktywuje komÃ³rki bloku na planszy.
     /// </summary>
     void DeactivateBlockCells()
     {
@@ -186,7 +186,7 @@ public class ElementalsTetrisScript : MonoBehaviour
         EndGame = CheckCollisionBlock();
     }    
     /// <summary>
-    /// Aktualizuje stan komórek na planszy, np. spadaj¹cy piasek.
+    /// Aktualizuje stan komÃ³rek na planszy, np. spadajÄ…cy piasek.
     /// </summary>
     void UpdateCells()
     {
@@ -216,9 +216,9 @@ public class ElementalsTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Usuwa komórki ognia.
+    /// Usuwa komÃ³rki ognia.
     /// </summary>
-    /// <param name="p">Pozycja komórki ognia do usuniêcia.</param>
+    /// <param name="p">Pozycja komÃ³rki ognia do usuniÄ™cia.</param>
     void ClearFire(Vector2Int p)
     {
         if (cells[p.y, p.x].Type != CellType.Fire)
@@ -227,9 +227,9 @@ public class ElementalsTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Aktualizuje komórki wody.
+    /// Aktualizuje komÃ³rki wody.
     /// </summary>
-    /// <param name="c">Pozycja komórki wody do aktualizacji.</param>
+    /// <param name="c">Pozycja komÃ³rki wody do aktualizacji.</param>
     void WaterUpdate(Vector2Int c)
     {
         Vector2Int p;
@@ -279,9 +279,9 @@ public class ElementalsTetrisScript : MonoBehaviour
 
 
     /// <summary>
-    /// Aktualizuje komórki drewna.
+    /// Aktualizuje komÃ³rki drewna.
     /// </summary>
-    /// <param name="c">Pozycja komórki drewna do aktualizacji.</param>
+    /// <param name="c">Pozycja komÃ³rki drewna do aktualizacji.</param>
     void WoodUpdate(Vector2Int c)
     {
         if (c.y + 1 >= gridHeight)
@@ -314,9 +314,9 @@ public class ElementalsTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Aktywuje komórki ognia.
+    /// Aktywuje komÃ³rki ognia.
     /// </summary>
-    /// <param name="p">Pozycja komórki ognia.</param>
+    /// <param name="p">Pozycja komÃ³rki ognia.</param>
     void FireBlock(Vector2Int p)
     {
         if (cells[p.y, p.x].Type == CellType.Wood)
@@ -337,9 +337,9 @@ public class ElementalsTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Aktualizuje komórki ognia.
+    /// Aktualizuje komÃ³rki ognia.
     /// </summary>
-    /// <param name="c">Pozycja komórki ognia do aktualizacji.</param>
+    /// <param name="c">Pozycja komÃ³rki ognia do aktualizacji.</param>
     void FireUpdate(Vector2Int c)
     {
         Vector2Int p;
@@ -384,9 +384,9 @@ public class ElementalsTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Usuwa cz¹steczki wody.
+    /// Usuwa czÄ…steczki wody.
     /// </summary>
-    /// <param name="p">Pozycja komórki wody do usuniêcia.</param>
+    /// <param name="p">Pozycja komÃ³rki wody do usuniÄ™cia.</param>
     bool DisapearWater(Vector2Int p)
     {
         if (cells[p.y, p.x].Type != CellType.Water)
@@ -396,9 +396,9 @@ public class ElementalsTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Aktualizuje komórki piasku (funkcja zwi¹zana z mechanik¹ piasku).
+    /// Aktualizuje komÃ³rki piasku (funkcja zwiÄ…zana z mechanikÄ… piasku).
     /// </summary>
-    /// <param name="c">Pozycja komórki piasku do aktualizacji.</param>
+    /// <param name="c">Pozycja komÃ³rki piasku do aktualizacji.</param>
     void SandUpdate(Vector2Int c)
     {
         Vector2Int p;
@@ -443,11 +443,11 @@ public class ElementalsTetrisScript : MonoBehaviour
         cellsToCheck.Add(p);
     }
     /// <summary>
-    /// Przenosi komórkê z pozycji aktywnej na pozycjê nieaktywn¹, jeœli jest to mo¿liwe.
+    /// Przenosi komÃ³rkÄ™ z pozycji aktywnej na pozycjÄ™ nieaktywnÄ…, jeÅ›li jest to moÅ¼liwe.
     /// </summary>
-    /// <param name="active">Pozycja aktywnej komórki.</param>
-    /// <param name="nonactive">Pozycja nieaktywnej komórki.</param>
-    /// <returns>Zwraca true, jeœli przeniesienie by³o mo¿liwe, w przeciwnym razie false.</returns>
+    /// <param name="active">Pozycja aktywnej komÃ³rki.</param>
+    /// <param name="nonactive">Pozycja nieaktywnej komÃ³rki.</param>
+    /// <returns>Zwraca true, jeÅ›li przeniesienie byÅ‚o moÅ¼liwe, w przeciwnym razie false.</returns>
     bool MoveCellBlock(Vector2Int active, Vector2Int nonactive)
     {
         if (cells[active.y, active.x].IsEmpty)
@@ -461,7 +461,7 @@ public class ElementalsTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Dodaje komórki po lewej stronie danej pozycji do listy komórek do aktualizacji.
+    /// Dodaje komÃ³rki po lewej stronie danej pozycji do listy komÃ³rek do aktualizacji.
     /// </summary>
     /// <param name="pos">Pozycja referencyjna.</param>
     void AddBlocksToUpdateLeft(Vector2Int pos)
@@ -485,7 +485,7 @@ public class ElementalsTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Dodaje komórki po prawej stronie danej pozycji do listy komórek do aktualizacji.
+    /// Dodaje komÃ³rki po prawej stronie danej pozycji do listy komÃ³rek do aktualizacji.
     /// </summary>
     /// <param name="pos">Pozycja referencyjna.</param>
     void AddBlocksToUpdateRight(Vector2Int pos)
@@ -511,7 +511,7 @@ public class ElementalsTetrisScript : MonoBehaviour
     /// Sprawdza, czy dana pozycja jest wolna na planszy.
     /// </summary>
     /// <param name="p1">Pozycja do sprawdzenia.</param>
-    /// <returns>Zwraca true, jeœli pozycja jest wolna, w przeciwnym razie false.</returns>
+    /// <returns>Zwraca true, jeÅ›li pozycja jest wolna, w przeciwnym razie false.</returns>
     bool IsFreeSpaceIn(Vector2Int p1)
     {
         if (p1.y < 0 || p1.y >= gridHeight || p1.x < 0 || p1.x >= gridWidth)
@@ -519,7 +519,7 @@ public class ElementalsTetrisScript : MonoBehaviour
         return cells[p1.y, p1.x].IsEmpty;
     }
     /// <summary>
-    /// Dodaje komórki powy¿ej danej pozycji do listy komórek do aktualizacji.
+    /// Dodaje komÃ³rki powyÅ¼ej danej pozycji do listy komÃ³rek do aktualizacji.
     /// </summary>
     /// <param name="pos">Pozycja referencyjna.</param>
     void AddBlocksToUpdate(Vector2Int pos)
@@ -542,18 +542,18 @@ public class ElementalsTetrisScript : MonoBehaviour
         }
     }
     /// <summary>
-    /// Dodaje dan¹ pozycjê do listy komórek do aktualizacji.
+    /// Dodaje danÄ… pozycjÄ™ do listy komÃ³rek do aktualizacji.
     /// </summary>
-    /// <param name="p">Pozycja komórki do aktualizacji.</param>
+    /// <param name="p">Pozycja komÃ³rki do aktualizacji.</param>
     void AddToUpdate(Vector2Int p)
     {
         if (!cellsToUpdate.Contains(p))
             cellsToUpdate.Add(p);
     }
     /// <summary>
-    /// Sprawdza kolizje aktywowanego bloku z istniej¹cymi komórkami na planszy.
+    /// Sprawdza kolizje aktywowanego bloku z istniejÄ…cymi komÃ³rkami na planszy.
     /// </summary>
-    /// <returns>Zwraca true, jeœli wyst¹pi³a kolizja, w przeciwnym razie false.</returns>
+    /// <returns>Zwraca true, jeÅ›li wystÄ…piÅ‚a kolizja, w przeciwnym razie false.</returns>
     bool CheckCollisionBlock()
     {
 
@@ -576,7 +576,7 @@ public class ElementalsTetrisScript : MonoBehaviour
         return false;
     }
     /// <summary>
-    /// Generuje planszê gry w postaci komórek.
+    /// Generuje planszÄ™ gry w postaci komÃ³rek.
     /// </summary>
     void GenerateGrid()
     {
@@ -596,7 +596,7 @@ public class ElementalsTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Ustawia kolor wszystkich komórek na planszy.
+    /// Ustawia kolor wszystkich komÃ³rek na planszy.
     /// </summary>
     void SetColor()
     {
@@ -612,7 +612,7 @@ public class ElementalsTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Rozpoczyna grê od nowa.
+    /// Rozpoczyna grÄ™ od nowa.
     /// </summary>
     public void RestartGame()
     {

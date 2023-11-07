@@ -7,43 +7,43 @@ using System.IO;
 using System;
 
 /// <summary>
-/// Klasa kontroluj¹ca zachowanie po przegranej.
+/// Klasa kontrolujÄ…ca zachowanie po przegranej.
 /// </summary>
 public class LoseController : MonoBehaviour
 {
     /// <summary>
-    /// TextMeshProUGUI do wyœwietlania czasu gry.
+    /// TextMeshProUGUI do wyÅ›wietlania czasu gry.
     /// </summary>
     public TextMeshProUGUI timerText;
 
     /// <summary>
-    /// TextMeshProUGUI do wyœwietlania iloœci zdobytych  punktów.
+    /// TextMeshProUGUI do wyÅ›wietlania iloÅ›ci zdobytych  punktÃ³w.
     /// </summary>
     public TextMeshProUGUI pointsText;
 
     /// <summary>
-    /// GameObject reprezentuj¹cy ekran przegranej.
+    /// GameObject reprezentujÄ…cy ekran przegranej.
     /// </summary>
     public GameObject LoseScreen;
 
     /// <summary>
-    /// Referencja do GameScript do zarz¹dzania gr¹.
+    /// Referencja do GameScript do zarzÄ…dzania grÄ….
     /// </summary>
     public GameScript sandScript;
     public NormalTetrisScript classicScript;
     public ElementalsTetrisScript elementalScript;
 
     /// <summary>
-    /// Referencja do StatsController do zarz¹dzania statystykami gry.
+    /// Referencja do StatsController do zarzÄ…dzania statystykami gry.
     /// </summary>
     public StatsController statsController;
     readonly string saveFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "best_scores.json");
-    private bool hasSavedScore = false; // Flaga oznaczaj¹ca, czy wynik zosta³ ju¿ zapisany.
+    private bool hasSavedScore = false; // Flaga oznaczajÄ…ca, czy wynik zostaÅ‚ juÅ¼ zapisany.
 
 
     /// <summary>
-    /// Metoda Update wywo³ywana raz na klatkê.
-    /// Sprawdza, czy gra siê zakoñczy³a i wyœwietla ekran przegranej ze statystykami.
+    /// Metoda Update wywoÅ‚ywana raz na klatkÄ™.
+    /// Sprawdza, czy gra siÄ™ zakoÅ„czyÅ‚a i wyÅ›wietla ekran przegranej ze statystykami.
     /// </summary>
     private void Update()
     {
@@ -55,17 +55,17 @@ public class LoseController : MonoBehaviour
                 timerText.text = "Czas gry: " + statsController.timerText.text;
                 pointsText.text = "Wynik: " + statsController.pointsText.text;
 
-                // Odczytaj najlepsze wyniki z pliku (jeœli istniej¹).
+                // Odczytaj najlepsze wyniki z pliku (jeÅ›li istniejÄ…).
                 BestScores bestScores = LoadBestScores();
 
 
-                // Dodaj nowy wynik do listy najlepszych wyników.
+                // Dodaj nowy wynik do listy najlepszych wynikÃ³w.
                 bestScores.scores.Add(new ScoreData(statsController.pointsText.text, statsController.timerText.text, "Sand"));
 
                 // Sortuj wyniki od najlepszego do najgorszego.
                 bestScores.scores.Sort((x, y) => y.Score.CompareTo(x.Score));
 
-                // Ogranicz listê do np. 10 najlepszych wyników (lub dowolnej liczby).
+                // Ogranicz listÄ™ do np. 10 najlepszych wynikÃ³w (lub dowolnej liczby).
                 if (bestScores.scores.Count > 10)
                 {
                     bestScores.scores.RemoveRange(10, bestScores.scores.Count - 10);
@@ -86,17 +86,17 @@ public class LoseController : MonoBehaviour
                 timerText.text = "Czas gry: " + statsController.timerText.text;
                 pointsText.text = "Wynik: " + statsController.pointsText.text;
 
-                // Odczytaj najlepsze wyniki z pliku (jeœli istniej¹).
+                // Odczytaj najlepsze wyniki z pliku (jeÅ›li istniejÄ…).
                 BestScores bestScores = LoadBestScores();
 
 
-                // Dodaj nowy wynik do listy najlepszych wyników.
+                // Dodaj nowy wynik do listy najlepszych wynikÃ³w.
                 bestScores.scores.Add(new ScoreData(statsController.pointsText.text, statsController.timerText.text, "Classic"));
 
                 // Sortuj wyniki od najlepszego do najgorszego.
                 bestScores.scores.Sort((x, y) => y.Score.CompareTo(x.Score));
 
-                // Ogranicz listê do np. 10 najlepszych wyników (lub dowolnej liczby).
+                // Ogranicz listÄ™ do np. 10 najlepszych wynikÃ³w (lub dowolnej liczby).
                 if (bestScores.scores.Count > 10)
                 {
                     bestScores.scores.RemoveRange(10, bestScores.scores.Count - 10);
@@ -117,17 +117,17 @@ public class LoseController : MonoBehaviour
                 timerText.text = "Czas gry: " + statsController.timerText.text;
                 pointsText.text = "Wynik: " + statsController.pointsText.text;
 
-                // Odczytaj najlepsze wyniki z pliku (jeœli istniej¹).
+                // Odczytaj najlepsze wyniki z pliku (jeÅ›li istniejÄ…).
                 BestScores bestScores = LoadBestScores();
 
 
-                // Dodaj nowy wynik do listy najlepszych wyników.
+                // Dodaj nowy wynik do listy najlepszych wynikÃ³w.
                 bestScores.scores.Add(new ScoreData(statsController.pointsText.text, statsController.timerText.text, "Elementals"));
 
                 // Sortuj wyniki od najlepszego do najgorszego.
                 bestScores.scores.Sort((x, y) => y.Score.CompareTo(x.Score));
 
-                // Ogranicz listê do np. 10 najlepszych wyników (lub dowolnej liczby).
+                // Ogranicz listÄ™ do np. 10 najlepszych wynikÃ³w (lub dowolnej liczby).
                 if (bestScores.scores.Count > 10)
                 {
                     bestScores.scores.RemoveRange(10, bestScores.scores.Count - 10);
@@ -142,7 +142,7 @@ public class LoseController : MonoBehaviour
     }
 
     /// <summary>
-    /// Odczyt najlepszych wyników z pliku (lub utworzenie nowego obiektu, jeœli plik nie istnieje).
+    /// Odczyt najlepszych wynikÃ³w z pliku (lub utworzenie nowego obiektu, jeÅ›li plik nie istnieje).
     /// </summary>
     private BestScores LoadBestScores()
     {
@@ -156,7 +156,7 @@ public class LoseController : MonoBehaviour
     }
 
     /// <summary>
-    /// Zapis najlepszych wyników do pliku.
+    /// Zapis najlepszych wynikÃ³w do pliku.
     /// </summary>
     private void SaveBestScores(BestScores bestScores)
     {
@@ -165,7 +165,7 @@ public class LoseController : MonoBehaviour
     }
 
     /// <summary>
-    /// Ponowne rozpoczêcie gry po klikniêciu przycisku restart.
+    /// Ponowne rozpoczÄ™cie gry po klikniÄ™ciu przycisku restart.
     /// Resetuje licznik czasu i punkty oraz ukrywa ekran przegranej.
     /// </summary>
     public void RestartButton()
@@ -182,7 +182,7 @@ public class LoseController : MonoBehaviour
     }
 
     /// <summary>
-    /// Powrót do menu g³ównego po klikniêciu przycisku wyjœcia.
+    /// PowrÃ³t do menu gÅ‚Ã³wnego po klikniÄ™ciu przycisku wyjÅ›cia.
     /// </summary>
     public void ExitButton()
     {
@@ -191,7 +191,7 @@ public class LoseController : MonoBehaviour
 }
 
 /// <summary>
-/// Klasa przechowuj¹ca dane o wynikach.
+/// Klasa przechowujÄ…ca dane o wynikach.
 /// </summary>
 [System.Serializable]
 public class ScoreData
@@ -211,7 +211,7 @@ public class ScoreData
     }
 
     /// <summary>
-    /// Przelicznik wyników
+    /// Przelicznik wynikÃ³w
     /// </summary>
     private float CalculateScore(string points, string time)
     {
@@ -235,14 +235,14 @@ public class ScoreData
             }
         }
 
-        // Obs³uga b³êdnego formatu danych wejœciowych.
+        // ObsÅ‚uga bÅ‚Ä™dnego formatu danych wejÅ›ciowych.
         return 0f;
     }
 
 }
 
 /// <summary>
-/// Klasa przechowuj¹ca listê najlepszych wyników.
+/// Klasa przechowujÄ…ca listÄ™ najlepszych wynikÃ³w.
 /// </summary>
 [System.Serializable]
 public class BestScores

@@ -10,17 +10,17 @@ public class CellNormalTetrisScript : MonoBehaviour
     public Color Color;
 
     /// <summary>
-    /// Flaga informuj¹ca, czy komórka jest pusta.
+    /// Flaga informujÄ…ca, czy komÃ³rka jest pusta.
     /// </summary>
     public bool IsEmpty { get; private set; } = true;
     
     /// <summary>
-    /// Typ komórki.
+    /// Typ komÃ³rki.
     /// </summary>
     public int Type { get; private set; }
     
     /// <summary>
-    /// Inicjalizacja komórki.
+    /// Inicjalizacja komÃ³rki.
     /// </summary>
     void Start()
     {
@@ -30,7 +30,7 @@ public class CellNormalTetrisScript : MonoBehaviour
     }
     
     /// <summary>
-    /// Deaktywuj komórkê i ustaw jej kolor na ciemny.
+    /// Deaktywuj komÃ³rkÄ™ i ustaw jej kolor na ciemny.
     /// </summary>
     public void DeactivateCell()
     {
@@ -43,7 +43,7 @@ public class CellNormalTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Deaktywuj komórkê i wyczyœæ jej kolor (ustaw na przezroczysty).
+    /// Deaktywuj komÃ³rkÄ™ i wyczyÅ›Ä‡ jej kolor (ustaw na przezroczysty).
     /// </summary>
     public void DeactivateCellClear()
     {
@@ -55,7 +55,7 @@ public class CellNormalTetrisScript : MonoBehaviour
         _sprite.color = Color;
     }
     /// <summary>
-    /// Ustaw wartoœci komórki na podstawie podanego typu i koloru.
+    /// Ustaw wartoÅ›ci komÃ³rki na podstawie podanego typu i koloru.
     /// </summary>
     /// <param name="cellType">Typ bloku</param>
     public void SetCellValue(int cellType)

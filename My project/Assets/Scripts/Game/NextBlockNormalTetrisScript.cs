@@ -16,7 +16,7 @@ public class NextBlockNormalTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Czyœci kolory wszystkich komórek w siatce.
+    /// CzyÅ›ci kolory wszystkich komÃ³rek w siatce.
     /// </summary>
     void ClearColor()
     {
@@ -31,9 +31,9 @@ public class NextBlockNormalTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Ustawia blok na siatce komórek.
+    /// Ustawia blok na siatce komÃ³rek.
     /// </summary>
-    /// <param name="block">Blok do wyœwietlenia na siatce.</param>
+    /// <param name="block">Blok do wyÅ›wietlenia na siatce.</param>
     public void SetBlockAtGrid(TetrisBlock block)
     {
         ClearColor();
@@ -50,7 +50,7 @@ public class NextBlockNormalTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Generuje siatkê komórek na podstawie ustawieñ pocz¹tkowych.
+    /// Generuje siatkÄ™ komÃ³rek na podstawie ustawieÅ„ poczÄ…tkowych.
     /// </summary>
     void GenerateGrid()
     {

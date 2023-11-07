@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// G³ówny skrypt zarz¹dzaj¹cy gr¹ i plansz¹.
+/// GÅ‚Ã³wny skrypt zarzÄ…dzajÄ…cy grÄ… i planszÄ….
 /// </summary>
 public class NormalTetrisScript : MonoBehaviour
 {
@@ -115,7 +115,7 @@ public class NormalTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Sprawdza czy blok mo¿e zostaæ poruszony na boki bezkolizyjnie.
+    /// Sprawdza czy blok moÅ¼e zostaÄ‡ poruszony na boki bezkolizyjnie.
     /// </summary>
     bool CanBlockBeMove(int n)
     {
@@ -134,7 +134,7 @@ public class NormalTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Sprawdza czy blok mo¿e zostaæ obrócony bezkolizyjnie.
+    /// Sprawdza czy blok moÅ¼e zostaÄ‡ obrÃ³cony bezkolizyjnie.
     /// </summary>
     bool CanBlockBeRotated()
     {
@@ -151,7 +151,7 @@ public class NormalTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Usuwa dan¹ liniê
+    /// Usuwa danÄ… liniÄ™
     /// </summary>
     /// <param name="line">Numer linii</param>
     void RemoveLine(int line)
@@ -171,7 +171,7 @@ public class NormalTetrisScript : MonoBehaviour
 
     }
     /// <summary>
-    /// Deaktywuje komórki bloku na planszy.
+    /// Deaktywuje komÃ³rki bloku na planszy.
     /// </summary>
     void DeactivateBlockCells()
     {
@@ -187,7 +187,7 @@ public class NormalTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Umieszcza blok na planszy, aktywuj¹c komórki w jego obszarze.
+    /// Umieszcza blok na planszy, aktywujÄ…c komÃ³rki w jego obszarze.
     /// </summary>
     void ActivateBlockCells()
     {
@@ -227,9 +227,9 @@ public class NormalTetrisScript : MonoBehaviour
 
     }
     /// <summary>
-    /// Sprawdza kolizje aktywowanego bloku z istniej¹cymi komórkami na planszy.
+    /// Sprawdza kolizje aktywowanego bloku z istniejÄ…cymi komÃ³rkami na planszy.
     /// </summary>
-    /// <returns>Zwraca true, jeœli wyst¹pi³a kolizja, w przeciwnym razie false.</returns>
+    /// <returns>Zwraca true, jeÅ›li wystÄ…piÅ‚a kolizja, w przeciwnym razie false.</returns>
     bool CheckCollisionBlock()
     {
 
@@ -253,7 +253,7 @@ public class NormalTetrisScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Generuje planszê gry w postaci komórek.
+    /// Generuje planszÄ™ gry w postaci komÃ³rek.
     /// </summary>
     void GenerateGrid()
     {
@@ -272,7 +272,7 @@ public class NormalTetrisScript : MonoBehaviour
 
     }
     /// <summary>
-    /// Ustawia kolor wszystkich komórek na planszy.
+    /// Ustawia kolor wszystkich komÃ³rek na planszy.
     /// </summary>
     void SetColor()
     {
@@ -286,7 +286,7 @@ public class NormalTetrisScript : MonoBehaviour
 
     }
     /// <summary>
-    /// Rozpoczyna grê od nowa.
+    /// Rozpoczyna grÄ™ od nowa.
     /// </summary>
     public void RestartGame()
     {

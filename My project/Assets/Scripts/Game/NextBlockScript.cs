@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Klasa kontroluj¹ca wyœwietlanie nastêpnego bloku w grze.
+/// Klasa kontrolujÄ…ca wyÅ›wietlanie nastÄ™pnego bloku w grze.
 /// </summary>
 public class NextBlockScript : MonoBehaviour
 {
@@ -14,7 +14,7 @@ public class NextBlockScript : MonoBehaviour
     readonly float ratio = 0.16f;
 
     /// <summary>
-    /// Inicjalizacja siatki komórek i czyszczenie kolorów.
+    /// Inicjalizacja siatki komÃ³rek i czyszczenie kolorÃ³w.
     /// </summary>
     void Start()
     {
@@ -23,9 +23,9 @@ public class NextBlockScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Ustawia blok na siatce komórek.
+    /// Ustawia blok na siatce komÃ³rek.
     /// </summary>
-    /// <param name="block">Blok do wyœwietlenia na siatce.</param>
+    /// <param name="block">Blok do wyÅ›wietlenia na siatce.</param>
     public void SetBlockAtGrid(Block block)
     {
         ClearColor();
@@ -42,7 +42,7 @@ public class NextBlockScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Generuje siatkê komórek na podstawie ustawieñ pocz¹tkowych.
+    /// Generuje siatkÄ™ komÃ³rek na podstawie ustawieÅ„ poczÄ…tkowych.
     /// </summary>
     void GenerateGrid()
     {
@@ -60,7 +60,7 @@ public class NextBlockScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Czyœci kolory wszystkich komórek w siatce.
+    /// CzyÅ›ci kolory wszystkich komÃ³rek w siatce.
     /// </summary>
     void ClearColor()
     {

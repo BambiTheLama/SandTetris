@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Typy komórek piasku.
+/// Typy komÃ³rek piasku.
 /// </summary>
 public enum CellType
 {
@@ -18,7 +18,7 @@ public enum CellType
 }
 
 /// <summary>
-/// Klasa reprezentuj¹ca pojedyncz¹ komórkê piasku.
+/// Klasa reprezentujÄ…ca pojedynczÄ… komÃ³rkÄ™ piasku.
 /// </summary>
 public class CellScript : MonoBehaviour
 {
@@ -27,22 +27,22 @@ public class CellScript : MonoBehaviour
     private SpriteRenderer _sprite;
 
     /// <summary>
-    /// Kolor komórki.
+    /// Kolor komÃ³rki.
     /// </summary>
     public Color Color;
 
     /// <summary>
-    /// Flaga informuj¹ca, czy komórka jest pusta.
+    /// Flaga informujÄ…ca, czy komÃ³rka jest pusta.
     /// </summary>
     public bool IsEmpty { get; private set; } = true;
 
     /// <summary>
-    /// Typ komórki.
+    /// Typ komÃ³rki.
     /// </summary>
     public CellType Type { get; private set; } = CellType.NON;
 
     /// <summary>
-    /// Inicjalizacja komórki.
+    /// Inicjalizacja komÃ³rki.
     /// </summary>
     private void Start()
     {
@@ -51,7 +51,7 @@ public class CellScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Deaktywuj komórkê i ustaw jej kolor na ciemny.
+    /// Deaktywuj komÃ³rkÄ™ i ustaw jej kolor na ciemny.
     /// </summary>
     public void DeactivateCell()
     {
@@ -65,7 +65,7 @@ public class CellScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Deaktywuj komórkê i wyczyœæ jej kolor (ustaw na przezroczysty).
+    /// Deaktywuj komÃ³rkÄ™ i wyczyÅ›Ä‡ jej kolor (ustaw na przezroczysty).
     /// </summary>
     public void DeactivateCellClear()
     {
@@ -79,10 +79,10 @@ public class CellScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Ustaw wartoœci komórki na podstawie podanego typu i koloru.
+    /// Ustaw wartoÅ›ci komÃ³rki na podstawie podanego typu i koloru.
     /// </summary>
-    /// <param name="cellType">Typ komórki piasku.</param>
-    /// <param name="cellColor">Kolor komórki.</param>
+    /// <param name="cellType">Typ komÃ³rki piasku.</param>
+    /// <param name="cellColor">Kolor komÃ³rki.</param>
     public void SetCellValue(CellType cellType, Color cellColor,int time=timerMax)
     {
         if (!IsEmpty)
@@ -96,7 +96,7 @@ public class CellScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Ustaw kolor komórki na bia³y.
+    /// Ustaw kolor komÃ³rki na biaÅ‚y.
     /// </summary>
     public void SetWhite()
     {

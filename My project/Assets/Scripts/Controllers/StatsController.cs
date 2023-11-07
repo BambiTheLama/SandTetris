@@ -2,12 +2,12 @@ using UnityEngine;
 using TMPro;
 
 /// <summary>
-/// Klasa kontrolujπca statystyki gry, w tym czas gry i punkty gracza.
+/// Klasa kontrolujƒÖca statystyki gry, w tym czas gry i punkty gracza.
 /// </summary>
 public class StatsController : MonoBehaviour
 {
     /// <summary>
-    /// TextMeshProUGUI do wyúwietlania czasu gry.
+    /// TextMeshProUGUI do wy≈õwietlania czasu gry.
     /// </summary>
     public TextMeshProUGUI timerText;
 
@@ -15,15 +15,15 @@ public class StatsController : MonoBehaviour
     private bool isCounting = false;
 
     /// <summary>
-    /// TextMeshProUGUI do wyúwietlania iloúci punktÛw gracza.
+    /// TextMeshProUGUI do wy≈õwietlania ilo≈õci punkt√≥w gracza.
     /// </summary>
     public TextMeshProUGUI pointsText;
 
     private int points = 0;
 
     /// <summary>
-    /// Metoda Update wywo≥ywana raz na klatkÍ.
-    /// Aktualizuje czas gry i wyúwietlanie punktÛw gracza.
+    /// Metoda Update wywo≈Çywana raz na klatkƒô.
+    /// Aktualizuje czas gry i wy≈õwietlanie punkt√≥w gracza.
     /// </summary>
     private void Update()
     {
@@ -61,7 +61,7 @@ public class StatsController : MonoBehaviour
     }
 
     /// <summary>
-    /// Aktualizuje wyúwietlanie czasu gry.
+    /// Aktualizuje wy≈õwietlanie czasu gry.
     /// </summary>
     private void UpdateTimerDisplay()
     {
@@ -86,7 +86,7 @@ public class StatsController : MonoBehaviour
     /// <summary>
     /// Dodaje punkty do punktacji gracza.
     /// </summary>
-    /// <param name="amount">IloúÊ punktÛw do dodania.</param>
+    /// <param name="amount">Ilo≈õƒá punkt√≥w do dodania.</param>
     public void AddPoints(int amount)
     {
         points += amount;
@@ -94,7 +94,7 @@ public class StatsController : MonoBehaviour
     }
 
     /// <summary>
-    /// Aktualizuje wyúwietlanie iloúci punktÛw gracza.
+    /// Aktualizuje wy≈õwietlanie ilo≈õci punkt√≥w gracza.
     /// </summary>
     private void UpdatePointsDisplay()
     {
@@ -105,7 +105,7 @@ public class StatsController : MonoBehaviour
     }
 
     /// <summary>
-    /// Resetuje iloúÊ punktÛw gracza.
+    /// Resetuje ilo≈õƒá punkt√≥w gracza.
     /// </summary>
     public void ResetPoints()
     {

@@ -3,37 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Klasa odpowiedzialna za animacjê piasku w menu.
+/// Klasa odpowiedzialna za animacjÄ™ piasku w menu.
 /// </summary>
 public class MenuSandAnimation : MonoBehaviour
 {
     /// <summary>
-    /// Wysokoœæ siatki komórek piasku.
+    /// WysokoÅ›Ä‡ siatki komÃ³rek piasku.
     /// </summary>
     private static readonly int gridHeight = 173;
 
     /// <summary>
-    /// Szerokoœæ siatki komórek piasku.
+    /// SzerokoÅ›Ä‡ siatki komÃ³rek piasku.
     /// </summary>
     private static readonly int gridWidth = 320;
 
     /// <summary>
-    /// Prefabrykat komórki piasku.
+    /// Prefabrykat komÃ³rki piasku.
     /// </summary>
     public CellScript prefab;
 
     /// <summary>
-    /// Tablica komórek piasku.
+    /// Tablica komÃ³rek piasku.
     /// </summary>
     readonly CellScript[,] grid = new CellScript[gridHeight, gridWidth];
 
     /// <summary>
-    /// Stosunek rozmiaru komórki do odstêpu miêdzy nimi.
+    /// Stosunek rozmiaru komÃ³rki do odstÄ™pu miÄ™dzy nimi.
     /// </summary>
     readonly float ratio = 0.16f;
 
     /// <summary>
-    /// Lista komórek do aktualizacji.
+    /// Lista komÃ³rek do aktualizacji.
     /// </summary>
     List<Vector2Int> toUpdate = new();
 
@@ -73,7 +73,7 @@ public class MenuSandAnimation : MonoBehaviour
     }
 
     /// <summary>
-    /// Wybierz nastêpny kolor.
+    /// Wybierz nastÄ™pny kolor.
     /// </summary>
     void NextColor()
     {
@@ -122,11 +122,11 @@ public class MenuSandAnimation : MonoBehaviour
     }
 
     /// <summary>
-    /// SprawdŸ, czy dana komórka jest wolna.
+    /// SprawdÅº, czy dana komÃ³rka jest wolna.
     /// </summary>
-    /// <param name="x">Wspó³rzêdna x komórki.</param>
-    /// <param name="y">Wspó³rzêdna y komórki.</param>
-    /// <returns>Zwraca true, jeœli komórka jest pusta, w przeciwnym razie false.</returns>
+    /// <param name="x">WspÃ³Å‚rzÄ™dna x komÃ³rki.</param>
+    /// <param name="y">WspÃ³Å‚rzÄ™dna y komÃ³rki.</param>
+    /// <returns>Zwraca true, jeÅ›li komÃ³rka jest pusta, w przeciwnym razie false.</returns>
     bool IsFreeSpace(int x, int y)
     {
         return grid[y, x].IsEmpty;
@@ -203,10 +203,10 @@ public class MenuSandAnimation : MonoBehaviour
     }
 
     /// <summary>
-    /// Przesuwaie piasku z jednej komórki do drugiej.
+    /// Przesuwaie piasku z jednej komÃ³rki do drugiej.
     /// </summary>
-    /// <param name="active">Aktywna komórka.</param>
-    /// <param name="nonactive">Nieaktywna komórka.</param>
+    /// <param name="active">Aktywna komÃ³rka.</param>
+    /// <param name="nonactive">Nieaktywna komÃ³rka.</param>
     void MoveSand(Vector2Int active, Vector2Int nonactive)
     {
         CellScript c = grid[active.y, active.x];
@@ -216,9 +216,9 @@ public class MenuSandAnimation : MonoBehaviour
     }
 
     /// <summary>
-    /// Dodawanie komórki do listy do aktualizacji.
+    /// Dodawanie komÃ³rki do listy do aktualizacji.
     /// </summary>
-    /// <param name="p">Pozycja komórki.</param>
+    /// <param name="p">Pozycja komÃ³rki.</param>
     void AddToUpdate(Vector2Int p)
     {
         if (!toUpdate.Contains(p))
@@ -274,7 +274,7 @@ public class MenuSandAnimation : MonoBehaviour
     }
 
     /// <summary>
-    /// Wygenerowanie siatki komórek piasku.
+    /// Wygenerowanie siatki komÃ³rek piasku.
     /// </summary>
     void GenerateGrid()
     {
@@ -292,7 +292,7 @@ public class MenuSandAnimation : MonoBehaviour
     }
 
     /// <summary>
-    /// Czyszczenie kolorów w komórkach.
+    /// Czyszczenie kolorÃ³w w komÃ³rkach.
     /// </summary>
     void ClearColor()
     {
