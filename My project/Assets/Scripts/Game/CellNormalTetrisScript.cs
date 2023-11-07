@@ -69,25 +69,14 @@ public class CellNormalTetrisScript : MonoBehaviour
         }
         
         Type = cellType;
-        switch(cellType)
+        Color = cellType switch
         {
-            case 1:
-                Color = new Color(1, 0, 0,1);
-            break;
-            case 2:
-                Color = new Color(1, 1, 0,1);
-                break;
-            case 3:
-                Color = new Color(0, 1, 0,1);
-                break;
-            case 4:
-                Color = new Color(0, 0, 1,1);
-                break;
-            default:
-                Color = new Color(1, 1, 1,1);
-                break;
-
-        }
+            1 => new Color(1, 0, 0, 1),
+            2 => new Color(1, 1, 0, 1),
+            3 => new Color(0, 1, 0, 1),
+            4 => new Color(0, 0, 1, 1),
+            _ => new Color(1, 1, 1, 1),
+        };
         _sprite.color = Color;
         IsEmpty = false;
     }

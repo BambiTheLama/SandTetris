@@ -22,7 +22,7 @@ public enum CellType
 /// </summary>
 public class CellScript : MonoBehaviour
 {
-    public int timer { get; private set; } = 0;
+    public int Timer { get; private set; } = 0;
     const int timerMax = 200;
     private SpriteRenderer _sprite;
 
@@ -60,7 +60,7 @@ public class CellScript : MonoBehaviour
             _sprite = GetComponent<SpriteRenderer>();
         Color = new Color(0.1f, 0.1f, 0.1f, 1f);
         _sprite.color = Color;
-        timer = 0;
+        Timer = 0;
         Type = CellType.NON;
     }
 
@@ -74,7 +74,7 @@ public class CellScript : MonoBehaviour
             _sprite = GetComponent<SpriteRenderer>();
         Color = new Color(0f, 0f, 0f, 0f); // Ustaw przezroczysty kolor
         _sprite.color = Color;
-        timer = 0;
+        Timer = 0;
         Type=CellType.NON;
     }
 
@@ -92,7 +92,7 @@ public class CellScript : MonoBehaviour
         Type = cellType;
         _sprite.color = cellColor;
         IsEmpty = false;
-        timer = time;
+        Timer = time;
     }
 
     /// <summary>
@@ -112,10 +112,10 @@ public class CellScript : MonoBehaviour
         if (Type == CellType.Fire) 
         {
 
-            Color = Color.Lerp(Color.yellow, Color.red, (float)timer / (float)timerMax);
+            Color = Color.Lerp(Color.yellow, Color.red, (float)Timer / (float)timerMax);
             _sprite.color = Color;
-            timer--;
-            if (timer<0)
+            Timer--;
+            if (Timer<0)
             {
                 DeactivateCell();
             }    

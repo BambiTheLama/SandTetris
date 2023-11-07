@@ -234,7 +234,7 @@ public class ElementalsTetrisScript : MonoBehaviour
     {
         Vector2Int p;
         AddToUpdate(c);
-        int dir = 0;
+        int dir;
         if (Random.Range(0, 2) == 0) 
             dir = -1;
         else
@@ -291,7 +291,7 @@ public class ElementalsTetrisScript : MonoBehaviour
             CellScript c1 = cells[c.y, c.x];
             CellScript c2 = cells[c.y + 1, c.x];
             c2.DeactivateCell();
-            c2.SetCellValue(c1.Type, c1.Color, c1.timer);
+            c2.SetCellValue(c1.Type, c1.Color, c1.Timer);
             c1.DeactivateCell();
             AddToUpdate(new Vector2Int(c.x, c.y + 1));
         }
@@ -301,9 +301,9 @@ public class ElementalsTetrisScript : MonoBehaviour
             CellScript c2 = cells[c.y + 1, c.x];
             CellType type = c1.Type;
             Color color = c1.Color;
-            int timer = c1.timer;
+            int timer = c1.Timer;
             c1.DeactivateCell();
-            c1.SetCellValue(c2.Type, c2.Color, c2.timer);
+            c1.SetCellValue(c2.Type, c2.Color, c2.Timer);
             c2.DeactivateCell();
             c2.SetCellValue(type, color, timer);
             if (!cells[c.y, c.x].IsEmpty)
@@ -402,7 +402,7 @@ public class ElementalsTetrisScript : MonoBehaviour
     void SandUpdate(Vector2Int c)
     {
         Vector2Int p;
-        int dir = 0;
+        int dir;
         if (Random.Range(0, 2) == 0)
             dir = -1;
         else
@@ -455,24 +455,9 @@ public class ElementalsTetrisScript : MonoBehaviour
         if (!cells[nonactive.y, nonactive.x].IsEmpty)
             return false;
         CellScript a = cells[active.y, active.x];
-        cells[nonactive.y, nonactive.x].SetCellValue(a.Type, a.Color, a.timer);
+        cells[nonactive.y, nonactive.x].SetCellValue(a.Type, a.Color, a.Timer);
         a.DeactivateCell();
         return true;
-    }
-    /// <summary>
-    /// Dodaje komórki powy¿ej danej pozycji do listy komórek do aktualizacji (wersja uproszczona).
-    /// </summary>
-    /// <param name="pos">Pozycja referencyjna.</param>
-    void AddBlocksToUpdateUp(Vector2Int pos)
-    {
-        if (pos.y - 1 >= 0 && pos.y - 1 < gridHeight)
-        {
-            if (!cells[pos.y - 1, pos.x].IsEmpty)
-            {
-                AddToUpdate(new Vector2Int(pos.x, pos.y - 1));
-            }
-
-        }
     }
 
     /// <summary>

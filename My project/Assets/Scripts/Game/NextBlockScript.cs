@@ -7,7 +7,8 @@ using UnityEngine;
 /// </summary>
 public class NextBlockScript : MonoBehaviour
 {
-    private static int gridHeight = 40, gridWidth = 40;
+    private static readonly int gridHeight = 40;
+    private static int gridWidth = 40;
     readonly CellScript[,] cells = new CellScript[gridHeight, gridWidth];
     public CellScript cellScript;
     readonly float ratio = 0.16f;

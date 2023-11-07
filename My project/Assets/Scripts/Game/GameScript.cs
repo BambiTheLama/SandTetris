@@ -397,7 +397,7 @@ public class GameScript : MonoBehaviour
     void SandUpdate(Vector2Int c)
     {
         Vector2Int p;
-        int dir = 0;
+        int dir;
         if (Random.Range(0, 2) == 0)
             dir = -1;
         else
@@ -561,46 +561,17 @@ public class GameScript : MonoBehaviour
         
     }
 
-
     /// <summary>
     /// Rozpoczyna grê od nowa.
     /// </summary>
     public void RestartGame()
     {
-        //DestroyBlocksAndCells();
         EndGame = false;
         MainTheme.Play();
         statsController.ResetTimer();
         statsController.StartTimer();
 
-        //GenerateGrid();
         SetColor();
         NewBlock();
     }
-
-
-    /// <summary>
-    /// Usuwa bloki i komórki z planszy.
-    /// </summary>
-    void DestroyBlocksAndCells()
-    {
-        for (int y = 0; y < gridHeight; y++)
-        {
-            for (int x = 0; x < gridWidth; x++)
-            {
-                if (cells[y, x] != null)
-                {
-                    Destroy(cells[y, x].gameObject);
-                    cells[y, x] = null;
-                }
-            }
-        }
-
-        block = null;
-        block2 = null;
-        cellsToUpdate.Clear();
-        cellsToCheck.Clear();
-        cellsToRemove.Clear();
-    }
-
 }
