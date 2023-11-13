@@ -426,11 +426,11 @@ public class ElementalsTetrisScript : MonoBehaviour
         {
 
         }
-        else if (c.x - dir >= 0 && c.x - dir < gridHeight && DisapearWater(new Vector2Int(c.x - dir, c.y + 1)))
+        else if (c.x - dir >= 0 && c.x - dir < gridWidth && DisapearWater(new Vector2Int(c.x - dir, c.y + 1)))
         {
 
         }
-        else if (c.x + dir >= 0 && c.x + dir < gridHeight && DisapearWater(new Vector2Int(c.x + dir, c.y + 1)))
+        else if (c.x + dir >= 0 && c.x + dir < gridWidth && DisapearWater(new Vector2Int(c.x + dir, c.y + 1)))
         {
 
         }
@@ -439,12 +439,12 @@ public class ElementalsTetrisScript : MonoBehaviour
         {
             AddBlocksToUpdate(c);
         }
-        else if (c.x - dir >= 0 && c.x - dir < gridHeight && 
+        else if (c.x - dir >= 0 && c.x - dir < gridWidth && 
             IsFreeSpaceIn(p = new Vector2Int(c.x - dir, c.y + 1)) && MoveCellBlock(c, p))
         {
             AddBlocksToUpdateLeft(c);
         }
-        else if (c.x + dir >= 0 && c.x + dir < gridHeight && 
+        else if (c.x + dir >= 0 && c.x + dir < gridWidth && 
             IsFreeSpaceIn(p = new Vector2Int(c.x + dir, c.y + 1)) && MoveCellBlock(c, p))
         {
             AddBlocksToUpdateRight(c);
