@@ -635,7 +635,9 @@ public class ElementalsTetrisScript : MonoBehaviour
         statsController.ResetTimer();
         statsController.StartTimer();
         loseController.hasSavedScore = false;
-        
+        pointsTimer = 0f;
+
+
         SetColor();
         block = null;
         block2 = null;
