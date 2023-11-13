@@ -71,7 +71,7 @@ public class ElementalsTetrisScript : MonoBehaviour
         }
 
 
-        if (block==null)
+        if (block == null) 
         {
             NewBlock();
         }
@@ -80,7 +80,7 @@ public class ElementalsTetrisScript : MonoBehaviour
             Block tmp = block;
             block = new Block(tmp);
             DeactivateBlockCells();
-            if (Input.GetKeyDown(KeyCode.A))// && !pauseController.paused)
+            if (Input.GetKeyDown(KeyCode.A) && !pauseController.paused)
             {
                 block.MoveLeft();
                 if (block.X > 0)
@@ -90,7 +90,7 @@ public class ElementalsTetrisScript : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.D))// && !pauseController.paused)
+            if (Input.GetKeyDown(KeyCode.D) && !pauseController.paused)
             {
                 block.MoveRight();
                 if (block.X + block.Width < 80)
@@ -582,6 +582,8 @@ public class ElementalsTetrisScript : MonoBehaviour
                     continue;
                 if (cells[y + i, x + j].IsEmpty)
                     continue;
+                if (cells[y + i, x + j].Type == CellType.NON) 
+                    continue;
                 return true;
 
             }
@@ -628,13 +630,15 @@ public class ElementalsTetrisScript : MonoBehaviour
     /// </summary>
     public void RestartGame()
     {
-        EndGame = false;
+
         MainTheme.Play();
         statsController.ResetTimer();
         statsController.StartTimer();
         loseController.hasSavedScore = false;
-
+        
         SetColor();
-        NewBlock();
+        block = null;
+        block2 = null;
+        EndGame = false;
     }
 }
