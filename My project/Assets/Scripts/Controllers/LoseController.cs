@@ -38,7 +38,7 @@ public class LoseController : MonoBehaviour
     /// </summary>
     public StatsController statsController;
     readonly string saveFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "best_scores.json");
-    private bool hasSavedScore = false; // Flaga oznaczająca, czy wynik został już zapisany.
+    public bool hasSavedScore = false; // Flaga oznaczająca, czy wynik został już zapisany.
 
 
     /// <summary>
@@ -49,94 +49,101 @@ public class LoseController : MonoBehaviour
     {
         if (sandScript)
         {
-            if (sandScript.EndGame && !hasSavedScore)
+            if (sandScript.EndGame)
             {
                 LoseScreen.SetActive(true);
                 timerText.text = "Czas gry: " + statsController.timerText.text;
                 pointsText.text = "Wynik: " + statsController.pointsText.text;
-
-                // Odczytaj najlepsze wyniki z pliku (jeśli istnieją).
-                BestScores bestScores = LoadBestScores();
-
-
-                // Dodaj nowy wynik do listy najlepszych wyników.
-                bestScores.scores.Add(new ScoreData(statsController.pointsText.text, statsController.timerText.text, "Sand"));
-
-                // Sortuj wyniki od najlepszego do najgorszego.
-                bestScores.scores.Sort((x, y) => y.Score.CompareTo(x.Score));
-
-                // Ogranicz listę do np. 10 najlepszych wyników (lub dowolnej liczby).
-                if (bestScores.scores.Count > 10)
+                if (!hasSavedScore)
                 {
-                    bestScores.scores.RemoveRange(10, bestScores.scores.Count - 10);
+                    // Odczytaj najlepsze wyniki z pliku (jeśli istnieją).
+                    BestScores bestScores = LoadBestScores();
+
+
+                    // Dodaj nowy wynik do listy najlepszych wyników.
+                    bestScores.scores.Add(new ScoreData(statsController.pointsText.text, statsController.timerText.text, "Sand"));
+
+                    // Sortuj wyniki od najlepszego do najgorszego.
+                    bestScores.scores.Sort((x, y) => y.Score.CompareTo(x.Score));
+
+                    // Ogranicz listę do np. 10 najlepszych wyników (lub dowolnej liczby).
+                    if (bestScores.scores.Count > 10)
+                    {
+                        bestScores.scores.RemoveRange(10, bestScores.scores.Count - 10);
+                    }
+
+                    // Zapisz zaktualizowane wyniki do pliku.
+                    SaveBestScores(bestScores);
+
+                    hasSavedScore = true;
                 }
-
-                // Zapisz zaktualizowane wyniki do pliku.
-                SaveBestScores(bestScores);
-
-                hasSavedScore = true;
             }
         }
 
         if (classicScript)
         {
-            if (classicScript.EndGame && !hasSavedScore)
+            if (classicScript.EndGame)
             {
                 LoseScreen.SetActive(true);
                 timerText.text = "Czas gry: " + statsController.timerText.text;
                 pointsText.text = "Wynik: " + statsController.pointsText.text;
-
-                // Odczytaj najlepsze wyniki z pliku (jeśli istnieją).
-                BestScores bestScores = LoadBestScores();
-
-
-                // Dodaj nowy wynik do listy najlepszych wyników.
-                bestScores.scores.Add(new ScoreData(statsController.pointsText.text, statsController.timerText.text, "Classic"));
-
-                // Sortuj wyniki od najlepszego do najgorszego.
-                bestScores.scores.Sort((x, y) => y.Score.CompareTo(x.Score));
-
-                // Ogranicz listę do np. 10 najlepszych wyników (lub dowolnej liczby).
-                if (bestScores.scores.Count > 10)
+                if (!hasSavedScore)
                 {
-                    bestScores.scores.RemoveRange(10, bestScores.scores.Count - 10);
+                    // Odczytaj najlepsze wyniki z pliku (jeśli istnieją).
+                    BestScores bestScores = LoadBestScores();
+
+
+                    // Dodaj nowy wynik do listy najlepszych wyników.
+                    bestScores.scores.Add(new ScoreData(statsController.pointsText.text, statsController.timerText.text, "Classic"));
+
+                    // Sortuj wyniki od najlepszego do najgorszego.
+                    bestScores.scores.Sort((x, y) => y.Score.CompareTo(x.Score));
+
+                    // Ogranicz listę do np. 10 najlepszych wyników (lub dowolnej liczby).
+                    if (bestScores.scores.Count > 10)
+                    {
+                        bestScores.scores.RemoveRange(10, bestScores.scores.Count - 10);
+                    }
+
+                    // Zapisz zaktualizowane wyniki do pliku.
+                    SaveBestScores(bestScores);
+
+                    hasSavedScore = true;
                 }
-
-                // Zapisz zaktualizowane wyniki do pliku.
-                SaveBestScores(bestScores);
-
-                hasSavedScore = true;
             }
         }
 
         if (elementalScript)
         {
-            if (elementalScript.EndGame && !hasSavedScore)
+            if (elementalScript.EndGame)
             {
                 LoseScreen.SetActive(true);
                 timerText.text = "Czas gry: " + statsController.timerText.text;
                 pointsText.text = "Wynik: " + statsController.pointsText.text;
 
-                // Odczytaj najlepsze wyniki z pliku (jeśli istnieją).
-                BestScores bestScores = LoadBestScores();
-
-
-                // Dodaj nowy wynik do listy najlepszych wyników.
-                bestScores.scores.Add(new ScoreData(statsController.pointsText.text, statsController.timerText.text, "Elementals"));
-
-                // Sortuj wyniki od najlepszego do najgorszego.
-                bestScores.scores.Sort((x, y) => y.Score.CompareTo(x.Score));
-
-                // Ogranicz listę do np. 10 najlepszych wyników (lub dowolnej liczby).
-                if (bestScores.scores.Count > 10)
+                if (!hasSavedScore)
                 {
-                    bestScores.scores.RemoveRange(10, bestScores.scores.Count - 10);
+                    // Odczytaj najlepsze wyniki z pliku (jeśli istnieją).
+                    BestScores bestScores = LoadBestScores();
+
+
+                    // Dodaj nowy wynik do listy najlepszych wyników.
+                    bestScores.scores.Add(new ScoreData(statsController.pointsText.text, statsController.timerText.text, "Elementals"));
+
+                    // Sortuj wyniki od najlepszego do najgorszego.
+                    bestScores.scores.Sort((x, y) => y.Score.CompareTo(x.Score));
+
+                    // Ogranicz listę do np. 10 najlepszych wyników (lub dowolnej liczby).
+                    if (bestScores.scores.Count > 10)
+                    {
+                        bestScores.scores.RemoveRange(10, bestScores.scores.Count - 10);
+                    }
+
+                    // Zapisz zaktualizowane wyniki do pliku.
+                    SaveBestScores(bestScores);
+
+                    hasSavedScore = true;
                 }
-
-                // Zapisz zaktualizowane wyniki do pliku.
-                SaveBestScores(bestScores);
-
-                hasSavedScore = true;
             }
         }
     }

@@ -18,6 +18,7 @@ public class ElementalsTetrisScript : MonoBehaviour
     readonly List<Vector2Int> cellsToCheck = new();
     public StatsController statsController;
     public PauseController pauseController;
+    public LoseController loseController;
     public AudioSource MainTheme;
     public bool EndGame = false;
     public NextBlockScript nextBlock;
@@ -26,6 +27,9 @@ public class ElementalsTetrisScript : MonoBehaviour
     public AudioClip moveAudio, loseAudio, pointsAudio;
     bool lostGameMusic = false;
     float timer = 0.0f;
+    float pointsTimer = 0f;
+    float pointsInterval = 10f;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -58,6 +62,14 @@ public class ElementalsTetrisScript : MonoBehaviour
             timer-=0.03f;
             UpdateCells();
         }
+
+        pointsTimer += Time.deltaTime;
+        if (pointsTimer >= pointsInterval)
+        {
+            pointsTimer -= pointsInterval;
+            statsController.AddPoints(100);
+        }
+
 
         if (block==null)
         {
@@ -620,6 +632,7 @@ public class ElementalsTetrisScript : MonoBehaviour
         MainTheme.Play();
         statsController.ResetTimer();
         statsController.StartTimer();
+        loseController.hasSavedScore = false;
 
         SetColor();
         NewBlock();

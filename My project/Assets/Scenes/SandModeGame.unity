@@ -180,6 +180,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 3118907fa1cae5d459ee9d41d64915df, type: 3}
     - target: {fileID: 3914322396682238292, guid: 430b975b98a267f4baa364d15403533c, type: 3}
+      propertyPath: loseController
+      value: 
+      objectReference: {fileID: 2077781273}
+    - target: {fileID: 3914322396682238292, guid: 430b975b98a267f4baa364d15403533c, type: 3}
       propertyPath: pauseController
       value: 
       objectReference: {fileID: 1514352173}
@@ -3586,7 +3590,9 @@ MonoBehaviour:
   LoseScreen: {fileID: 741822506}
   sandScript: {fileID: 1838120109}
   classicScript: {fileID: 0}
+  elementalScript: {fileID: 0}
   statsController: {fileID: 842995854}
+  hasSavedScore: 0
 --- !u!4 &2077781274
 Transform:
   m_ObjectHideFlags: 0

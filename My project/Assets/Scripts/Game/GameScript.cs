@@ -20,6 +20,7 @@ public class GameScript : MonoBehaviour
     List<Vector2Int> cellsToRemove = new();
     public StatsController statsController;
     public PauseController pauseController;
+    public LoseController loseController;
     public AudioSource MainTheme;
     public bool EndGame = false;
     public NextBlockScript nextBlock;
@@ -570,6 +571,7 @@ public class GameScript : MonoBehaviour
         MainTheme.Play();
         statsController.ResetTimer();
         statsController.StartTimer();
+        loseController.hasSavedScore = false;
 
         SetColor();
         NewBlock();

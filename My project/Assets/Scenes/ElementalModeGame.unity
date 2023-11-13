@@ -2736,6 +2736,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 3118907fa1cae5d459ee9d41d64915df, type: 3}
     - target: {fileID: 6016638670620756741, guid: 14ba0bd0d9293ce439c15f44afd89de9, type: 3}
+      propertyPath: loseController
+      value: 
+      objectReference: {fileID: 2007649387}
+    - target: {fileID: 6016638670620756741, guid: 14ba0bd0d9293ce439c15f44afd89de9, type: 3}
       propertyPath: pauseController
       value: 
       objectReference: {fileID: 535469180}
@@ -3456,6 +3460,7 @@ MonoBehaviour:
   classicScript: {fileID: 0}
   elementalScript: {fileID: 756102917}
   statsController: {fileID: 276750468}
+  hasSavedScore: 0
 --- !u!4 &2007649388
 Transform:
   m_ObjectHideFlags: 0

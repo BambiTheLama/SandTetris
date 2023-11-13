@@ -17,6 +17,7 @@ public class NormalTetrisScript : MonoBehaviour
     public NextBlockNormalTetrisScript nextBlock;
     public StatsController statsController;
     public PauseController pauseController;
+    public LoseController loseController;
     public bool EndGame = false;
     public AudioSource MainTheme;
     private AudioSource audioSource;
@@ -294,6 +295,7 @@ public class NormalTetrisScript : MonoBehaviour
         MainTheme.Play();
         statsController.ResetTimer();
         statsController.StartTimer();
+        loseController.hasSavedScore = false;
 
         SetColor();
         NewBlock();
