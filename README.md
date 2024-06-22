@@ -1,5 +1,3 @@
-# Sand Tetris
-
 ![](Obrazy/SandTetris.png)
 
 ## Opis
